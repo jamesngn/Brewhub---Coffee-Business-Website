@@ -2,7 +2,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const menuRoutes = require("./routes/menuRoutes.js");
-const uri = require("config").get("mongoURI");
+const uri = require("../../config/development.json").mongoURI;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
