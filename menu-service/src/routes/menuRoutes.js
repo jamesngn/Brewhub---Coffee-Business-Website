@@ -4,3 +4,5 @@ const menuController = require("../controllers/menuController.js");
 
 router.get("/menu", menuController.getMenuItems);
 router.post("/menu", menuController.createMenuItem);
+
+module.exports = router;
