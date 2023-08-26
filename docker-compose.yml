@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:4
+    environment:
+      - MONGO_INITDB_DATABASE=menus
+    ports:
+      - '27017:27017'
+  menu-service:
+    image: menu-service
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongodb
