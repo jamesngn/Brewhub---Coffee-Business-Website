@@ -2,16 +2,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const menuRoutes = require("./routes/menuRoutes.js");
-const uri = require("../../config/development.json").mongoURI;
+
+const mongooseURI = require("./config/key.js").mongoURI;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 //Connect to MongoDB
 mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-  })
+  .connect(mongooseURI)
   .then(console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
