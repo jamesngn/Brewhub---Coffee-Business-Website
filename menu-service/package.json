@@ -1,6 +1,9 @@
 {
   "name": "brewhub-app",
   "version": "1.0.0",
+  "scripts": {
+    "start": "node ./src/app.js"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "mongoose": "^7.4.5"
