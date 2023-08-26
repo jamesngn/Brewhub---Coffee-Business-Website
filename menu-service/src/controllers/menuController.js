@@ -3,7 +3,7 @@ const MenuItem = require("../models/menuItem");
 async function getMenuItems(req, res) {
   try {
     const menuItems = await MenuItem.find();
-    res.json(menuItems);
+    res.status(200).json(menuItems);
   } catch (error) {
     res.status(500).json({ error: "Error retrieving menu" });
   }
