@@ -5,6 +5,7 @@ async function getMenuItems(req, res) {
     const menuItems = await MenuItem.find();
     res.status(200).json(menuItems);
   } catch (error) {
+    console.error("Error retrieving menu:", error);
     res.status(500).json({ error: "Error retrieving menu" });
   }
 }
@@ -16,6 +17,7 @@ async function createMenuItem(req, res) {
     await newItem.save();
     res.json(newItem);
   } catch (error) {
+    console.error("Error adding item to menu:", error);
     res.status(400).json({ error: "Error adding item to menu" });
   }
 }
