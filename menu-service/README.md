@@ -1,18 +1,32 @@
-
 # Menu Service
 
 Welcome to the Menu Service documentation. This service provides APIs to manage menu items for your cafe or restaurant.
 
+## Table of Contents
+
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation and Deployment](#installation-and-deployment)
+- [API Endpoints](#api-endpoints)
+- [Interacting with the Service](#interacting-with-the-service)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Getting Started
 
-To get started with the Menu Service, follow these steps:
+To get started with deploying the Menu Service using Docker and Docker Compose, and to interact with the service using the REST Client extension in VSCode, follow these steps:
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- MongoDB (local or remote instance)
+- Docker: Install Docker on your machine by following the instructions in the official documentation: [Install Docker](https://docs.docker.com/get-docker/).
 
-### Installation
+- Docker Compose: Install Docker Compose, which is used to define and manage multi-container Docker applications, by following the instructions here: [Install Docker Compose](https://docs.docker.com/compose/install/).
+
+- Visual Studio Code: Install VSCode, a code editor by Microsoft, from [here](https://code.visualstudio.com/).
+
+- REST Client Extension: Install the "REST Client" extension for VSCode to easily send HTTP requests directly from the editor. You can install it from the VSCode Extensions Marketplace.
+
+### Installation and Deployment
 
 1. Clone the repository:
 
@@ -21,31 +35,61 @@ To get started with the Menu Service, follow these steps:
    cd menu-service
    ```
 
+2. Build the Docker Image:
 
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Set up the database connection:
-
-   - Open `app.js` and configure the MongoDB connection URI in the `mongoose.connect()` call.
-
-### Usage
-
-1. Start the Menu Service:
+   Navigate to the `menu-service` directory:
 
    ```bash
-   npm start
+   cd menu-service
    ```
 
-2. Access the service at: `http://localhost:3000`
+   Build the Docker image using the provided Dockerfile:
 
-### API Endpoints
+   ```bash
+   docker build -t menu-service .
+   ```
+
+3. Use Docker Compose to Deploy:
+
+   Navigate to the `root` directory:
+
+   ```bash
+   cd ..
+   ```
+
+   Run the following command to start the services defined in the `docker-compose.yaml` file:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+## Interacting with the Service
+
+   In VSCode, open the `requests.http` file located in the root of the project. This file contains example GET and POST requests.
+
+   - **GET Request:**
+     ```
+     ### GET Menu Items
+     GET http://localhost:3000/menu
+     ```
+
+   - **POST Request:**
+     ```
+     ### Add Menu Item
+     POST http://localhost:3000/menu
+     Content-Type: application/json
+
+     {
+         "name": "Cappuccino",
+         "price": 4.99
+     }
+     ```
+
+   Place your cursor on the request you want to execute and click the "Send Request" button that appears. The response will be displayed in the integrated output window.
+
+## API Endpoints
 
 - **GET /menu:** Get a list of all menu items.
-
 - **POST /menu:** Add a new menu item. Send JSON data in the request body with `name` and `price` fields.
 
 ## Contributing
@@ -58,19 +102,10 @@ Contributions are welcome! Follow these steps to contribute:
 4. Push your branch to your forked repository.
 5. Open a pull request to the main repository.
 
-
 ### License
 
-This project is licensed under the MIT License.
-
-
-MIT License
-
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 ```
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+This version of the README.md includes the instructions on how to use the REST Client extension in VSCode to perform GET and POST requests to the Menu Service. It also includes sample GET and POST requests in the `requests.http` file for users to interact with the service.
 ```
