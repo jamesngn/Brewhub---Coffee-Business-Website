@@ -1,0 +1,23 @@
+//todo.proto
+syntax = "proto3";
+
+package orderPackage;
+
+service Order {
+    rpc placeOrder(OrderRequest) returns (OrderResponse);
+}
+
+message OrderRequest {
+    string userId = 1;
+    repeated OrderItem items = 2;
+}
+
+message OrderItem {
+    string menuItemId=1;
+    int32 quantity = 2;
+}
+
+message OrderResponse {
+    string orderId = 1;
+    string status = 2;
+}
