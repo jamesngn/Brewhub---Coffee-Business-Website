@@ -1,15 +1,20 @@
-//todo.proto
+//order.proto
 syntax = "proto3";
 
 package orderPackage;
 
 service Order {
-    rpc placeOrder(OrderRequest) returns (OrderResponse);
+    rpc createOrder(OrderRequest) returns (OrderResponse);
+    rpc getOrdersByUserId(UserIdRequest) returns (OrderList);
 }
 
 message OrderRequest {
     string userId = 1;
     repeated OrderItem items = 2;
+}
+
+message UserIdRequest {
+    string userId = 1;
 }
 
 message OrderItem {
@@ -19,5 +24,11 @@ message OrderItem {
 
 message OrderResponse {
     string orderId = 1;
-    string status = 2;
+    string createdAt = 2;
+    string status = 3;
+    repeated OrderItem items = 4;
+}
+
+message OrderList {
+    repeated OrderResponse orders = 1;
 }
