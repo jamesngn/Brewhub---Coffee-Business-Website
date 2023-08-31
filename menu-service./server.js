@@ -10,7 +10,7 @@ const MenuItem = require("./models/menuItem");
 
 //Connect to MongoDB
 mongoose
-  .connect("mongodb://0.0.0.0:27017/menus", {
+  .connect("mongodb://0.0.0.0:27017/brewhub_db", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
