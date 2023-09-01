@@ -58,15 +58,24 @@ async function loginUser(call, callback) {
 
     // Check user credentials and authenticate
     const user = await User.findOne({ email });
-    const isPwdCorrect = await user.comparePassword(password);
 
-    if (!user || !isPwdCorrect) {
+    if (!user) {
       callback(null, {
         success: false,
         message: "Invalid credentials",
         token: "",
       });
       return;
+    } else {
+      const isPwdCorrect = await user.comparePassword(password);
+      if (!isPwdCorrect) {
+        callback(null, {
+          success: false,
+          message: "Invalid credentials",
+          token: "",
+        });
+        return;
+      }
     }
 
     // Generate a JWT token
