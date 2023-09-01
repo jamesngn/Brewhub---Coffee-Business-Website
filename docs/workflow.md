@@ -16,3 +16,6 @@
 5. **Creating the Order:**
    - After successful payment, you take the items from the cart and use them to create an order.
    - The order information, including the user's details, order items, total amount, and status, is stored in the order database.
+
+
+**HOW TO LOG AN USER IN**
