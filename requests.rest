@@ -1,0 +1,24 @@
+###
+GET http://localhost:3000/menu
+
+###
+POST http://localhost:3000/menu
+Content-Type: application/json
+
+{
+    "name":"Cappuccino",
+    "price": 4.99
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "user@example.com",
+    "password":"securePassword"
+}
+
+###
+GET http://localhost:3000/me
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYwNGFhODJlZmI3ZDJmYWM2ZjhlM2YiLCJpYXQiOjE2OTM1MzQ3NjMsImV4cCI6MTY5MzUzNDc3OH0.QtC5RWGeFffQD8AX_n-fHrsy8wCICjiFYXB8_pLdMwk
