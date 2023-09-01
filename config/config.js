@@ -24,6 +24,6 @@ module.exports = {
   jwt: {
     secretKey: process.env.JWT_SECRET_KEY,
     refreshKey: process.env.JWT_REFRESH_SECRET_KEY,
-    expiresIn: "15s",
+    expiresIn: "1h",
   },
 };
