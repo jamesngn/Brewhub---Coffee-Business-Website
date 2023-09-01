@@ -10,9 +10,6 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 const { validateUser } = require("../../validation/userValidator");
 
-//jsonwebtoken
-const jwtUtils = require("../../utils/jwt");
-
 /*------------------------------------------------------------------------------------------------ */
 //config
 const path = require("path");
@@ -56,9 +53,9 @@ async function registerUser(call, callback) {
   // Validate user input
   const validationErrors = validateUser({ username, email, password });
   if (validationErrors) {
-    callback({
-      code: grpc.status.INVALID_ARGUMENT,
-      details: validationErrors.join(", "),
+    callback(null, {
+      success: false,
+      message: validationErrors.join(", "),
     });
     return;
   }

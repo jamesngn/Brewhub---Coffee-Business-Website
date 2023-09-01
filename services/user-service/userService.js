@@ -15,20 +15,6 @@ function registerUser(username, email, password, callback) {
   });
 }
 
-function loginUser(email, password, callback) {
-  const request = { email, password };
-  userClient.loginUser(request, (error, response) => {
-    if (error) {
-      console.error("Error logging user in", error);
-      callback({ error: "Failed to log user in" });
-      return;
-    }
-    //Return the successful response to the callback
-    callback(response);
-  });
-}
-
 module.exports = {
   registerUser,
-  loginUser,
 };
