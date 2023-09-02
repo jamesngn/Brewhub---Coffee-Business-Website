@@ -1,24 +1,36 @@
-###
-GET http://localhost:3000/menu
-
-###
-POST http://localhost:3000/menu
-Content-Type: application/json
-
-{
-    "name":"Cappuccino",
-    "price": 4.99
-}
-
-###
+###LOG IN
 POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email": "user@example.com",
-    "password":"securePassword"
+    "email":"user@example.com",
+    "password":"quang123"
 }
 
 ###
 GET http://localhost:3000/me
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYwNGFhODJlZmI3ZDJmYWM2ZjhlM2YiLCJpYXQiOjE2OTM1MzQ3NjMsImV4cCI6MTY5MzUzNDc3OH0.QtC5RWGeFffQD8AX_n-fHrsy8wCICjiFYXB8_pLdMwk
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYyZDQ2Y2VlMmRkMjUzOGRmM2I3YWUiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTM2Mzc2ODMsImV4cCI6MTY5MzY0MTI4M30.w2yI5-al3G7vtd_kez_-WY8aHY_DnHxFCG-hRxLstKI
+
+###
+GET http://localhost:3000/admin
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYyYzc1NmQyNGI5NDNkNGM2MjI0MTAiLCJyb2xlIjoidXNlciIsImlhdCI6MTY5MzYzNzc5MiwiZXhwIjoxNjkzNjQxMzkyfQ.GoyB7FN8xBJ9haRySXQP1q3dSGxh2-fKBmSsVE4gVJ0
+
+###
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email": "user@example.codm",
+    "password":"securePasswordd"
+}
+###
+
+POST http://localhost:5000/user/register
+Content-Type: application/json
+
+{
+    "username":"Quang",
+    "email": "user@example",
+    "password":"securePasswordd"
+}
+
