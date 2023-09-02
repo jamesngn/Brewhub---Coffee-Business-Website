@@ -3,10 +3,16 @@ function calculateTotal(orderItems, promotionsApplied) {
   orderItems.map((orderItem) => {
     total += orderItem.price * orderItem.quantity;
   });
-  promotionsApplied.map((promotion) => {
-    total -= promotion.discountAmount;
-  });
+  total -= calculateDiscount(total, promotionsApplied);
   return total;
 }
 
-module.exports = { calculateTotal };
+function calculateDiscount(total, promotionsApplied) {
+  let discountAmount = 0;
+  promotionsApplied.map((promotion) => {
+    discountAmount += (total * promotion.discountPercentage) / 100;
+  });
+  return discountAmount;
+}
+
+module.exports = { calculateTotal, calculateDiscount };
