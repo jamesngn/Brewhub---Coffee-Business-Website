@@ -1,13 +1,22 @@
 // orderService.js
 const { orderClient } = require("./client");
 
-function createOrder(userId, items, callback) {
+function PlaceOrder(
+  userId,
+  orderItems,
+  paymentMethod,
+  deliveryAddress,
+  promotionsApplied,
+  callback
+) {
   const request = {
-    userId: userId,
-    items: items,
+    userId,
+    orderItems,
+    paymentMethod,
+    deliveryAddress,
+    promotionsApplied,
   };
-
-  orderClient.createOrder(request, (error, response) => {
+  orderClient.PlaceOrder(request, (error, response) => {
     if (error) {
       console.error("Error placing order:", error);
       // Handle the error and return an error response to the callback
@@ -19,16 +28,13 @@ function createOrder(userId, items, callback) {
   });
 }
 
-function getOrdersByUserId(userId, callback) {
-  const request = {
-    userId: userId,
-  };
-
-  orderClient.getOrdersByUserId(request, (error, response) => {
+function GetOrderStatus(orderId, callback) {
+  const request = { orderId: orderId };
+  orderClient.GetOrderStatus(request, (error, response) => {
     if (error) {
-      console.error("Error getting orders by UserId:", error);
+      console.error("Error getting order status by orderId:", error);
       // Handle the error and return an error response to the callback
-      callback({ error: "Failed to get orders by UserId." });
+      callback({ error: "Failed to get order status by orderId." });
       return;
     }
     // Return the successful response to the callback
@@ -36,7 +42,22 @@ function getOrdersByUserId(userId, callback) {
   });
 }
 
+function GetOrderHistory(userId, callback) {
+  const request = { userId: userId };
+  orderClient.GetOrderHistory(request, (error, response) => {
+    if (error) {
+      console.error("Error getting order history by userId:", error);
+      // Handle the error and return an error response to the callback
+      callback({ error: "Failed to get order history by userId." });
+      return;
+    }
+    // Return the successful response to the callback;
+    callback(response);
+  });
+}
+
 module.exports = {
-  createOrder,
-  getOrdersByUserId,
+  PlaceOrder,
+  GetOrderStatus,
+  GetOrderHistory,
 };

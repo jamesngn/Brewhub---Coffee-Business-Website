@@ -1,34 +1,110 @@
-//order.proto
 syntax = "proto3";
 
 package orderPackage;
 
-service Order {
-    rpc createOrder(OrderRequest) returns (OrderResponse);
-    rpc getOrdersByUserId(UserIdRequest) returns (OrderList);
+service OrderService {
+  rpc PlaceOrder(OrderRequest) returns (OrderResponse);
+  rpc GetOrderStatus(OrderStatusRequest) returns (OrderStatusResponse);
+  rpc GetOrderHistory(OrderHistoryRequest) returns (OrderHistoryResponse);
+  rpc ProcessPayment(PaymentRequest) returns (PaymentResponse);
+  rpc ApplyPromotion(PromotionRequest) returns (OrderResponse);
 }
 
 message OrderRequest {
-    string userId = 1;
-    repeated OrderItem items = 2;
-}
-
-message UserIdRequest {
-    string userId = 1;
-}
-
-message OrderItem {
-    string menuItemId=1;
-    int32 quantity = 2;
+  string userId = 1;
+  
+  repeated OrderItem orderItems = 2;
+  
+  string paymentMethod = 3;
+  
+  DeliveryAddress deliveryAddress = 4;
+  
+  repeated PromotionApplied promotionsApplied = 5;
 }
 
 message OrderResponse {
-    string orderId = 1;
-    string createdAt = 2;
-    string status = 3;
-    repeated OrderItem items = 4;
+  string orderId = 1;
+  
+  string orderDate = 2;
+  
+  double totalAmount = 3;
+  
+  string orderStatus = 4;
+  
+  string paymentStatus = 5;
 }
 
-message OrderList {
-    repeated OrderResponse orders = 1;
+message OrderStatusRequest {
+  string orderId = 1;
+}
+
+message OrderStatusResponse {
+  string orderStatus = 1;
+}
+
+message OrderHistoryRequest {
+  string userId = 1;
+}
+
+message OrderHistoryResponse {
+  repeated OrderResponse orders = 1;
+}
+
+message PaymentRequest {
+  string orderId = 1;
+  
+  string paymentMethod = 2;
+  
+  double totalAmount = 3;
+}
+
+message PaymentResponse {
+  string paymentId = 1;
+  
+  string paymentStatus = 2;
+  
+  string paymentDate = 3;
+}
+
+message PromotionRequest {
+  string orderId = 1;
+  
+  string promoCode = 2;
+}
+
+message OrderItem {
+  string itemId = 1;
+  
+  string itemName = 2;
+  
+  int32 quantity = 3;
+  
+  double price = 4;
+  
+  double subtotal = 5;
+}
+
+message DeliveryAddress {
+  // The street address.
+  string street = 1;
+  
+  // The city.
+  string city = 2;
+  
+  // The state or province.
+  string state = 3;
+  
+  // The postal code or ZIP code.
+  string postalCode = 4;
+  
+  // The country.
+  string country = 5;
+}
+
+message PromotionApplied {
+  // The promotion code applied to the order.
+  string promoCode = 1;
+  
+  // The discount amount applied to the order.
+  double discountAmount = 2;
 }

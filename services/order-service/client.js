@@ -4,7 +4,7 @@ const protoLoader = require("@grpc/proto-loader");
 
 //Load the proto files for different gRPC services
 const orderPackageDef = protoLoader.loadSync("./order.proto", {});
-const menuPackageDef = protoLoader.loadSync("../menu-service./menu.proto", {});
+const menuPackageDef = protoLoader.loadSync("../menu-service/menu.proto", {});
 
 // Load the gRPC objects for different services
 const menuGrpcObject = grpc.loadPackageDefinition(menuPackageDef);
@@ -16,7 +16,7 @@ const menuClient = new menuGrpcObject.menuPackage.Menu(
   grpc.credentials.createInsecure()
 );
 
-const orderClient = new orderGrpcObject.orderPackage.Order(
+const orderClient = new orderGrpcObject.orderPackage.OrderService(
   "localhost:50052",
   grpc.credentials.createInsecure()
 );
