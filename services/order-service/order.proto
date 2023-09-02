@@ -106,5 +106,5 @@ message PromotionApplied {
   string promoCode = 1;
   
   // The discount amount applied to the order.
-  double discountAmount = 2;
+  double discountPercentage = 2;
 }

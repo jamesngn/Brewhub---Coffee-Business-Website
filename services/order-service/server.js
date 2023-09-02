@@ -100,7 +100,10 @@ async function GetOrderStatus(call, callback) {
       { orderStatus: 1, _id: 0 }
     );
     if (!order) {
-      callback(null, { orderStatus: "null (order does not exist)" });
+      callback({
+        CODE: grpc.status.NOT_FOUND,
+        details: "Order id = " + request.orderId + "not found",
+      });
     } else {
       callback(null, { orderStatus: order.orderStatus });
     }

@@ -121,7 +121,7 @@ const orderDocument = {
           type: "String",
           description: "The promotion code applied to the order.",
         },
-        discountAmount: {
+        discountPercentage: {
           type: "Number",
           description: "The discount amount applied to the order.",
         },

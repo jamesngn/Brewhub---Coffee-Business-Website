@@ -48,7 +48,7 @@ switch (functionToExecute) {
       promotionsApplied: [
         {
           promoCode: "promo123", // Replace with a valid promotion code
-          discountAmount: 2.0, // Replace with the actual discount amount
+          discountPercentage: 2.0, // Replace with the actual discount amount
         },
       ],
     };
