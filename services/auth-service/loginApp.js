@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const authService = require("./authService"); // Import your user service methods
 //import authenticate middleware
-const authenticateToken = require("../../middleware/auth");
+const authMiddleware = require("../../middleware/authMiddleware");
 
 const app = express();
 
@@ -27,15 +27,31 @@ app.post("/login", (req, res) => {
 });
 
 //Protected Route
-app.get("/me", authenticateToken, async (req, res) => {
+app.get("/me", authMiddleware.authenticateUser, async (req, res) => {
   try {
-    const userId = req.user.userId;
-    res.status(200).json({ userId: userId });
+    const user = req.user;
+    res.status(200).json(user);
   } catch (error) {
     console.log(error);
     res.send("An error occured");
   }
 });
+
+app.get(
+  "/admin",
+  authMiddleware.authenticateUser,
+  authMiddleware.authoriseAdmin,
+  async (req, res) => {
+    try {
+      const user = req.user;
+      res.status(200).json(user);
+    } catch (error) {
+      console.log(error);
+      res.send("An error occured");
+    }
+  }
+);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
