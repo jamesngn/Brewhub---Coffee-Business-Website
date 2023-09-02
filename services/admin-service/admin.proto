@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package adminPackage;
+
+service AdminService {
+  
+  rpc RegisterAdmin (AdminRegistrationRequest) returns (AdminRegistrationResponse);
+  rpc AuthenticateAdmin (AdminAuthRequest) returns (AdminAuthResponse);
+  rpc ManageMenu (MenuManagementRequest) returns (MenuManagementResponse);
+  rpc ManageOrders (OrderManagementRequest) returns (OrderManagementResponse);
+  rpc GetAnalytics (AnalyticsRequest) returns (AnalyticsResponse);
+  rpc ManagePromotions (PromotionManagementRequest) returns (PromotionManagementResponse);
+  rpc ManageFeedback (FeedbackManagementRequest) returns (FeedbackManagementResponse);
+}
+message AdminRegistrationRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message AdminRegistrationResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message AdminAuthRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message AdminAuthResponse {
+  bool authenticated = 1;
+  string token = 2;
+}
+
+message MenuManagementRequest {
+  enum Action {
+    ADD = 1;
+    UPDATE = 2;
+    DELETE = 3;
+  }
+
+  string item_id = 1;
+  string name = 2;
+  double price = 3;
+  string description = 4;
+  Action action = 5;
+}
+
+message MenuManagementResponse {
+  // Define response message fields as needed
+}
+
+message OrderManagementRequest {
+  enum Action {
+    VIEW = 1;
+    MODIFY = 2;
+    CANCEL = 3;
+  }
+
+  string order_id = 1;
+  Action action = 2;
+}
+
+message OrderManagementResponse {
+  // Define response message fields as needed
+}
+
+message AnalyticsRequest {
+  // Define request message fields for analytics (e.g., time range, filters)
+}
+
+message AnalyticsResponse {
+  // Define response message fields for analytics data
+}
+
+message PromotionManagementRequest {
+  enum Action {
+    CREATE = 1;
+    UPDATE = 2;
+    DELETE = 3;
+  }
+
+  string promotion_id = 1;
+  string name = 2;
+  double discount_percentage = 3;
+  string description = 4;
+  Action action = 5;
+}
+
+message PromotionManagementResponse {
+  // Define response message fields as needed
+}
+
+message FeedbackManagementRequest {
+  // Define request message fields for feedback management (e.g., feedback ID, response)
+}
+
+message FeedbackManagementResponse {
+  // Define response message fields as needed
+}
