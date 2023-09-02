@@ -18,6 +18,10 @@ module.exports = {
     userServicePort: 50053,
     authServiceHost: "localhost",
     authServicePort: 50054,
+    promoServiceHost: "localhost",
+    promoServicePort: 50055,
+    adminServiceHost: "localhost",
+    adminServicePort: 50056,
   },
 
   // JWT configuration
