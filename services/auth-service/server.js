@@ -57,7 +57,7 @@ async function loginUser(call, callback) {
     const { email, password } = call.request;
 
     // Check user credentials and authenticate
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email });
 
     if (!user) {
       callback(null, {
@@ -77,9 +77,10 @@ async function loginUser(call, callback) {
         return;
       }
     }
-
+    console.log(user.role);
     // Generate a JWT token
-    const token = jwtUtils.generateAccessToken(user._id);
+    const tokenInfo = { userId: user._id, role: user.role };
+    const token = jwtUtils.generateAccessToken(tokenInfo);
 
     callback(null, {
       success: true,
