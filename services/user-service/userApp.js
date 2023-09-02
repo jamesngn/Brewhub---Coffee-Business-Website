@@ -13,7 +13,7 @@ const functionToExecute = args[0];
 switch (functionToExecute) {
   case "registerUser":
     var username = "Quang";
-    var email = "quang@example.com";
+    var email = "user@example.com";
     var password = "quang123";
 
     userService.registerUser(username, email, password, (response) => {
