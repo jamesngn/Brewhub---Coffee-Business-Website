@@ -1,15 +1,15 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/config"); // Adjust the path to the config file
 
-function generateAccessToken(userId) {
-  const accessToken = jwt.sign({ userId: userId }, config.jwt.secretKey, {
+function generateAccessToken(user) {
+  const accessToken = jwt.sign(user, config.jwt.secretKey, {
     expiresIn: config.jwt.expiresIn,
   });
   return accessToken;
 }
 
-function generateRefreshToken(userId) {
-  const refreshToken = jwt.sign({ userId }, config.jwt.refreshKey);
+function generateRefreshToken(user) {
+  const refreshToken = jwt.sign(user, config.jwt.refreshKey);
   return refreshToken;
 }
 
