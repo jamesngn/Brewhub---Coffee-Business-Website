@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package promoPackage;
+
+// Define the Promo service
+service PromoService {
+  // Define RPC methods for managing promotions
+  rpc CreatePromotion(CreatePromotionRequest) returns (PromotionResponse);
+  rpc GetPromotion(GetPromotionRequest) returns (PromotionResponse);
+  rpc UpdatePromotion(UpdatePromotionRequest) returns (PromotionResponse);
+  rpc DeletePromotion(DeletePromotionRequest) returns (DeleteResponse);
+}
+
+// Define message types
+message CreatePromotionRequest {
+  string promoCode = 1;
+  double discountPercentage = 2;
+  string expirationDate = 3;
+  string description = 4;
+  bool isActive = 5;
+}
+
+message GetPromotionRequest {
+  string promoCode = 1;
+}
+
+message UpdatePromotionRequest {
+  string promoCode = 1;
+  double discountPercentage = 2;
+  string expirationDate = 3;
+  string description = 4;
+  bool isActive = 5;
+}
+
+message DeletePromotionRequest {
+  string promoCode = 1;
+}
+
+message PromotionResponse {
+  string promoCode = 1;
+  double discountPercentage = 2;
+  string expirationDate = 3;
+  string description = 4;
+  bool isActive = 5;
+}
+
+message DeleteResponse {
+  bool success = 1;
+  string message = 2;
+}
