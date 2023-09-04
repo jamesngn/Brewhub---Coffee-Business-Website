@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
+
 const authService = require("./authService"); // Import your user service methods
 //import authenticate middleware
 const authMiddleware = require("../../middleware/authMiddleware");
