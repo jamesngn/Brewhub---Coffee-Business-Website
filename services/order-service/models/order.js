@@ -19,39 +19,37 @@ const orderDocument = {
       "The date and time when the order was placed. Automatically recorded upon order creation.",
   },
   orderItems: {
-    type: "Array",
+    type: "Object",
     required: true,
     description:
       "An array of objects representing the menu items ordered by the user.",
-    items: [
-      {
-        itemId: {
-          type: "ObjectId",
-          required: true,
-          description: "The ID of the menu item ordered.",
-        },
-        itemName: {
-          type: "String",
-          required: true,
-          description: "The name of the menu item.",
-        },
-        quantity: {
-          type: "Number",
-          required: true,
-          description: "The quantity of the menu item ordered.",
-        },
-        price: {
-          type: "Number",
-          required: true,
-          description: "The price of a single unit of the menu item.",
-        },
-        subtotal: {
-          type: "Number",
-          required: true,
-          description: "The subtotal for this menu item (quantity * price).",
-        },
+    items: {
+      itemId: {
+        type: "ObjectId",
+        required: true,
+        description: "The ID of the menu item ordered.",
       },
-    ],
+      itemName: {
+        type: "String",
+        required: true,
+        description: "The name of the menu item.",
+      },
+      quantity: {
+        type: "Number",
+        required: true,
+        description: "The quantity of the menu item ordered.",
+      },
+      price: {
+        type: "Number",
+        required: true,
+        description: "The price of a single unit of the menu item.",
+      },
+      subtotal: {
+        type: "Number",
+        required: true,
+        description: "The subtotal for this menu item (quantity * price).",
+      },
+    },
   },
   totalAmount: {
     type: "Number",
@@ -112,7 +110,7 @@ const orderDocument = {
     },
   },
   promotionsApplied: {
-    type: "Array",
+    type: "Object",
     description:
       "An array of objects representing promotions applied to the order.",
     items: [

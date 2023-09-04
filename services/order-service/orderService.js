@@ -27,7 +27,19 @@ function PlaceOrder(
     callback(response);
   });
 }
-
+function GetOrderDetails(orderId, callback) {
+  const request = { orderId: orderId };
+  orderClient.GetOrderDetails(request, (error, response) => {
+    if (error) {
+      console.error("Error getting order status by orderId:", error);
+      // Handle the error and return an error response to the callback
+      callback({ error: "Failed to get order status by orderId." });
+      return;
+    }
+    // Return the successful response to the callback
+    callback(response);
+  });
+}
 function GetOrderStatus(orderId, callback) {
   const request = { orderId: orderId };
   orderClient.GetOrderStatus(request, (error, response) => {
@@ -58,6 +70,7 @@ function GetOrderHistory(userId, callback) {
 
 module.exports = {
   PlaceOrder,
+  GetOrderDetails,
   GetOrderStatus,
   GetOrderHistory,
 };

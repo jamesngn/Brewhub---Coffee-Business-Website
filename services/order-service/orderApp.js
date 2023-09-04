@@ -1,23 +1,16 @@
-const menuService = require("./menuService");
 const orderService = require("./orderService");
 
 const args = process.argv.slice(2); // Get command-line arguments excluding node and script name
 
 if (args.length === 0) {
   console.log("Usage: node orderApp.js [function]");
-  console.log("Available functions: getMenu, PlaceOrder, GetOrderHistory");
+  console.log("Available functions: PlaceOrder, GetOrderHistory");
   process.exit(1);
 }
 
 const functionToExecute = args[0];
 
 switch (functionToExecute) {
-  case "getMenu":
-    menuService.getMenuItems((menuItems) => {
-      console.log("Menu items:", menuItems);
-    });
-    break;
-
   case "PlaceOrder":
     const testData = {
       userId: "5f9a6ee49bf82c62d43bb175", // Replace with a valid user ID
@@ -65,8 +58,16 @@ switch (functionToExecute) {
     );
     break;
 
+  case "GetOrderDetails":
+    var orderId = "64f42be317d67a2a7a9d3a8f";
+    orderService.GetOrderDetails(orderId, (response) => {
+      console.log(
+        "Order details of _id = " + orderId + ": " + JSON.stringify(response)
+      );
+    });
+    break;
   case "GetOrderStatus":
-    let orderId = "64f1bba2810fb11270042422";
+    var orderId = "64f42bb6121be9ce506402a5";
     orderService.GetOrderStatus(orderId, (response) => {
       console.log(
         "Order status of _id = " + orderId + ": " + response.orderStatus
@@ -74,7 +75,7 @@ switch (functionToExecute) {
     });
     break;
   case "GetOrderHistory":
-    const userId = "5f9a6ee49bf82c62d43bb175";
+    const userId = "64f42be317d67a2a7a9d3a8f";
     orderService.GetOrderHistory(userId, (response) => {
       console.log(
         "Order history of userId = " +
@@ -87,6 +88,6 @@ switch (functionToExecute) {
 
   default:
     console.log("Unknown function:", functionToExecute);
-    console.log("Available functions: getMenu, createOrder, getOrdersByUserId");
+    console.log("Available functions: createOrder, getOrdersByUserId");
     break;
 }

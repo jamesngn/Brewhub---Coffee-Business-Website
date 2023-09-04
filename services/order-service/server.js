@@ -1,7 +1,11 @@
+const path = require("path");
 //server.js
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
-const packageDef = protoLoader.loadSync("order.proto", {});
+
+const rootPath = path.resolve(__dirname);
+const protoPath = path.join(rootPath, "order.proto");
+const packageDef = protoLoader.loadSync(protoPath, {});
 const grpcObject = grpc.loadPackageDefinition(packageDef);
 const orderPackage = grpcObject.orderPackage;
 
@@ -12,7 +16,6 @@ const ObjectId = mongoose.Types.ObjectId;
 
 /*------------------------------------------------------------------------------------------------ */
 //config
-const path = require("path");
 const config = require(path.join(__dirname, "..", "..", "config", "config.js"));
 const mongoHost = config.mongo.host;
 const mongoPort = config.mongo.port;
@@ -49,6 +52,7 @@ server.bind(
 
 server.addService(orderPackage.OrderService.service, {
   PlaceOrder: PlaceOrder,
+  GetOrderDetails: GetOrderDetails,
   GetOrderStatus: GetOrderStatus,
   GetOrderHistory: GetOrderHistory,
   ApplyPromotion: ApplyPromotion,
@@ -88,6 +92,34 @@ async function PlaceOrder(call, callback) {
     callback({
       code: grpc.status.INTERNAL,
       details: "Error creating an order.",
+    });
+  }
+}
+
+async function GetOrderDetails(call, callback) {
+  try {
+    const { orderId } = call.request;
+    const order = await Order.findOne({ _id: orderId });
+    if (order) {
+      const response = {
+        orderId: order._id,
+        userId: order.userId,
+        orderDate: order.orderDate,
+        orderItems: order.orderItems,
+        totalAmount: order.totalAmount,
+        orderStatus: order.orderStatus,
+        paymentStatus: order.paymentStatus,
+        paymentMethod: order.paymentMethod,
+        deliveryAddress: order.deliveryAddress,
+        promotionsApplied: order.promotionsApplied,
+      };
+      callback(null, response);
+    }
+  } catch (error) {
+    console.error("Error finding order details: ", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error finding order details.",
     });
   }
 }
