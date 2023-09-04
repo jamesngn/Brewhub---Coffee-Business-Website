@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package adminPackage;
 
+
 service AdminService {
-  
   rpc RegisterAdmin (AdminRegistrationRequest) returns (AdminRegistrationResponse);
   rpc AuthenticateAdmin (AdminAuthRequest) returns (AdminAuthResponse);
   rpc ManageMenu (MenuManagementRequest) returns (MenuManagementResponse);
@@ -58,12 +58,14 @@ message OrderManagementRequest {
     CANCEL = 3;
   }
 
-  string order_id = 1;
+  string orderId = 1;
   Action action = 2;
 }
 
 message OrderManagementResponse {
-  // Define response message fields as needed
+  bool success = 1;
+  string message = 2;
+  string orderDetails = 3;
 }
 
 message AnalyticsRequest {
