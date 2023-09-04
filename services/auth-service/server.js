@@ -77,7 +77,6 @@ async function loginUser(call, callback) {
         return;
       }
     }
-    console.log(user.role);
     // Generate a JWT token
     const tokenInfo = { userId: user._id, role: user.role };
     const token = jwtUtils.generateAccessToken(tokenInfo);
