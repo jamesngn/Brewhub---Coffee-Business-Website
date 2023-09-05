@@ -98,6 +98,7 @@ async function ManageOrders(call, callback) {
   try {
     const request = call.request;
     const action = request.action;
+    console.log(call.request);
     switch (action) {
       case 1:
         // Fetch order details from the Order Service
@@ -110,7 +111,17 @@ async function ManageOrders(call, callback) {
         });
         break;
       case 2:
-        orderService.UpdateOrder;
+        orderService.UpdateOrderStatus(
+          request.orderId,
+          request.newStatus,
+          (response) => {
+            callback(null, {
+              success: response.success,
+              message: response.message,
+              orderDetails: "",
+            });
+          }
+        );
         break;
       default:
         callback({

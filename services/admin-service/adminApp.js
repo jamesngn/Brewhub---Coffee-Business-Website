@@ -21,11 +21,12 @@ switch (functionToExecute) {
     });
     break;
   case "ManageOrders":
-    var orderId = "64f42be317d67a2a7a9d3a8f";
-    var action = "VIEW";
+    var orderId = "64f55f28fe7a9d1faf6df5c5";
+    var action = "MODIFY_STATUS";
+    var newStatus = "Processing";
 
-    adminService.ManageOrders(orderId, action, (response) => {
-      console.log("Manage Orders (VIEW): ", response);
+    adminService.ManageOrders(orderId, action, newStatus, (response) => {
+      console.log("Manage Orders: ", response);
     });
     break;
   default:

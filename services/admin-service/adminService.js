@@ -15,16 +15,17 @@ function RegisterAdmin(username, email, password, callback) {
   });
 }
 
-function ManageOrders(orderId, action, callback) {
+function ManageOrders(orderId, action, newStatus, callback) {
   const request = {
     orderId,
     action,
+    newStatus,
   };
   adminClient.ManageOrders(request, (error, response) => {
     if (error) {
-      console.error("Error registering user:", error);
+      console.error("Error managing orders:", error);
       // Handle the error and return an error response to the callback
-      callback({ error: "Failed to register user." });
+      callback({ error: "Failed to manage orders." });
       return;
     }
     // Return the successful response to the callback

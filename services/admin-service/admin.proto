@@ -54,12 +54,13 @@ message MenuManagementResponse {
 message OrderManagementRequest {
   enum Action {
     VIEW = 1;
-    MODIFY = 2;
+    MODIFY_STATUS = 2;
     CANCEL = 3;
   }
 
   string orderId = 1;
   Action action = 2;
+  string newStatus = 3;
 }
 
 message OrderManagementResponse {
