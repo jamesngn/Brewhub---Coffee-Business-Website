@@ -15,7 +15,7 @@ const Dashboard = ({ userId, userRole }) => {
   return (
     <div>
       <Typography variant="h4">Dashboard</Typography>
-      <Typography variant="body1">Welcome to the Dashboard!</Typography>
+      <Typography variant="body1">Welcome to the Admin Dashboard !</Typography>
 
       <div>
         <strong>Server Message:</strong> {response}

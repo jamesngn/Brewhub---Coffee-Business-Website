@@ -49,7 +49,7 @@ const OrderForm = ({ userId, userRole }) => {
         setMessage(
           `Order placed successfully! --> ${JSON.stringify(response.data)}`
         );
-        handleSend(response.data);
+        handleSendToServer(JSON.stringify(response.data));
         console.log("Order placed:", response.data);
       }
     } catch (error) {
@@ -58,7 +58,7 @@ const OrderForm = ({ userId, userRole }) => {
     }
   };
 
-  const handleSend = (data) => {
+  const handleSendToServer = (data) => {
     // Send a message using the existing socket connection
     if (socket) {
       socket.emit("message", data);
