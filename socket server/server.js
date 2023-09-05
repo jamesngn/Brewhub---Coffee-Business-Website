@@ -26,6 +26,7 @@ io.on("connection", (socket) => {
     if (userRole === "user") {
       broadcastToAdmins(data);
       const userSocket = socketMap.get(userId);
+      console.log(userSocket);
       if (userSocket && userSocket.socket) {
         userSocket.socket.emit(
           "message",
