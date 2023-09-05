@@ -68,9 +68,27 @@ function GetOrderHistory(userId, callback) {
   });
 }
 
+function UpdateOrderStatus(orderId, newStatus, callback) {
+  const request = { orderId, newStatus };
+  orderClient.UpdateOrderStatus(request, (error, response) => {
+    if (error) {
+      console.error(
+        `Error updating order status with orderId = ${orderId}: `,
+        error
+      );
+      // Handle the error and return an error response to the callback
+      callback({ error: "Failed to update order status by orderId." });
+      return;
+    }
+    // Return the successful response to the callback
+    callback(response);
+  });
+}
+
 module.exports = {
   PlaceOrder,
   GetOrderDetails,
   GetOrderStatus,
   GetOrderHistory,
+  UpdateOrderStatus,
 };

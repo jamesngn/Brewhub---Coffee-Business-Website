@@ -7,6 +7,7 @@ service OrderService {
   rpc GetOrderDetails(OrderDetailsRequest) returns (OrderDetailsResponse);
   rpc GetOrderStatus(OrderStatusRequest) returns (OrderStatusResponse);
   rpc GetOrderHistory(OrderHistoryRequest) returns (OrderHistoryResponse);
+  rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
   rpc ProcessPayment(PaymentRequest) returns (PaymentResponse);
   rpc ApplyPromotion(PromotionRequest) returns (OrderResponse);
 }
@@ -56,6 +57,16 @@ message OrderHistoryRequest {
 
 message OrderHistoryResponse {
   repeated OrderResponse orders = 1;
+}
+
+message UpdateOrderStatusRequest {
+  string orderId = 1;
+  string newStatus = 2;
+}
+
+message UpdateOrderStatusResponse {
+  bool success = 1;
+  string message = 2;
 }
 
 message PaymentRequest {

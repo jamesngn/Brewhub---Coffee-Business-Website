@@ -55,6 +55,7 @@ server.addService(orderPackage.OrderService.service, {
   GetOrderDetails: GetOrderDetails,
   GetOrderStatus: GetOrderStatus,
   GetOrderHistory: GetOrderHistory,
+  UpdateOrderStatus: UpdateOrderStatus,
   ApplyPromotion: ApplyPromotion,
 });
 
@@ -183,12 +184,40 @@ async function GetOrderHistory(call, callback) {
   }
 }
 
+async function UpdateOrderStatus(call, callback) {
+  const { orderId, newStatus } = call.request;
+  try {
+    const updateOrder = await Order.findOneAndUpdate(
+      { _id: orderId },
+      { $set: { orderStatus: newStatus } },
+      { new: true }
+    );
+
+    if (!updateOrder) {
+      callback({
+        code: grpc.status.NOT_FOUND,
+        details: `Order with id = ${orderId} not found`,
+      });
+    }
+    console.log("Updated order: ", updateOrder);
+    const response = {
+      success: true,
+      message: `Update order status (id = ${orderId}) successfully -> ${newStatus}`,
+    };
+    callback(null, response);
+  } catch (error) {
+    console.error("Error finding order status: ", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error finding order status.",
+    });
+  }
+}
+
 async function ApplyPromotion(call, callback) {
   try {
   } catch (error) {}
 }
-
-async function updateOrderStatus(call, callback) {}
 
 async function cancelOrder(call, callback) {}
 
