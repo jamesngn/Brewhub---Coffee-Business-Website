@@ -12,7 +12,14 @@ const adminPackageDef = protoLoader.loadSync(protoPath, {});
 const adminGrpcObject = grpc.loadPackageDefinition(adminPackageDef);
 
 //config:
-const config = require(path.join(__dirname, "..", "..", "config", "config.js"));
+const config = require(path.join(
+  __dirname,
+  "..",
+  "shared",
+  "src",
+  "config",
+  "config.js"
+));
 const adminHost = config.grpc.adminServiceHost;
 const adminPort = config.grpc.adminServicePort;
 

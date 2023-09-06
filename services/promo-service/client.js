@@ -4,7 +4,14 @@ const protoLoader = require("@grpc/proto-loader");
 
 //config host, port
 const path = require("path");
-const config = require(path.join(__dirname, "..", "..", "config", "config.js"));
+const config = require(path.join(
+  __dirname,
+  "..",
+  "shared",
+  "src",
+  "config",
+  "config.js"
+));
 const serviceHost = config.grpc.promoServiceHost;
 const servicePort = config.grpc.promoServicePort;
 

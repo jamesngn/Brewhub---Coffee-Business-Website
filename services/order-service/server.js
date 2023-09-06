@@ -16,7 +16,14 @@ const ObjectId = mongoose.Types.ObjectId;
 
 /*------------------------------------------------------------------------------------------------ */
 //config
-const config = require(path.join(__dirname, "..", "..", "config", "config.js"));
+const config = require(path.join(
+  __dirname,
+  "..",
+  "shared",
+  "src",
+  "config",
+  "config.js"
+));
 const mongoHost = config.mongo.host;
 const mongoPort = config.mongo.port;
 const mongoDatabase = config.mongo.database;
@@ -24,7 +31,7 @@ const serviceHost = config.grpc.orderServiceHost;
 const servicePort = config.grpc.orderServicePort;
 
 //utils
-const orderUtils = require("../../utils/orderUtils");
+const orderUtils = require("../shared/src/utils/orderUtils");
 
 //Connect to MongoDB
 mongoose

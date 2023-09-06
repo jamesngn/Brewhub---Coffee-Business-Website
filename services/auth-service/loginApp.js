@@ -3,12 +3,11 @@ const bodyParser = require("body-parser");
 
 const authService = require("./authService"); // Import your user service methods
 //import authenticate middleware
-const authMiddleware = require("../../middleware/authMiddleware");
+const authMiddleware = require("../shared/src/middleware/authMiddleware");
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cookieParser());
 
 // Login route
 app.post("/login", (req, res) => {

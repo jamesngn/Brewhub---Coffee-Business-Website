@@ -13,7 +13,7 @@ const functionToExecute = args[0];
 switch (functionToExecute) {
   case "loginUser":
     var email = "user@example.com";
-    var password = "securePassword";
+    var password = "quang123";
 
     authService.loginUser(email, password, (response) => {
       console.log("Login user response: " + JSON.stringify(response));

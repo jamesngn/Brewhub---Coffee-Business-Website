@@ -8,12 +8,24 @@ const rootPath = path.resolve(__dirname);
 const protoPath = path.join(rootPath, "user.proto");
 const userPackageDef = protoLoader.loadSync(protoPath, {});
 
+//config
+const config = require(path.join(
+  __dirname,
+  "..",
+  "shared",
+  "src",
+  "config",
+  "config.js"
+));
+const serviceHost = config.grpc.userServiceHost;
+const servicePort = config.grpc.userServicePort;
+
 // Load the gRPC objects for different services
 const userGrpcObject = grpc.loadPackageDefinition(userPackageDef);
 
 // Create gRPC client instances for different services
 const userClient = new userGrpcObject.userPackage.UserService(
-  "localhost:50053",
+  serviceHost + ":" + servicePort,
   grpc.credentials.createInsecure()
 );
 

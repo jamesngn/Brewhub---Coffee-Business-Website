@@ -13,7 +13,15 @@ const ObjectId = mongoose.Types.ObjectId;
 /*------------------------------------------------------------------------------------------------ */
 //config
 const path = require("path");
-const config = require(path.join(__dirname, "..", "..", "config", "config.js"));
+const config = require(path.join(
+  __dirname,
+  "..",
+  "shared",
+  "src",
+  "config",
+  "config.js"
+));
+
 const mongoHost = config.mongo.host;
 const mongoPort = config.mongo.port;
 const mongoDatabase = config.mongo.database;

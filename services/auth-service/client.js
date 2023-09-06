@@ -5,6 +5,18 @@ const path = require("path");
 const rootPath = path.resolve(__dirname);
 const protoPath = path.join(rootPath, "auth.proto");
 
+//config:
+const config = require(path.join(
+  __dirname,
+  "..",
+  "shared",
+  "src",
+  "config",
+  "config.js"
+));
+const serviceHost = config.grpc.authServiceHost;
+const servicePort = config.grpc.authServicePort;
+
 //Load the proto files for different gRPC services
 const authPackageDef = protoLoader.loadSync(protoPath, {});
 
@@ -13,7 +25,7 @@ const authGrpcObject = grpc.loadPackageDefinition(authPackageDef);
 
 // Create gRPC client instances for different services
 const authClient = new authGrpcObject.authPackage.AuthService(
-  "localhost:50054",
+  serviceHost + ":" + servicePort,
   grpc.credentials.createInsecure()
 );
 

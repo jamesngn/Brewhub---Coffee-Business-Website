@@ -10,12 +10,19 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 
 //jsonwebtoken
-const jwtUtils = require("../../utils/jwt");
+const jwtUtils = require("../shared/src/utils/jwt");
 
 /*------------------------------------------------------------------------------------------------ */
 //config
 const path = require("path");
-const config = require(path.join(__dirname, "..", "..", "config", "config.js"));
+const config = require(path.join(
+  __dirname,
+  "..",
+  "shared",
+  "src",
+  "config",
+  "config.js"
+));
 const mongoHost = config.mongo.host;
 const mongoPort = config.mongo.port;
 const mongoDatabase = config.mongo.database;
@@ -52,12 +59,12 @@ server.addService(authPackage.AuthService.service, {
 });
 
 async function loginUser(call, callback) {
+  // Retrieve user credentials from the request
+  const { email, password } = call.request;
   try {
-    // Retrieve user credentials from the request
-    const { email, password } = call.request;
-
     // Check user credentials and authenticate
     const user = await User.findOne({ email: email });
+    console.log(user);
 
     if (!user) {
       callback(null, {

@@ -12,11 +12,18 @@ const adminPackage = grpcObject.adminPackage;
 //data
 const mongoose = require("mongoose");
 const User = require("./models/user");
-const { validateUser } = require("../../validation/userValidator");
+const { validateUser } = require("../shared/src/validation/userValidator");
 
 /*------------------------------------------------------------------------------------------------ */
 //config
-const config = require(path.join(__dirname, "..", "..", "config", "config.js"));
+const config = require(path.join(
+  __dirname,
+  "..",
+  "shared",
+  "src",
+  "config",
+  "config.js"
+));
 const mongoHost = config.mongo.host;
 const mongoPort = config.mongo.port;
 const mongoDatabase = config.mongo.database;
