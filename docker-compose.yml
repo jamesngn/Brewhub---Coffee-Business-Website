@@ -4,12 +4,118 @@ services:
   mongodb:
     image: mongo:4
     environment:
-      - MONGO_INITDB_DATABASE=menus
+      - MONGO_INITDB_DATABASE=brewhub_db
     ports:
       - '27017:27017'
+    networks:
+      - my-network
+
   menu-service:
-    image: menu-service
+    build:
+      context: ./services/menu-service
+    volumes:
+      - ./services/shared:/app/shared
+    ports:
+      - '5051:5051'
+    depends_on:
+      - mongodb    
+    networks:
+      - my-network
+
+  order-service:
+    build:
+      context: ./services/order-service
+    volumes:
+      - ./services/shared:/app/shared
+    ports:
+      - '5052:5052'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
+
+  user-service:
+    build:
+      context: ./services/user-service
+    volumes:
+      - ./services/shared:/app/shared
+    ports:
+      - '5053:5053'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+    volumes:
+      - ./services/shared:/app/shared
+    ports:
+      - '5054:5054'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
+
+  promo-service:
+    build:
+      context: ./services/promo-service
+    volumes:
+      - ./services/shared:/app/shared
+    ports:
+      - '5055:5055'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
+
+  admin-service:
+    build:
+      context: ./services/admin-service
+    volumes:
+      - ./services/shared:/app/shared
+      - ./services/order-service:/app/order-service
+    ports:
+      - '5056:5056'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
+
+  socket-server:
+    build:
+      context: ./socket
+    ports:
+      - '8080:8080'
+    networks:
+      - my-network
+
+  api-server:
+    build:
+      context: ./api
+    volumes:
+      - ./services:/app/services
+    ports:
+      - '5000:5000'
+    depends_on:
+      - menu-service
+      - order-service
+      - user-service
+      - auth-service
+      - promo-service
+      - admin-service
+    networks:
+      - my-network
+
+  app:
+    build:
+      context: ./client
     ports:
       - '3000:3000'
     depends_on:
-      - mongodb
+      - socket-server
+
+networks:
+  my-network:
+    driver: bridge
