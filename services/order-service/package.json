@@ -13,7 +13,6 @@
   "dependencies": {
     "@grpc/proto-loader": "^0.5.3",
     "grpc": "^1.24.9",
-    "mongoose": "^7.4.5",
-    "nodemon": "^3.0.1"
+    "mongoose": "^7.4.5"
   }
 }
