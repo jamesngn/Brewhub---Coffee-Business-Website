@@ -15,13 +15,16 @@ const authMiddleware = require(path.join(
   __dirname,
   "..",
   "..",
+  "services",
+  "shared",
+  "src",
   "middleware",
   "authMiddleware"
 ));
 
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
-
+  console.log(req.body);
   authService.loginUser(email, password, (response) => {
     if (response.success) {
       // If login is successful, generate a JWT and send it in a cookie

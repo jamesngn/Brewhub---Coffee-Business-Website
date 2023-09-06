@@ -2,19 +2,19 @@ const express = require("express");
 const router = express.Router();
 
 const path = require("path");
-const userService = require(path.join(
+const adminService = require(path.join(
   __dirname,
   "..",
   "..",
   "services",
-  "user-service",
-  "userService.js"
+  "admin-service",
+  "adminService.js"
 ));
 
 router.post("/register", (req, res) => {
   const { username, email, password } = req.body;
 
-  userService.registerUser(username, email, password, (response) => {
+  adminService.RegisterAdmin(username, email, password, (response) => {
     if (response.success) {
       return res.status(200).json({ success: true, message: response.message });
     } else {
