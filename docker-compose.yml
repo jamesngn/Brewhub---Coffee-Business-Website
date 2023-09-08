@@ -3,6 +3,8 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:4
+    volumes:
+      - brewhub_db:/data/db
     environment:
       - MONGO_INITDB_DATABASE=brewhub_db
     ports:
@@ -14,19 +16,23 @@ services:
     build:
       context: ./services/menu-service
     volumes:
-      - ./services/shared:/app/shared
+      - type: bind
+        source: ./services/shared
+        target: /app/shared
     ports:
       - '5051:5051'
     depends_on:
-      - mongodb    
+      - mongodb
     networks:
-      - my-network
+      - my-network  
 
   order-service:
     build:
       context: ./services/order-service
     volumes:
-      - ./services/shared:/app/shared
+      - type: bind
+        source: ./services/shared
+        target: /app/shared
     ports:
       - '5052:5052'
     depends_on:
@@ -38,7 +44,9 @@ services:
     build:
       context: ./services/user-service
     volumes:
-      - ./services/shared:/app/shared
+      - type: bind
+        source: ./services/shared
+        target: /app/shared
     ports:
       - '5053:5053'
     depends_on:
@@ -50,7 +58,9 @@ services:
     build:
       context: ./services/auth-service
     volumes:
-      - ./services/shared:/app/shared
+      - type: bind
+        source: ./services/shared
+        target: /app/shared
     ports:
       - '5054:5054'
     depends_on:
@@ -62,22 +72,11 @@ services:
     build:
       context: ./services/promo-service
     volumes:
-      - ./services/shared:/app/shared
+      - type: bind
+        source: ./services/shared
+        target: /app/shared
     ports:
       - '5055:5055'
-    depends_on:
-      - mongodb
-    networks:
-      - my-network
-
-  admin-service:
-    build:
-      context: ./services/admin-service
-    volumes:
-      - ./services/shared:/app/shared
-      - ./services/order-service:/app/order-service
-    ports:
-      - '5056:5056'
     depends_on:
       - mongodb
     networks:
@@ -95,7 +94,9 @@ services:
     build:
       context: ./api
     volumes:
-      - ./services:/app/services
+      - type: bind
+        source: ./services
+        target: /app/services
     ports:
       - '5000:5000'
     depends_on:
@@ -104,7 +105,6 @@ services:
       - user-service
       - auth-service
       - promo-service
-      - admin-service
     networks:
       - my-network
 
@@ -119,3 +119,6 @@ services:
 networks:
   my-network:
     driver: bridge
+
+volumes:
+  brewhub_db:  
