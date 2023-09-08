@@ -20,8 +20,8 @@ POST http://localhost:5000/auth/login
 Content-Type: application/json
 
 {
-    "email": "user@example.codm",
-    "password":"securePasswordd"
+    "email": "user@example.com",
+    "password":"quang123"
 }
 ###
 
@@ -30,7 +30,18 @@ Content-Type: application/json
 
 {
     "username":"Quang",
-    "email": "user@example",
-    "password":"securePasswordd"
+    "email": "user@example.com",
+    "password":"quang123"
 }
+###
+
+POST http://localhost:5000/admin/register
+Content-Type: application/json
+
+{
+    "username":"Quang",
+    "email": "user@admin.com",
+    "password":"quang123"
+}
+
 

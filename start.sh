@@ -12,6 +12,12 @@ fi
 # Stop the Docker Compose services
 docker-compose -p $COMPOSE_PROJECT_NAME down
 
+docker stop $(docker ps -a -q)
+
+docker rm -f $(docker ps -a -q)
+
+docker rmi $(docker images -a -q)
+
 # Build the Docker Compose services
 docker-compose -p $COMPOSE_PROJECT_NAME build
 
