@@ -1,7 +1,8 @@
 //server.js
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
-const packageDef = protoLoader.loadSync("auth.proto", {});
+const PROTOPATH = __dirname + "/auth.proto";
+const packageDef = protoLoader.loadSync(PROTOPATH, {});
 const grpcObject = grpc.loadPackageDefinition(packageDef);
 const authPackage = grpcObject.authPackage;
 
@@ -10,13 +11,14 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 
 //jsonwebtoken
-const jwtUtils = require("../shared/src/utils/jwt");
+const jwtUtils = require("../../shared/src/utils/jwt");
 
 /*------------------------------------------------------------------------------------------------ */
 //config
 const path = require("path");
 const config = require(path.join(
   __dirname,
+  "..",
   "..",
   "shared",
   "src",
@@ -64,7 +66,6 @@ async function loginUser(call, callback) {
   try {
     // Check user credentials and authenticate
     const user = await User.findOne({ email: email });
-    console.log(user);
 
     if (!user) {
       callback(null, {
@@ -103,3 +104,5 @@ async function loginUser(call, callback) {
 }
 server.start();
 console.log("gRPC server running on port " + servicePort);
+
+module.exports = { loginUser };
