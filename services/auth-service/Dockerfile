@@ -3,7 +3,7 @@ FROM node:14
 
 # Shared directory
 WORKDIR /app/shared
-COPY ./shared/package*.json .
+COPY ../shared/package*.json .
 RUN npm install
 COPY . .
 # auth-service
