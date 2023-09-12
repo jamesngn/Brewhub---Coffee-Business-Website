@@ -73,9 +73,6 @@ pipeline {
                 }
             }
         }
-        stage ('Unit testing') {
-            
-        }
         stage('Stop Services') {
             steps {
                 script {
