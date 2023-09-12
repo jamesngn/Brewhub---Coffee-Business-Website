@@ -3,7 +3,7 @@ require("dotenv").config({ path: __dirname + "/../.env" });
 module.exports = {
   // MongoDB configuration
   mongo: {
-    host: "127.0.0.1",
+    host: "mongodb",
     // host: "localhost",
     port: 27017,
     database: "brewhub_db",
