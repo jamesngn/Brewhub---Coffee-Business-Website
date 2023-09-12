@@ -9,6 +9,7 @@ const protoPath = path.join(rootPath, "auth.proto");
 const config = require(path.join(
   __dirname,
   "..",
+  "..",
   "shared",
   "src",
   "config",
