@@ -45,7 +45,7 @@
 // }
 
 //DOCKER:
-
+//start service - build test
 pipeline {
     agent any
 
@@ -57,6 +57,16 @@ pipeline {
                     dir('services/auth-service') {
                         docker.build('auth-service', '.')
                     }
+                }
+            }
+        }
+        stage('Start Services') {
+            steps {
+                script {
+                    //Start MongoDB
+                    sh 'docker run -d --name mongodb mongo:4'
+                    //Start auth-service
+                    sh 'docker run -d --name auth-service -p 5054:5054 -v $(pwd)/services/shared:/app/shared auth-service'
                 }
             }
         }
