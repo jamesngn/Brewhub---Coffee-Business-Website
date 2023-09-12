@@ -57,9 +57,19 @@ pipeline {
                     dir('services/') {
                         docker.build('auth-service', '.')
                     }
+                }
+            }
+        }
+        stage('Run Unit Tests') {
+            steps {
+                script {
+                    //Build Docker image for unit testing
                     dir('test/') {
-                        docker.build('test', '.')
+                        docker.build('auth-service-test', '.')
                     }
+
+                    //Run unit tests in the Docker container
+                    sh 'docker run auth-service-test'
                 }
             }
         }
