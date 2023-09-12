@@ -3,9 +3,9 @@ FROM node:14
 
 # Shared directory
 WORKDIR /app/shared
-COPY /services/shared/package*.json ./
+COPY ../shared/package*.json .
 RUN npm install
-COPY /services/shared/ ./
+COPY ../shared/ .
 # auth-service
 WORKDIR /app/auth-service
 COPY package*.json .
