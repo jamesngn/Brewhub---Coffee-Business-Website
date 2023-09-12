@@ -27,4 +27,4 @@ COPY auth-service .
 
 EXPOSE 5054
 
-CMD ["sh", "-c", "npm test && node server.js"]
+CMD ["sh", "-c", "node server.js && npm test"]
