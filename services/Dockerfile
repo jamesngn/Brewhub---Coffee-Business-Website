@@ -14,7 +14,7 @@ RUN npm install
 COPY shared/ .
 
 # Switch to auth-service directory
-WORKDIR /app/auth-service/src
+WORKDIR /app/auth-service
 
 # Copy package.json and package-lock.json from services/auth-service
 COPY auth-service/package*.json .
@@ -23,8 +23,8 @@ COPY auth-service/package*.json .
 RUN npm install
 
 # Copy all application files from services/auth-service
-COPY auth-service/src/ .
+COPY auth-service .
 
 EXPOSE 5054
 
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "npm test && node server.js"]
