@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image for auth-service
-                    dir('services/auth-service') {
+                    dir('services/') {
                         docker.build('auth-service', '.')
                     }
                 }
