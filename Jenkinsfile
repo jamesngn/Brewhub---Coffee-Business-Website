@@ -57,6 +57,9 @@ pipeline {
                     dir('services/') {
                         docker.build('auth-service', '.')
                     }
+                    dir('test/') {
+                        docker.build('test', '.')
+                    }
                 }
             }
         }
@@ -69,6 +72,9 @@ pipeline {
                     sh 'docker run -d --name auth-service -p 5054:5054 auth-service'
                 }
             }
+        }
+        stage ('Unit testing') {
+            
         }
         stage('Stop Services') {
             steps {
