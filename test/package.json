@@ -1,0 +1,22 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "auth-service.test.js",
+  "scripts": {
+    "test": "mocha auth-service.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.8",
+    "mocha": "^10.2.0",
+    "sinon": "^7.5.0",
+    "sinon-mongoose": "^2.3.0"
+  },
+  "dependencies": {
+    "@grpc/proto-loader": "^0.7.9",
+    "grpc": "^1.24.11"
+  }
+}
