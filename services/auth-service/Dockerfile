@@ -3,14 +3,28 @@ FROM node:14
 
 # Shared directory
 WORKDIR /app/shared
-COPY ../shared/package*.json .
+
+# Copy package.json and package-lock.json from services/shared
+COPY services/shared/package*.json .
+
+# Install application dependencies
 RUN npm install
-COPY ../shared/ .
-# auth-service
+
+# Copy all application files from services/shared
+COPY services/shared/ .
+
+# Switch to auth-service directory
 WORKDIR /app/auth-service
-COPY package*.json .
+
+# Copy package.json and package-lock.json from services/auth-service
+COPY services/auth-service/package*.json .
+
+# Install application dependencies for auth-service
 RUN npm install
-COPY . .
+
+# Copy all application files from services/auth-service
+COPY services/auth-service/ .
+
 EXPOSE 5054
 
 CMD ["node", "server.js"]
