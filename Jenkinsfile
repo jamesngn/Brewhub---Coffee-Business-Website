@@ -70,18 +70,18 @@ pipeline {
                 }
             }
         }
-        // stage('Stop Services') {
-        //     steps {
-        //         script {
-        //             // Stop auth-service
-        //             sh 'docker stop auth-service'
-        //             sh 'docker rm auth-service'
+        stage('Stop Services') {
+            steps {
+                script {
+                    // Stop auth-service
+                    sh 'docker stop auth-service'
+                    sh 'docker rm auth-service'
                     
-        //             // Stop MongoDB
-        //             sh 'docker stop mongodb'
-        //             sh 'docker rm mongodb'
-        //         }
-        //     }
-        // }
+                    // Stop MongoDB
+                    sh 'docker stop mongodb'
+                    sh 'docker rm mongodb'
+                }
+            }
+        }
     }
 }
