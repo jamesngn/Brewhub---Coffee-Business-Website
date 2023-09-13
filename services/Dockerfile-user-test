@@ -1,4 +1,4 @@
-FROM node:14 AS test-builder
+FROM node:14-alpine
 
 WORKDIR /app/shared
 

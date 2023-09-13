@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a base image
-FROM node:14 AS test-builder
+FROM node:14-alpine
 
 # Shared directory
 WORKDIR /app/shared
