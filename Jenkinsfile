@@ -51,19 +51,6 @@ pipeline {
 
 
     stages {
-            stage('Prerequisite: Stop Services') {
-            steps {
-                script {
-                    // Stop auth-service
-                    sh 'docker stop auth-service'
-                    sh 'docker rm auth-service'
-                    
-                    // Stop MongoDB
-                    sh 'docker stop mongodb'
-                    sh 'docker rm mongodb'
-                }
-            }
-        }
         stage('Build auth-service Docker Image') {
             steps {
                 script {
