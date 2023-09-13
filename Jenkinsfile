@@ -66,16 +66,19 @@ pipeline {
                 script {
                     //Start MongoDB
                     sh 'docker run -d --name mongodb --network mynetwork mongo:4'
-                    sh 'docker logs mongodb'
+                    
                     //Start auth-service
                     sh 'docker run -d --name auth-service -p 5054:5054 --network mynetwork auth-service'
-                    sh 'docker logs auth-service'
+                    
                 }
             }
         }
         stage('Stop Services') {
             steps {
                 script {
+                    //logs
+                    sh 'docker logs mongodb'
+                    sh 'docker logs auth-service'
                     // Stop auth-service
                     sh 'docker stop auth-service'
                     sh 'docker rm auth-service'
