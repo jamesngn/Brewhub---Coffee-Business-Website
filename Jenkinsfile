@@ -48,6 +48,19 @@
 //start service - build test
 pipeline {
     agent any
+    stage('Stop Services') {
+            steps {
+                script {
+                    // Stop auth-service
+                    sh 'docker stop auth-service'
+                    sh 'docker rm auth-service'
+                    
+                    // Stop MongoDB
+                    sh 'docker stop mongodb'
+                    sh 'docker rm mongodb'
+                }
+            }
+        }
 
     stages {
         stage('Build auth-service Docker Image') {
