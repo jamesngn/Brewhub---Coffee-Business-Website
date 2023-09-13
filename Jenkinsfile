@@ -73,25 +73,23 @@ pipeline {
                 }
             }
         }
-        // stage('Dump Test') {
-        //     steps {
-        //         sleep 10
-        //         sh 'echo "Copy Dumped Data to Docker Container"'
-        //         sh 'ls'
-        //         sh 'docker cp brewhub_db mongodb:/'
-        //         sh 'echo "Restore Data in Docker Container"'
-        //         sh 'docker exec mongodb mongorestore --db brewhub_db /brewhub_db'
-        //     }
-        // }
+        stage('Dump Test') {
+            steps {
+                sleep 10
+                sh 'echo "Copy Dumped Data to Docker Container"'
+                sh 'ls'
+                sh 'docker cp brewhub_db mongodb:/'
+                sh 'echo "Restore Data in Docker Container"'
+                sh 'docker exec -it mongodb mongorestore --db brewhub_db /brewhub_db'
+            }
+        }
         
         stage('Run Unit Testing') {
             steps {
-                 script {
-                    sh 'docker run -d --name auth-service-test --network mynetwork auth-service-test'
-                    def containerStatus = sh script: 'docker ps -q --filter "name=auth-service-test"', returnStdout: true
+                script {
+                    def exitCode = sh script: 'docker run -d --name auth-service-test --network mynetwork auth-service-test npm test', returnStatus: true
 
-                    if (containerStatus.trim().isEmpty()) {
-                        currentBuild.result = 'FAILURE'
+                    if (exitCode != 0) {
                         error "Unit tests failed. Exiting pipeline."
                     }
                 }

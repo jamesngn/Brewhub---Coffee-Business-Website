@@ -47,10 +47,4 @@ module.exports = {
     refreshKey: process.env.JWT_REFRESH_SECRET_KEY,
     expiresIn: "1h",
   },
-
-  //AWS credentials
-  aws: {
-    accessKeyId: process.env.ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY,
-  },
 };
