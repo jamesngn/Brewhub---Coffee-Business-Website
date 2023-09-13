@@ -70,9 +70,23 @@ pipeline {
                     //Start auth-service
                     sh 'docker run -d --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
                     
-                    //Run unit tests
-                    sh 'docker run -d --name auth-service-test --network mynetwork auth-service-test'
                 }
+            }
+        }
+        stage('Dump Test') {
+            steps {
+                sleep 10
+                sh 'echo "Copy Dumped Data to Docker Container"'
+                sh 'docker cp brewhub_db mongodb:/'
+                sh 'echo "Restore Data in Docker Container"'
+                sh 'docker exec mongodb mongorestore --drop /brewhub_db'
+            }
+        }
+        
+        stage('Run Unit Testing') {
+            steps {
+                //Run unit tests
+                sh 'docker run -d --name auth-service-test --network mynetwork auth-service-test'
             }
         }
         // stage('Stop Services') {
