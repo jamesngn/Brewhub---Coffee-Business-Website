@@ -87,10 +87,8 @@ pipeline {
         stage('Run Unit Testing') {
             steps {
                 script {
-                    def exitCode = sh script: 'docker run -d --name auth-service-test --network mynetwork auth-service-test npm test', returnStatus: true
-
-                    if (exitCode != 0) {
-                        error "Unit tests failed. Exiting pipeline."
+                    dir('services/auth-service/') {
+                        sh 'npm test'
                     }
                 }
             }
