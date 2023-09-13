@@ -20,7 +20,7 @@ module.exports = {
     // orderServiceHost: "localhost",
     orderServicePort: 5052,
 
-    userServiceHost: "user-service",
+    userServiceHost: "user-service-server",
     // userServiceHost: "localhost",
     userServicePort: 5053,
 
