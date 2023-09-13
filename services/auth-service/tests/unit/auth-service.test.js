@@ -1,6 +1,6 @@
 //unit testing framework
 const { expect } = require("chai");
-const authClient = require("../../src/client");
+const { authClient } = require("../../src/client");
 
 describe("auth-service", () => {
   describe("loginUser", () => {
