@@ -65,8 +65,10 @@ pipeline {
                 script {
                     //Start MongoDB
                     sh 'docker run -d --name mongodb mongo:4'
+                    sh 'docker logs mongodb'
                     //Start auth-service
                     sh 'docker run -d --name auth-service -p 5054:5054 auth-service'
+                    sh 'docker logs auth-service'
                 }
             }
         }
