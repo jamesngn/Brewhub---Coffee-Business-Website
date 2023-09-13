@@ -88,7 +88,7 @@ pipeline {
             steps {
                 script {
                     def exitCode = sh(script: 'docker run -d --name auth-service-test --network mynetwork auth-service-test', returnStatus: true)
-                    sh 'echo exitCode'
+                    sh 'echo ${exitCode}'
                     if (exitCode != 0) {
                         currentBuild.result = 'FAILURE' // Mark the build as failed
                         error "Unit tests failed. Exiting pipeline."
