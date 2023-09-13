@@ -19,6 +19,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const config = require(path.join(
   __dirname,
   "..",
+  "..",
   "shared",
   "src",
   "config",
