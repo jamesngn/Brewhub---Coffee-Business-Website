@@ -68,7 +68,7 @@ pipeline {
                     sh 'docker run -d --name mongodb --network mynetwork mongo:4'
                     
                     //Start auth-service
-                    sh 'docker run -d --name auth-service -p 5054:5054 --network mynetwork auth-service-multistage'
+                    sh 'docker run -d --name auth-service-multistage -p 5054:5054 --network mynetwork auth-service-multistage'
                     
                 }
             }
