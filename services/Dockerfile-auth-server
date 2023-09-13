@@ -1,7 +1,5 @@
-
-# Stage 1: Build for server
 # Use an official Node.js runtime as a base image
-FROM node:14
+FROM node:14 
 
 # Shared directory
 WORKDIR /app/shared
@@ -18,7 +16,6 @@ COPY shared/ .
 # Switch to auth-service directory
 WORKDIR /app/auth-service
 
-# Copy package.json and package-lock.json from services/auth-service
 COPY auth-service/package*.json .
 
 # Install application dependencies for auth-service
