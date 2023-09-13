@@ -1,11 +1,8 @@
-const path = require("path");
 //server.js
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
-
-const rootPath = path.resolve(__dirname);
-const protoPath = path.join(rootPath, "order.proto");
-const packageDef = protoLoader.loadSync(protoPath, {});
+const PROTOPATH = __dirname + "/order.proto";
+const packageDef = protoLoader.loadSync(PROTOPATH, {});
 const grpcObject = grpc.loadPackageDefinition(packageDef);
 const orderPackage = grpcObject.orderPackage;
 
@@ -16,6 +13,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 /*------------------------------------------------------------------------------------------------ */
 //config
+const path = require("path");
 const config = require(path.join(
   __dirname,
   "..",

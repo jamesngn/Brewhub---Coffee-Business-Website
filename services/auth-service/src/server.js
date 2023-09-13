@@ -104,5 +104,3 @@ async function loginUser(call, callback) {
 }
 server.start();
 console.log("gRPC server running on port " + servicePort);
-
-module.exports = { loginUser };

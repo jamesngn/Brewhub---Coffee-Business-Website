@@ -16,7 +16,7 @@ module.exports = {
     // menuServiceHost: "localhost",
     menuServicePort: 5051,
 
-    orderServiceHost: "order-service",
+    orderServiceHost: "order-service-server",
     // orderServiceHost: "localhost",
     orderServicePort: 5052,
 
