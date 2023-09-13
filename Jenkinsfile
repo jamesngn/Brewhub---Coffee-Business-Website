@@ -80,7 +80,7 @@ pipeline {
                 sh 'ls'
                 sh 'docker cp brewhub_db mongodb:/'
                 sh 'echo "Restore Data in Docker Container"'
-                sh 'docker exec -it mongodb mongorestore --db brewhub_db /brewhub_db'
+                sh 'docker exec mongodb mongorestore --db brewhub_db /brewhub_db'
             }
         }
         
