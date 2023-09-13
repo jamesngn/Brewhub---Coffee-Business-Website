@@ -71,7 +71,7 @@ pipeline {
                     sh 'docker run -d --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
                     
                     //Run unit tests
-                    sh 'docker run -d --name auth-service-test auth-service-test'
+                    sh 'docker run -d --name auth-service-test --network mynetwork auth-service-test'
                 }
             }
         }
