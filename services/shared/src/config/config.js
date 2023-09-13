@@ -24,7 +24,7 @@ module.exports = {
     // userServiceHost: "localhost",
     userServicePort: 5053,
 
-    authServiceHost: "auth-service",
+    authServiceHost: "auth-service-server",
     // authServiceHost: "localhost",
     authServicePort: 5054,
 
