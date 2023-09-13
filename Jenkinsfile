@@ -73,13 +73,13 @@ pipeline {
                 }
             }
         }
-        // stage('Dump Test') {
-        //     steps {
-        //         sleep 5
-        //         sh 'docker cp brewhub_db mongodb:/'
-        //         sh 'docker exec  mongodb mongorestore --db brewhub_db /brewhub_db'
-        //     }
-        // }
+        stage('Dump Test') {
+            steps {
+                sleep 5
+                sh 'docker cp brewhub_db mongodb:/'
+                sh 'docker exec  mongodb mongorestore --db brewhub_db /brewhub_db'
+            }
+        }
         
         stage('Run Unit Testing') {
             steps {
