@@ -75,12 +75,12 @@ pipeline {
         }
         // stage('Dump Test') {
         //     steps {
-        //         sleep 10
+        //         sleep 5
         //         sh 'echo "Copy Dumped Data to Docker Container"'
         //         sh 'ls'
         //         sh 'docker cp brewhub_db mongodb:/'
         //         sh 'echo "Restore Data in Docker Container"'
-        //         sh 'docker exec -it mongodb mongorestore --db brewhub_db /brewhub_db'
+        //         sh 'docker exec  mongodb mongorestore --db brewhub_db /brewhub_db'
         //     }
         // }
         
