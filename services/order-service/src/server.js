@@ -31,7 +31,7 @@ const serviceHost = config.grpc.orderServiceHost;
 const servicePort = config.grpc.orderServicePort;
 
 //utils
-const orderUtils = require("../shared/src/utils/orderUtils");
+const orderUtils = require("../../shared/src/utils/orderUtils");
 
 //Connect to MongoDB
 mongoose
@@ -84,7 +84,6 @@ async function PlaceOrder(call, callback) {
       deliveryAddress: request.deliveryAddress,
       promotionsApplied: request.promotionsApplied,
     });
-    // console.log("New Order created: " + newOrder);
     await newOrder.save();
 
     const response = {
@@ -107,8 +106,23 @@ async function PlaceOrder(call, callback) {
 async function GetOrderDetails(call, callback) {
   try {
     const { orderId } = call.request;
+
+    if (!call.request.orderId) {
+      callback({
+        code: grpc.status.INVALID_ARGUMENT,
+        details: "Order Id empty",
+      });
+      return;
+    }
+
     const order = await Order.findOne({ _id: orderId });
-    if (order) {
+    if (!order) {
+      callback({
+        code: grpc.status.NOT_FOUND,
+        details: "Order Id Not Found",
+      });
+      return;
+    } else {
       const response = {
         orderId: order._id,
         userId: order.userId,
@@ -134,16 +148,17 @@ async function GetOrderDetails(call, callback) {
 
 async function GetOrderStatus(call, callback) {
   try {
-    let request = call.request;
-    let order = await Order.findOne(
-      { _id: new ObjectId(request.orderId) },
+    const { orderId } = call.request;
+    const order = await Order.findOne(
+      { _id: new ObjectId(orderId) },
       { orderStatus: 1, _id: 0 }
     );
-    if (!order) {
+    if (order == null) {
       callback({
-        CODE: grpc.status.NOT_FOUND,
-        details: "Order id = " + request.orderId + "not found",
+        code: grpc.status.NOT_FOUND,
+        details: "Order Id Not Found",
       });
+      return;
     } else {
       callback(null, { orderStatus: order.orderStatus });
     }
@@ -158,9 +173,9 @@ async function GetOrderStatus(call, callback) {
 
 async function GetOrderHistory(call, callback) {
   try {
-    let request = call.request;
+    let { userId } = call.request;
     let orders = await Order.find(
-      { userId: new ObjectId(request.userId) },
+      { userId: new ObjectId(userId) },
       {
         orderStatus: 1,
         orderDate: 1,
@@ -169,19 +184,26 @@ async function GetOrderHistory(call, callback) {
       }
     );
 
-    const orderHistoryResponse = {
-      orders: orders.map((order) => {
-        return {
-          orderId: order._id.toString(), // Change _id to OrderId
-          orderDate: order.orderDate.toString(),
-          totalAmount: order.totalAmount,
-          orderStatus: order.orderStatus,
-          paymentStatus: order.paymentStatus,
-        };
-      }),
-    };
-
-    callback(null, orderHistoryResponse);
+    if (orders.length == 0) {
+      callback({
+        code: grpc.status.NOT_FOUND,
+        details: "Order History Not Found With User Id = " + userId,
+      });
+      return;
+    } else {
+      const orderHistoryResponse = {
+        orders: orders.map((order) => {
+          return {
+            orderId: order._id.toString(), // Change _id to OrderId
+            orderDate: order.orderDate.toString(),
+            totalAmount: order.totalAmount,
+            orderStatus: order.orderStatus,
+            paymentStatus: order.paymentStatus,
+          };
+        }),
+      };
+      callback(null, orderHistoryResponse);
+    }
   } catch (error) {
     console.error("Error finding order status: ", error);
     callback({
@@ -190,9 +212,21 @@ async function GetOrderHistory(call, callback) {
     });
   }
 }
-
+//["Pending", "Processing", "Delivered", "Cancelled"]
 async function UpdateOrderStatus(call, callback) {
   const { orderId, newStatus } = call.request;
+  if (
+    newStatus != "Pending" &&
+    newStatus != "Processing" &&
+    newStatus != "Delivered" &&
+    newStatus != "Cancelled"
+  ) {
+    callback({
+      code: grpc.status.INVALID_ARGUMENT,
+      details: "Invalid order status",
+    });
+    return;
+  }
   try {
     const updateOrder = await Order.findOneAndUpdate(
       { _id: orderId },
@@ -205,6 +239,7 @@ async function UpdateOrderStatus(call, callback) {
         code: grpc.status.NOT_FOUND,
         details: `Order with id = ${orderId} not found`,
       });
+      return;
     }
     console.log("Updated order: ", updateOrder);
     const response = {

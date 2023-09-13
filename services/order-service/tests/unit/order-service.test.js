@@ -1,8 +1,5 @@
-const sinon = require("sinon");
 const { expect } = require("chai");
-const { orderClient } = require("../services/order-service/client");
-const Order = require("../services/order-service/models/order");
-const { doesNotMatch } = require("assert");
+const { orderClient } = require("../../src/client");
 
 describe("order-service", () => {
   describe("PlaceOrder", () => {
