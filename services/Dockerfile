@@ -27,4 +27,4 @@ COPY auth-service .
 
 EXPOSE 5054
 
-CMD ["sh", "-c", "node server.js"]
+CMD ["sh", "-c", "npm start"]
