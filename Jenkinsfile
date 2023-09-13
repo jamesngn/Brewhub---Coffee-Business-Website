@@ -79,9 +79,9 @@ pipeline {
                     //logs
                     sh 'docker logs mongodb'
                     sh 'docker logs auth-service'
-                    // Stop auth-service
-                    sh 'docker stop auth-service'
-                    sh 'docker rm auth-service'
+                    // // Stop auth-service
+                    // sh 'docker stop auth-service'
+                    // sh 'docker rm auth-service'
                     
                     // Stop MongoDB
                     sh 'docker stop mongodb'
