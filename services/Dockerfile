@@ -27,4 +27,4 @@ COPY auth-service .
 
 EXPOSE 5054
 
-CMD ["sh", "-c", "npm start && npm test"]
+CMD ["sh", "-c", "npm start"]
