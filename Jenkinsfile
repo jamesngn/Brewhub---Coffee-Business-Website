@@ -49,14 +49,14 @@
 pipeline {
     agent any
 
-
     stages {
         stage('Build auth-service Docker Image') {
             steps {
                 script {
                     // Build Docker image for auth-service
                     dir('services/') {
-                        docker.build('auth-service-multistage', '.')
+                        docker.build('auth-service-server', '-f Dockerfile-server .')
+                        docker.build('auth-service-test', '-f Dockerfile-test .')
                     }
                 }
             }
@@ -68,26 +68,28 @@ pipeline {
                     sh 'docker run -d --name mongodb --network mynetwork mongo:4'
                     
                     //Start auth-service
-                    sh 'docker run -d --name auth-service-multistage -p 5054:5054 --network mynetwork auth-service-multistage'
+                    sh 'docker run -d --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
                     
+                    //Run unit tests
+                    sh 'docker run -d --name auth-server-test auth-service-test'
                 }
             }
         }
-        stage('Stop Services') {
-            steps {
-                script {
-                    //logs
-                    sh 'docker logs mongodb'
-                    sh 'docker logs auth-service'
-                    // // Stop auth-service
-                    // sh 'docker stop auth-service'
-                    // sh 'docker rm auth-service'
+        // stage('Stop Services') {
+        //     steps {
+        //         script {
+        //             //logs
+        //             // sh 'docker logs mongodb'
+        //             // sh 'docker logs auth-service'
+        //             // // Stop auth-service
+        //             // sh 'docker stop auth-service'
+        //             // sh 'docker rm auth-service'
                     
-                    // // Stop MongoDB
-                    // sh 'docker stop mongodb'
-                    // sh 'docker rm mongodb'
-                }
-            }
-        }
+        //             // // Stop MongoDB
+        //             // sh 'docker stop mongodb'
+        //             // sh 'docker rm mongodb'
+        //         }
+        //     }
+        // }
     }
 }
