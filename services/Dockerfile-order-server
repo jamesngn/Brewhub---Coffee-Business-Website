@@ -1,4 +1,4 @@
-FROM node:14 
+FROM node:14
 
 WORKDIR /app/shared
 
@@ -8,14 +8,14 @@ RUN npm install
 
 COPY shared/ .
 
-WORKDIR /app/auth-service
+WORKDIR /app/order-service
 
-COPY auth-service/package*.json .
+COPY order-service/package*.json .
 
 RUN npm install
 
-COPY auth-service/src ./src
+COPY order-service/src ./src
 
-EXPOSE 5054
+EXPOSE 5052
 
 CMD ["node", "src/server.js"]
