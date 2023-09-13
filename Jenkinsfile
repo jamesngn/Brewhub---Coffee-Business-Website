@@ -48,7 +48,10 @@
 //start service - build test
 pipeline {
     agent any
-    stage('Prerequisite: Stop Services') {
+
+
+    stages {
+            stage('Prerequisite: Stop Services') {
             steps {
                 script {
                     // Stop auth-service
@@ -61,8 +64,6 @@ pipeline {
                 }
             }
         }
-
-    stages {
         stage('Build auth-service Docker Image') {
             steps {
                 script {
