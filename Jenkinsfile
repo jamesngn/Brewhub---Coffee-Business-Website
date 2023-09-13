@@ -49,10 +49,22 @@ pipeline {
     }
     post {
         always {
-            // Stop services
-            sh 'docker stop auth-service-server order-service-server mongodb'
-            sh 'docker rm auth-service-server auth-service-test order-service-server mongodb'
+            script {
+                def authServiceContainer = sh(script: 'docker ps -q -f name=auth-service-server', returnStdout: true).trim()
+                if (authServiceContainer) {
+                    sh "docker stop $authServiceContainer"
+                    sh "docker rm $authServiceContainer"
+                }
 
+                def orderServiceContainer = sh(script: 'docker ps -q -f name=order-service-server', returnStdout: true).trim()
+                if (orderServiceContainer) {
+                    sh "docker stop $orderServiceContainer"
+                    sh "docker rm $orderServiceContainer"
+                }
+
+                sh 'docker stop mongodb'
+                sh 'docker rm mongodb'
+            }
         }
     }
 }
