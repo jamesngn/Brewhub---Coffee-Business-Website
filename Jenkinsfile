@@ -42,7 +42,7 @@ pipeline {
         stage('Run Unit Testing') {
             steps {
                 script {
-                    sh 'docker run --name auth-service-server --network mynetwork auth-service-test'
+                    sh 'docker run --name auth-service-test --network mynetwork auth-service-test'
                 }
             }
         }
