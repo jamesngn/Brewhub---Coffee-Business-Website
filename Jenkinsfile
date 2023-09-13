@@ -92,18 +92,16 @@ pipeline {
                 }
             }
         }
-        stage('Stop Services') {
-            steps {
-                script {
-                    // Stop auth-service
-                    sh 'docker stop auth-service-server'
-                    sh 'docker rm auth-service-server'
-                    
-                    // Stop MongoDB
-                    sh 'docker stop mongodb'
-                    sh 'docker rm mongodb'
-                }
-            }
+    }
+    post {
+        always {
+            // Stop auth-service
+            sh 'docker stop auth-service-server'
+            sh 'docker rm auth-service-server'
+            
+            // Stop MongoDB
+            sh 'docker stop mongodb'
+            sh 'docker rm mongodb'
         }
     }
 }
