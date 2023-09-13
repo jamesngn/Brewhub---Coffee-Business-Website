@@ -48,7 +48,7 @@
 //start service - build test
 pipeline {
     agent any
-    stage('Stop Services') {
+    stage('Prerequisite: Stop Services') {
             steps {
                 script {
                     // Stop auth-service
