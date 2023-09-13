@@ -79,7 +79,7 @@ pipeline {
                 sh 'echo "Copy Dumped Data to Docker Container"'
                 sh 'docker cp brewhub_db mongodb:/'
                 sh 'echo "Restore Data in Docker Container"'
-                sh 'docker exec mongodb mongorestore --drop /brewhub_db'
+                sh 'docker exec -it mongodb mongorestore --db brewhub_db /brewhub_db'
             }
         }
         
