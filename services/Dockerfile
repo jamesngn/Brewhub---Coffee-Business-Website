@@ -17,14 +17,14 @@ COPY shared/ .
 WORKDIR /app/auth-service
 
 # Copy package.json and package-lock.json from services/auth-service
-COPY auth-service/package*.json /app/auth-service/
+COPY auth-service/package*.json .
 
 # Install application dependencies for auth-service
 RUN npm install
 
 # Copy all application files from services/auth-service
-COPY auth-service /app/auth-service/
+COPY auth-service .
 
 EXPOSE 5054
 
-CMD ["sh", "-c", "node server.js && npm test"]
+CMD ["sh", "-c", "node server.js"]
