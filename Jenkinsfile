@@ -12,8 +12,10 @@ pipeline {
                         docker.build('auth-service-server', '-f Dockerfile-auth-server .')
                         docker.build('order-service-server', '-f Dockerfile-order-server .')
                         docker.build('user-service-server', '-f Dockerfile-user-server .')
+
                         docker.build('auth-service-test', '-f Dockerfile-auth-test .')
                         docker.build('order-service-test', '-f Dockerfile-order-test .')
+                        docker.build('user-service-test', '-f Dockerfile-user-test .')
                     }
                 }
             }
@@ -50,6 +52,7 @@ pipeline {
                 script {
                     sh 'docker run --name auth-service-test --network mynetwork auth-service-test'
                     sh 'docker run --name order-service-test --network mynetwork order-service-test'
+                    sh 'docker run --name user-service-test --network mynetwork user-service-test'
                 }
             }
         }
@@ -81,6 +84,7 @@ pipeline {
                 //Clear unit testing containers
                 sh 'docker rm auth-service-test'
                 sh 'docker rm order-service-test'
+                sh 'docker rm user-service-test'
             }
         }
     }
