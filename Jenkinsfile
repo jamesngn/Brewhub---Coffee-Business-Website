@@ -11,6 +11,7 @@ pipeline {
                     dir('services/') {
                         docker.build('auth-service-server', '-f Dockerfile-auth-server .')
                         docker.build('order-service-server', '-f Dockerfile-order-server .')
+                        docker.build('user-service-server', '-f Dockerfile-user-server .')
                         docker.build('auth-service-test', '-f Dockerfile-auth-test .')
                         docker.build('order-service-test', '-f Dockerfile-order-test .')
                     }
@@ -28,10 +29,14 @@ pipeline {
 
                     //Start order-service
                     sh 'docker run -d --name order-service-server -p 5052:5052 --network mynetwork order-service-server'
+
+                    //Start user-service
+                    sh 'docker run -d --name user-service-server -p 5053:5053 --network mynetwork user-service-server'
                     
                 }
             }
         }
+
         stage('Dump Test') {
             steps {
                 sleep 5
@@ -62,6 +67,12 @@ pipeline {
                 if (orderServiceContainer) {
                     sh "docker stop $orderServiceContainer"
                     sh "docker rm $orderServiceContainer"
+                }
+
+                def userServiceContainer = sh(script: 'docker ps -q -f name=user-service-server', returnStdout: true).trim()
+                if (userServiceContainer) {
+                    sh "docker stop $userServiceContainer"
+                    sh "docker rm $userServiceContainer"
                 }
 
                 sh 'docker stop mongodb'
