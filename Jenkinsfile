@@ -11,7 +11,8 @@ pipeline {
                     dir('services/') {
                         docker.build('auth-service-server', '-f Dockerfile-auth-server .')
                         docker.build('order-service-server', '-f Dockerfile-order-server .')
-                        docker.build('auth-service-test', '-f Dockerfile-test .')
+                        docker.build('auth-service-test', '-f Dockerfile-auth-test .')
+                        docker.build('order-service-test', '-f Dockerfile-order-test .')
                     }
                 }
             }
@@ -43,6 +44,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker run --name auth-service-test --network mynetwork auth-service-test'
+                    sh 'docker run --name order-service-test --network mynetwork order-service-test'
                 }
             }
         }
@@ -64,6 +66,10 @@ pipeline {
 
                 sh 'docker stop mongodb'
                 sh 'docker rm mongodb'
+
+                //Clear unit testing containers
+                sh 'docker rm auth-service-test'
+                sh 'docker rm order-service-test'
             }
         }
     }
