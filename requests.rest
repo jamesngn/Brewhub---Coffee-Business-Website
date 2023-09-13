@@ -1,26 +1,13 @@
-###LOG IN
-POST http://localhost:3000/login
-Content-Type: application/json
-
-{
-    "email":"user@example.com",
-    "password":"quang123"
-}
-
 ###
-GET http://localhost:3000/me
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYyZDQ2Y2VlMmRkMjUzOGRmM2I3YWUiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTM2Mzc2ODMsImV4cCI6MTY5MzY0MTI4M30.w2yI5-al3G7vtd_kez_-WY8aHY_DnHxFCG-hRxLstKI
-
-###
-GET http://localhost:3000/admin
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYyYzc1NmQyNGI5NDNkNGM2MjI0MTAiLCJyb2xlIjoidXNlciIsImlhdCI6MTY5MzYzNzc5MiwiZXhwIjoxNjkzNjQxMzkyfQ.GoyB7FN8xBJ9haRySXQP1q3dSGxh2-fKBmSsVE4gVJ0
+GET http://localhost:5000/auth/user
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGZkNmU3NTY5ZjI4OGYyZTlkMDZiNjYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTQzMzIyMTYsImV4cCI6MTY5NDMzNTgxNn0.NQvi2_-88p8w0p8PzJiy_wyNG_CJ_bQVFknDjZKCpOI
 
 ###
 POST http://localhost:5000/auth/login
 Content-Type: application/json
 
 {
-    "email": "user@example.com",
+    "email": "user2@admin.com",
     "password":"quang123"
 }
 ###
@@ -30,7 +17,7 @@ Content-Type: application/json
 
 {
     "username":"Quang",
-    "email": "user@example.com",
+    "email": "user3@example.com",
     "password":"quang123"
 }
 ###
@@ -39,9 +26,10 @@ POST http://localhost:5000/admin/register
 Content-Type: application/json
 
 {
-    "username":"Quang",
+    "username":"Trang",
     "email": "user@admin.com",
     "password":"quang123"
 }
+
 
 
