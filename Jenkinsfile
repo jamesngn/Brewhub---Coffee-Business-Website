@@ -86,9 +86,6 @@ pipeline {
                 script {
                     // Run unit tests
                     sh 'docker run --name auth-service-test --network mynetwork auth-service-test npm test'
-                    
-                    // Clean up the test container
-                    sh 'docker rm auth-service-test'
                 }
             }
         }
@@ -102,6 +99,9 @@ pipeline {
             // Stop MongoDB
             sh 'docker stop mongodb'
             sh 'docker rm mongodb'
+
+            // Clean up the test container
+            sh 'docker rm auth-service-test'
         }
     }
 }
