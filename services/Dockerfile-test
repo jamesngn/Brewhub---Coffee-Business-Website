@@ -1,4 +1,3 @@
-#Stage 2: Build for tests
 # Use an official Node.js runtime as a base image
 FROM node:14 AS test-builder
 
@@ -27,4 +26,4 @@ RUN npm install
 COPY auth-service .
 
 
-CMD ["npm", "test"]
+RUN npm test
