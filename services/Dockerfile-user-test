@@ -1,0 +1,19 @@
+FROM node:14 AS test-builder
+
+WORKDIR /app/shared
+
+RUN npm install dotenv
+
+COPY shared/src/validation ./src/validation
+
+COPY shared/src/config ./src/config
+
+WORKDIR /app/user-service
+
+COPY user-service/package*.json .
+
+RUN npm install
+
+COPY user-service .
+
+CMD ["npm", "test"]

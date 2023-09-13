@@ -8,13 +8,14 @@ const userPackage = grpcObject.userPackage;
 //data
 const mongoose = require("mongoose");
 const User = require("./models/user");
-const { validateUser } = require("../shared/src/validation/userValidator");
+const { validateUser } = require("../../shared/src/validation/userValidator");
 
 /*------------------------------------------------------------------------------------------------ */
 //config
 const path = require("path");
 const config = require(path.join(
   __dirname,
+  "..",
   "..",
   "shared",
   "src",

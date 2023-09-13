@@ -12,6 +12,7 @@ const userPackageDef = protoLoader.loadSync(protoPath, {});
 const config = require(path.join(
   __dirname,
   "..",
+  "..",
   "shared",
   "src",
   "config",
