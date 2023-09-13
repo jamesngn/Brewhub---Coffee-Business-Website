@@ -10,6 +10,7 @@ pipeline {
                     // Build Docker image for auth-service
                     dir('services/') {
                         docker.build('auth-service-server', '-f Dockerfile-auth-server .')
+                        docker.build('order-service-server', '-f Dockerfile-order-server .')
                         docker.build('auth-service-test', '-f Dockerfile-test .')
                     }
                 }
@@ -23,6 +24,9 @@ pipeline {
                     
                     //Start auth-service
                     sh 'docker run --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
+
+                    //Start order-service
+                    sh 'docker run --name order-service-server -p 5052:5052 --network mynetwork order-service-server'
                     
                 }
             }
@@ -49,6 +53,10 @@ pipeline {
             // Stop auth-service
             sh 'docker stop auth-service-server'
             sh 'docker rm auth-service-server'
+            
+            // Stop order-service
+            sh 'docker stop order-service-server'
+            sh 'docker rm order-service-server'
             
             // Stop MongoDB
             sh 'docker stop mongodb'
