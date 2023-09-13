@@ -19,13 +19,13 @@ pipeline {
             steps {
                 script {
                     //Start MongoDB
-                    sh 'docker run --name mongodb --network mynetwork mongo:4'
+                    sh 'docker run -d --name mongodb --network mynetwork mongo:4'
                     
                     //Start auth-service
-                    sh 'docker run --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
+                    sh 'docker run -d --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
 
                     //Start order-service
-                    sh 'docker run --name order-service-server -p 5052:5052 --network mynetwork order-service-server'
+                    sh 'docker run -d --name order-service-server -p 5052:5052 --network mynetwork order-service-server'
                     
                 }
             }
