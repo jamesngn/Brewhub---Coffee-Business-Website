@@ -41,8 +41,10 @@ pipeline {
         stage('Run Unit Testing') {
             steps {
                 script {
-                    // Run unit tests
-                    docker.build('auth-service-test', '-f Dockerfile-test .')
+                    dir('services/') {
+                        // Run unit tests
+                        docker.build('auth-service-test', '-f Dockerfile-test .')
+                    }
                 }
             }
         }
