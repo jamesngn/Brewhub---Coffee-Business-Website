@@ -11,6 +11,7 @@ pipeline {
                     dir('services/') {
                         docker.build('auth-service-server', '-f Dockerfile-auth-server .')
                         docker.build('order-service-server', '-f Dockerfile-order-server .')
+                        docker.build('auth-service-test', '-f Dockerfile-test .')
                     }
                 }
             }
@@ -41,10 +42,7 @@ pipeline {
         stage('Run Unit Testing') {
             steps {
                 script {
-                    dir('services/') {
-                        // Run unit tests
-                        docker.build('auth-service-test', '-f Dockerfile-test .')
-                    }
+                    sh 'docker run --name auth-service-server --network mynetwork auth-service-test'
                 }
             }
         }

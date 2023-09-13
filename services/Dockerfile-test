@@ -26,4 +26,4 @@ RUN npm install
 COPY auth-service .
 
 
-RUN npm test
+CMD ["npm", "test"]
