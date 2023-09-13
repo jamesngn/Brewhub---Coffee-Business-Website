@@ -12,7 +12,7 @@ WORKDIR /app/auth-service
 
 COPY auth-service/package*.json .
 
-RUN npm install
+RUN npm install --only=prod
 
 COPY auth-service/src ./src
 
