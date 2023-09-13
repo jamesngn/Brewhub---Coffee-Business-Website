@@ -56,7 +56,7 @@ pipeline {
                 script {
                     // Build Docker image for auth-service
                     dir('services/') {
-                        docker.build('auth-service', '.')
+                        docker.build('auth-service-multistage', '.')
                     }
                 }
             }
@@ -68,7 +68,7 @@ pipeline {
                     sh 'docker run -d --name mongodb --network mynetwork mongo:4'
                     
                     //Start auth-service
-                    sh 'docker run -d --name auth-service -p 5054:5054 --network mynetwork auth-service'
+                    sh 'docker run -d --name auth-service -p 5054:5054 --network mynetwork auth-service-multistage'
                     
                 }
             }
