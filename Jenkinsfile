@@ -25,7 +25,7 @@ pipeline {
                     }
                      
                     dir('client/') {
-                        clientDockerImg = docker.build('react-client', '.')
+                        clientDockerImg = docker.build('brewhub-react-client', '.')
                     }
                 }
             }
