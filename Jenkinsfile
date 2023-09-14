@@ -4,7 +4,7 @@ pipeline {
     agent any
     environment {
         registryCredential = 'ecr:ap-southeast-2:awscreds'
-        appRegistry = '548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/brewhub_app'
+        appRegistry = '548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/auth-service-server'
         brewhubRegistry = 'https://548137894424.dkr.ecr.ap-southeast-2.amazonaws.com'
     }
     stages {
