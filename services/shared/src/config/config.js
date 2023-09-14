@@ -12,7 +12,7 @@ module.exports = {
   // gRPC service configuration
   //172.17.0.1
   grpc: {
-    menuServiceHost: "menu-service",
+    menuServiceHost: "menu-service-server",
     // menuServiceHost: "localhost",
     menuServicePort: 5051,
 
@@ -28,15 +28,15 @@ module.exports = {
     // authServiceHost: "localhost",
     authServicePort: 5054,
 
-    promoServiceHost: "promo-service",
+    promoServiceHost: "promo-service-server",
     // promoServiceHost: "localhost",
     promoServicePort: 5055,
 
-    adminServiceHost: "admin-service",
+    adminServiceHost: "admin-service-server",
     // adminServiceHost: "localhost",
     adminServicePort: 5056,
 
-    imageServiceHost: "image-service",
+    imageServiceHost: "image-service-server",
     // imageServiceHost: "localhost",
     imageServicePort: 5057,
   },
