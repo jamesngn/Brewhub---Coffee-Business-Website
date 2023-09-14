@@ -13,7 +13,7 @@ pipeline {
                 script {
                     // Build Docker image for auth-service
                     dir('services/') {
-                        authDockerImg = docker.build(appRegistry + ':$BUILD_NUMBER', '-f Dockerfile.auth-server .')
+                        authDockerImg = docker.build('auth-service-server', '-f Dockerfile.auth-server .')
                         docker.build('order-service-server', '-f Dockerfile.order-server .')
                         docker.build('user-service-server', '-f Dockerfile.user-server .')
                         docker.build('admin-service-server', '-f Dockerfile.admin-server .') 
@@ -70,8 +70,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry(brewhubRegistry, registryCredential) {
-                        authDockerImg.push("$BUILD_NUMBER")
-                        authDockerImg.push('latest')
+                        authDockerImg.push("${env.BUILD_NUMBER}")
+                        authDockerImg.push("latest")
                     }
                 }
             }
