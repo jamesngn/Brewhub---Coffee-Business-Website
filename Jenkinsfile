@@ -2,14 +2,18 @@
 //start service - build test
 pipeline {
     agent any
-
+    environment {
+        registryCredential = 'ecr:ap-southeast-2:awscreds'
+        appRegistry = '548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/brewhub_app'
+        brewhubRegistry = 'https://548137894424.dkr.ecr.ap-southeast-2.amazonaws.com'
+    }
     stages {
         stage('Build Microservices Docker Image') {
             steps {
                 script {
                     // Build Docker image for auth-service
                     dir('services/') {
-                        docker.build('auth-service-server', '-f Dockerfile.auth-server .')
+                        authDockerImg = docker.build('auth-service-server', '-f Dockerfile.auth-server .')
                         docker.build('order-service-server', '-f Dockerfile.order-server .')
                         docker.build('user-service-server', '-f Dockerfile.user-server .')
                         docker.build('admin-service-server', '-f Dockerfile.admin-server .') 
@@ -58,6 +62,17 @@ pipeline {
                     sh 'docker run --name order-service-test --network mynetwork order-service-test'
                     sh 'docker run --name user-service-test --network mynetwork user-service-test'
                     sh 'docker run --name admin-service-test --network mynetwork admin-service-test'
+                }
+            }
+        }
+
+        stage('Upload App Image') {
+            steps {
+                script {
+                    docker.withRegistry(brewhubRegistry, registryCredential) {
+                        authDockerImg.push("$BUILD_NUMBER")
+                        authDockerImg.push('latest')
+                    }
                 }
             }
         }
