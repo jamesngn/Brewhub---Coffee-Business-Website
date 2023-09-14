@@ -14,9 +14,9 @@ pipeline {
                     // Build Docker image for auth-service
                     dir('services/') {
                         authDockerImg = docker.build('auth-service-server', '-f Dockerfile.auth-server .')
-                        docker.build('order-service-server', '-f Dockerfile.order-server .')
-                        docker.build('user-service-server', '-f Dockerfile.user-server .')
-                        docker.build('admin-service-server', '-f Dockerfile.admin-server .') 
+                        orderDockerImg = docker.build('order-service-server', '-f Dockerfile.order-server .')
+                        userDockerImg = docker.build('user-service-server', '-f Dockerfile.user-server .')
+                        adminDockerImg = docker.build('admin-service-server', '-f Dockerfile.admin-server .') 
 
                         docker.build('auth-service-test', '-f Dockerfile.auth-test .')
                         docker.build('order-service-test', '-f Dockerfile.order-test .')
@@ -72,6 +72,12 @@ pipeline {
                     docker.withRegistry(brewhubRegistry, registryCredential) {
                         authDockerImg.push("${env.BUILD_NUMBER}")
                         authDockerImg.push("latest")
+                        orderDockerImg.push("${env.BUILD_NUMBER}")
+                        orderDockerImg.push("latest")
+                        userDockerImg.push("${env.BUILD_NUMBER}")
+                        userDockerImg.push("latest")
+                        adminDockerImg.push("${env.BUILD_NUMBER}")
+                        adminDockerImg.push("latest")
                     }
                 }
             }
