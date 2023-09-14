@@ -3,17 +3,17 @@ const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
 
 //Load the proto files for different gRPC services
-const path = require("path");
-const rootPath = path.resolve(__dirname);
-const protoPath = path.join(rootPath, "admin.proto");
-const adminPackageDef = protoLoader.loadSync(protoPath, {});
+const PROTOPATH = __dirname + "/admin.proto";
+const adminPackageDef = protoLoader.loadSync(PROTOPATH, {});
 
 // Load the gRPC objects for different services
 const adminGrpcObject = grpc.loadPackageDefinition(adminPackageDef);
 
 //config:
+const path = require("path");
 const config = require(path.join(
   __dirname,
+  "..",
   "..",
   "shared",
   "src",

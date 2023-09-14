@@ -1,20 +1,21 @@
-# Use an official Node.js runtime as a base image
-FROM node:14
+FROM node:14-alpine
 
-# Set the working directory inside the container
+WORKDIR /app/shared
+
+RUN npm install dotenv
+
+COPY shared/src/validation ./src/validation
+
+COPY shared/src/config ./src/config
+
 WORKDIR /app/admin-service
 
-# Copy the package.json and package-lock.json to the working directory
-COPY package*.json ./
+COPY admin-service/package*.json .
 
-# Install application dependencies
 RUN npm install
 
-# Copy all application files to the working directory
-COPY . .
+COPY admin-service/src ./src
 
-# Expose the gRPC server port
 EXPOSE 5056
 
-# Start the gRPC server
-CMD ["node", "server.js"]
+CMD ["node", "src/server.js"]

@@ -1,23 +1,23 @@
-const path = require("path");
 //server.js
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
 
-const rootPath = path.resolve(__dirname);
-const protoPath = path.join(rootPath, "admin.proto");
-const packageDef = protoLoader.loadSync(protoPath, {});
+const PROTOPATH = __dirname + "/admin.proto";
+const packageDef = protoLoader.loadSync(PROTOPATH, {});
 const grpcObject = grpc.loadPackageDefinition(packageDef);
 const adminPackage = grpcObject.adminPackage;
 
 //data
 const mongoose = require("mongoose");
 const User = require("./models/user");
-const { validateUser } = require("../shared/src/validation/userValidator");
+const { validateUser } = require("../../shared/src/validation/userValidator");
 
 /*------------------------------------------------------------------------------------------------ */
 //config
+const path = require("path");
 const config = require(path.join(
   __dirname,
+  "..",
   "..",
   "shared",
   "src",
@@ -55,7 +55,7 @@ server.bind(
 /*------------------------------------------------------------------------------------------------ */
 
 //Import other services
-const orderService = require("../order-service/orderService");
+// const { orderClient } = require("../../order-service/src/client");
 
 server.addService(adminPackage.AdminService.service, {
   RegisterAdmin: RegisterAdmin,
@@ -101,49 +101,49 @@ async function RegisterAdmin(call, callback) {
   }
 }
 
-async function ManageOrders(call, callback) {
-  try {
-    const request = call.request;
-    const action = request.action;
-    console.log(call.request);
-    switch (action) {
-      case 1:
-        // Fetch order details from the Order Service
-        orderService.GetOrderDetails(request.orderId, (response) => {
-          callback(null, {
-            success: true,
-            message: `Order with ID ${orderId} has been processed.`,
-            orderDetails: JSON.stringify(response),
-          });
-        });
-        break;
-      case 2:
-        orderService.UpdateOrderStatus(
-          request.orderId,
-          request.newStatus,
-          (response) => {
-            callback(null, {
-              success: response.success,
-              message: response.message,
-              orderDetails: "",
-            });
-          }
-        );
-        break;
-      default:
-        callback({
-          code: grpc.status.INVALID_ARGUMENT,
-          details: "Invalid action specified.",
-        });
-        break;
-    }
-  } catch (error) {
-    callback({
-      code: grpc.status.INVALID_ARGUMENT,
-      details: "Invalid action specified.",
-    });
-  }
-}
+// async function ManageOrders(call, callback) {
+//   try {
+//     const request = call.request;
+//     const action = request.action;
+//     console.log(call.request);
+//     switch (action) {
+//       case 1:
+//         // Fetch order details from the Order Service
+//         orderClient.GetOrderDetails(request.orderId, (response) => {
+//           callback(null, {
+//             success: true,
+//             message: `Order with ID ${orderId} has been processed.`,
+//             orderDetails: JSON.stringify(response),
+//           });
+//         });
+//         break;
+//       case 2:
+//         orderClient.UpdateOrderStatus(
+//           request.orderId,
+//           request.newStatus,
+//           (response) => {
+//             callback(null, {
+//               success: response.success,
+//               message: response.message,
+//               orderDetails: "",
+//             });
+//           }
+//         );
+//         break;
+//       default:
+//         callback({
+//           code: grpc.status.INVALID_ARGUMENT,
+//           details: "Invalid action specified.",
+//         });
+//         break;
+//     }
+//   } catch (error) {
+//     callback({
+//       code: grpc.status.INVALID_ARGUMENT,
+//       details: "Invalid action specified.",
+//     });
+//   }
+// }
 
 server.start();
 console.log("gRPC server running on port " + servicePort);
