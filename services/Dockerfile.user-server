@@ -12,7 +12,7 @@ WORKDIR /app/user-service
 
 COPY user-service/package*.json .
 
-RUN npm install
+RUN npm install --only=prod
 
 COPY user-service/src ./src
 

@@ -59,7 +59,6 @@ server.bind(
 
 server.addService(adminPackage.AdminService.service, {
   RegisterAdmin: RegisterAdmin,
-  ManageOrders: ManageOrders,
 });
 
 async function RegisterAdmin(call, callback) {

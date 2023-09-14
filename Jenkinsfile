@@ -17,6 +17,7 @@ pipeline {
                         docker.build('auth-service-test', '-f Dockerfile.auth-test .')
                         docker.build('order-service-test', '-f Dockerfile.order-test .')
                         docker.build('user-service-test', '-f Dockerfile.user-test .')
+                        docker.build('admin-service-test', '-f Dockerfile.admin-test .')
                     }
                 }
             }
@@ -45,7 +46,7 @@ pipeline {
         stage('Dump Test') {
             steps {
                 sleep 5
-                sh 'docker cp brewhub_db mongodb:/'
+                sh 'docker cp brewhub_db_2 mongodb:/'
                 sh 'docker exec  mongodb mongorestore --db brewhub_db /brewhub_db'
             }
         }
@@ -56,6 +57,7 @@ pipeline {
                     sh 'docker run --name auth-service-test --network mynetwork auth-service-test'
                     sh 'docker run --name order-service-test --network mynetwork order-service-test'
                     sh 'docker run --name user-service-test --network mynetwork user-service-test'
+                    sh 'docker run --name admin-service-test --network mynetwork admin-service-test'
                 }
             }
         }
@@ -94,6 +96,7 @@ pipeline {
                 sh 'docker rm auth-service-test'
                 sh 'docker rm order-service-test'
                 sh 'docker rm user-service-test'
+                sh 'docker rm admin-service-test'
             }
         }
     }

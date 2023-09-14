@@ -12,7 +12,7 @@ WORKDIR /app/order-service
 
 COPY order-service/package*.json .
 
-RUN npm install
+RUN npm install --only=prod
 
 COPY order-service/src ./src
 

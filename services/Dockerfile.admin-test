@@ -12,10 +12,8 @@ WORKDIR /app/admin-service
 
 COPY admin-service/package*.json .
 
-RUN npm install --only=prod
+RUN npm install
 
-COPY admin-service/src ./src
+COPY admin-service .
 
-EXPOSE 5056
-
-CMD ["node", "src/server.js"]
+CMD ["npm", "test"]

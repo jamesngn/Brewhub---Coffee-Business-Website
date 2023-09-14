@@ -1,8 +1,8 @@
 const { expect } = require("chai");
-const { userClient } = require("../../src/client");
+const { adminClient } = require("../../src/client");
 
-describe("user-service", () => {
-  describe("registerUser", () => {
+describe("admin-service", () => {
+  describe("RegisterAdmin", () => {
     it("should return validation errors message if username is empty", async () => {
       const request = {
         username: "",
@@ -10,7 +10,7 @@ describe("user-service", () => {
         password: "password123",
       };
       const response = await new Promise((resolve) => {
-        userClient.registerUser(request, (error, response) => {
+        adminClient.RegisterAdmin(request, (error, response) => {
           resolve({ error, response });
         });
       });
@@ -27,7 +27,7 @@ describe("user-service", () => {
         password: "",
       };
       const response = await new Promise((resolve) => {
-        userClient.registerUser(request, (error, response) => {
+        adminClient.RegisterAdmin(request, (error, response) => {
           resolve({ error, response });
         });
       });
@@ -45,7 +45,7 @@ describe("user-service", () => {
         password: "password123",
       };
       const response = await new Promise((resolve) => {
-        userClient.registerUser(request, (error, response) => {
+        adminClient.RegisterAdmin(request, (error, response) => {
           resolve({ error, response });
         });
       });
@@ -62,7 +62,7 @@ describe("user-service", () => {
         password: "12345",
       };
       const response = await new Promise((resolve) => {
-        userClient.registerUser(request, (error, response) => {
+        adminClient.RegisterAdmin(request, (error, response) => {
           resolve({ error, response });
         });
       });
@@ -75,18 +75,18 @@ describe("user-service", () => {
     it("should return errors message if email input already exits", async () => {
       const request = {
         username: "quang",
-        email: "user@example.com",
+        email: "user@admin.com",
         password: "password123",
       };
       const response = await new Promise((resolve) => {
-        userClient.registerUser(request, (error, response) => {
+        adminClient.RegisterAdmin(request, (error, response) => {
           resolve({ error, response });
         });
       });
       expect(response.error).to.be.null;
       expect(response.response).to.deep.equal({
         success: false,
-        message: "User already exists",
+        message: "Admin already exists",
       });
     });
     it("should return successful message if resigistration does not have any errors", async () => {
@@ -96,14 +96,14 @@ describe("user-service", () => {
         password: "password123",
       };
       const response = await new Promise((resolve) => {
-        userClient.registerUser(request, (error, response) => {
+        adminClient.RegisterAdmin(request, (error, response) => {
           resolve({ error, response });
         });
       });
       expect(response.error).to.be.null;
       expect(response.response).to.deep.equal({
         success: true,
-        message: "User registered successfully",
+        message: "Admin registered successfully",
       });
     });
   });
