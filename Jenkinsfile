@@ -23,6 +23,10 @@ pipeline {
                         docker.build('user-service-test', '-f Dockerfile.user-test .')
                         docker.build('admin-service-test', '-f Dockerfile.admin-test .')
                     }
+                     
+                    dir('client/') {
+                        clientDockerImg = docker.build('react-client', '.')
+                    }
                 }
             }
         }
@@ -43,6 +47,9 @@ pipeline {
 
                     //Start admin-service
                     sh 'docker run -d --name admin-service-server -p 5056:5056 --network mynetwork admin-service-server'
+
+                    //Start React Client 
+                    
                 }
             }
         }
