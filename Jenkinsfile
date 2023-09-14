@@ -47,7 +47,7 @@ pipeline {
             steps {
                 sleep 5
                 sh 'docker cp brewhub_db_2 mongodb:/'
-                sh 'docker exec  mongodb mongorestore --db brewhub_db_2 /brewhub_db'
+                sh 'docker exec mongodb mongorestore --db brewhub_db /brewhub_db2'
             }
         }
         
