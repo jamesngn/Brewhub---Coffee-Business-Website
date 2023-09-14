@@ -27,7 +27,7 @@ describe("auth-service", () => {
     it("should return successful message if user exists", async () => {
       const request = {
         email: "user@example.com",
-        password: "quang123",
+        password: "password123",
       };
 
       const response = await new Promise((resolve) => {
