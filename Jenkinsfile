@@ -12,7 +12,7 @@ pipeline {
                         docker.build('auth-service-server', '-f Dockerfile.auth-server .')
                         docker.build('order-service-server', '-f Dockerfile.order-server .')
                         docker.build('user-service-server', '-f Dockerfile.user-server .')
-                        docker.buid('admin-service-server', '-f Dockerfile.admin-server .')
+                        docker.build('admin-service-server', '-f Dockerfile.admin-server .') 
 
                         docker.build('auth-service-test', '-f Dockerfile.auth-test .')
                         docker.build('order-service-test', '-f Dockerfile.order-test .')
