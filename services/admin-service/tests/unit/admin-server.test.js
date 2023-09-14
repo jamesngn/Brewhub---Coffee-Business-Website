@@ -92,7 +92,7 @@ describe("admin-service", () => {
     it("should return successful message if resigistration does not have any errors", async () => {
       const request = {
         username: "quang",
-        email: "newUser@example.com",
+        email: "newUser@admin.com",
         password: "password123",
       };
       const response = await new Promise((resolve) => {
