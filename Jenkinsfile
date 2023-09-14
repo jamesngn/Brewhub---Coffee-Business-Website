@@ -9,13 +9,14 @@ pipeline {
                 script {
                     // Build Docker image for auth-service
                     dir('services/') {
-                        docker.build('auth-service-server', '-f Dockerfile-auth-server .')
-                        docker.build('order-service-server', '-f Dockerfile-order-server .')
-                        docker.build('user-service-server', '-f Dockerfile-user-server .')
+                        docker.build('auth-service-server', '-f Dockerfile.auth-server .')
+                        docker.build('order-service-server', '-f Dockerfile.order-server .')
+                        docker.build('user-service-server', '-f Dockerfile.user-server .')
+                        docker.buid('admin-service-server', '-f Dockerfile.admin-server .')
 
-                        docker.build('auth-service-test', '-f Dockerfile-auth-test .')
-                        docker.build('order-service-test', '-f Dockerfile-order-test .')
-                        docker.build('user-service-test', '-f Dockerfile-user-test .')
+                        docker.build('auth-service-test', '-f Dockerfile.auth-test .')
+                        docker.build('order-service-test', '-f Dockerfile.order-test .')
+                        docker.build('user-service-test', '-f Dockerfile.user-test .')
                     }
                 }
             }
@@ -34,7 +35,9 @@ pipeline {
 
                     //Start user-service
                     sh 'docker run -d --name user-service-server -p 5053:5053 --network mynetwork user-service-server'
-                    
+
+                    //Start admin-service
+                    sh 'docker run -d --name admin-service-server -p 5056:5056 --network mynetwork admin-service-server'
                 }
             }
         }
@@ -76,6 +79,12 @@ pipeline {
                 if (userServiceContainer) {
                     sh "docker stop $userServiceContainer"
                     sh "docker rm $userServiceContainer"
+                }
+
+                def adminServiceContainer = sh(script: 'docker ps -q -f name=admin-service-server', returnStdout: true).trim()
+                if (adminServiceContainer) {
+                    sh "docker stop $adminServiceContainer"
+                    sh "docker rm $adminServiceContainer"
                 }
 
                 sh 'docker stop mongodb'
