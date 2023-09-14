@@ -85,6 +85,8 @@ pipeline {
                         userDockerImg.push("latest")
                         adminDockerImg.push("${env.BUILD_NUMBER}")
                         adminDockerImg.push("latest")
+                        clientDockerImg.push("${env.BUILD_NUMBER}")
+                        clientDockerImg.push("latest")
                     }
                 }
             }
