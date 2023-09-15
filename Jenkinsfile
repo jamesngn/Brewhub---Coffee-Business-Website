@@ -51,7 +51,7 @@ pipeline {
         stage('Upload App Images to ECR') {
             steps {
                 script {
-                    withAWS(region: "${awsRegion}", credentials: "${awsCredentialId}") {
+                    withAWS(credentials: "${awsCredentialId}", region: "${awsRegion}") {
                         sh 'docker compose push'
                     }
                 }
