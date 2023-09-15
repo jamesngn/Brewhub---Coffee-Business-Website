@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
-const config = require("../../config.json");
+const config = require("../config.json");
 
 const useSocket = (userId, userRole) => {
   const [socket, setSocket] = useState(null);

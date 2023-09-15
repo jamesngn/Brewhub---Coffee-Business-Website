@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import useSocket from "../hooks/useSocket";
-const config = require("../../config.json");
+const config = require("../config.json");
 
 const OrderForm = ({ userId, userRole }) => {
   const { socket } = useSocket(userId, userRole);

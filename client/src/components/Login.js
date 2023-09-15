@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-const config = require("../../config.json");
+const config = require("../config.json");
 
 const Login = () => {
   const [email, setEmail] = useState("");
