@@ -42,10 +42,10 @@ pipeline {
         stage('Run Unit Testing') {
             steps {
                 script {
-                    sh 'docker run --name auth-service-test --network mynetwork auth-service-test'
-                    sh 'docker run --name order-service-test --network mynetwork order-service-test'
-                    sh 'docker run --name user-service-test --network mynetwork user-service-test'
-                    sh 'docker run --name admin-service-test --network mynetwork admin-service-test'
+                    sh 'docker run --name auth-service-test --network brewhub_app_my-network auth-service-test'
+                    sh 'docker run --name order-service-test --network brewhub_app_my-network order-service-test'
+                    sh 'docker run --name user-service-test --network brewhub_app_my-network user-service-test'
+                    sh 'docker run --name admin-service-test --network brewhub_app_my-network admin-service-test'
                 }
             }
         }
@@ -69,43 +69,20 @@ pipeline {
         //     }
         // }
     }
-    // post {
-    //     always {
-    //         script {
-    //             sh 'docker compose down'
-    //             // def authServiceContainer = sh(script: 'docker ps -q -f name=auth-service-server', returnStdout: true).trim()
-    //             // if (authServiceContainer) {
-    //             //     sh "docker stop $authServiceContainer"
-    //             //     sh "docker rm $authServiceContainer"
-    //             // }
+    post {
+        always {
+            script {
+                // sh 'docker compose down'
 
-    //             // def orderServiceContainer = sh(script: 'docker ps -q -f name=order-service-server', returnStdout: true).trim()
-    //             // if (orderServiceContainer) {
-    //             //     sh "docker stop $orderServiceContainer"
-    //             //     sh "docker rm $orderServiceContainer"
-    //             // }
+                // sh 'docker stop mongodb'
+                // sh 'docker rm mongodb'
 
-    //             // def userServiceContainer = sh(script: 'docker ps -q -f name=user-service-server', returnStdout: true).trim()
-    //             // if (userServiceContainer) {
-    //             //     sh "docker stop $userServiceContainer"
-    //             //     sh "docker rm $userServiceContainer"
-    //             // }
-
-    //             // def adminServiceContainer = sh(script: 'docker ps -q -f name=admin-service-server', returnStdout: true).trim()
-    //             // if (adminServiceContainer) {
-    //             //     sh "docker stop $adminServiceContainer"
-    //             //     sh "docker rm $adminServiceContainer"
-    //             // }
-
-    //             // sh 'docker stop mongodb'
-    //             // sh 'docker rm mongodb'
-
-    //             // //Clear unit testing containers
-    //             // sh 'docker rm auth-service-test'
-    //             // sh 'docker rm order-service-test'
-    //             // sh 'docker rm user-service-test'
-    //             // sh 'docker rm admin-service-test'
-    //         }
-    //     }
-    // }
+                //Clear unit testing containers
+                sh 'docker rm auth-service-test'
+                sh 'docker rm order-service-test'
+                sh 'docker rm user-service-test'
+                sh 'docker rm admin-service-test'
+            }
+        }
+    }
 }
