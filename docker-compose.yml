@@ -110,7 +110,7 @@ services:
     build:
       context: ./client
     ports:
-      - '3000:3000'
+      - '80:3000'
 
   socket:
     container_name: socket_server
