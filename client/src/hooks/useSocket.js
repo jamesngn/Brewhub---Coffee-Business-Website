@@ -6,7 +6,7 @@ const useSocket = (userId, userRole) => {
   const [response, setResponse] = useState("");
 
   useEffect(() => {
-    const socketInstance = io("http://localhost:8080", {
+    const socketInstance = io("http://localhost:8000", {
       query: { userId, userRole },
     });
 
