@@ -47,39 +47,15 @@ pipeline {
                 }
             }
         }
-        stage('Authenticate with AWS ECR') {
-            steps {
-                script {
-                    sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin 548137894424.dkr.ecr.${AWS_REGION}.amazonaws.com"
-                }
-            }
-        }
+
         stage('Upload App Images to ECR') {
             steps {
                 script {
+                    sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin 548137894424.dkr.ecr.${AWS_REGION}.amazonaws.com"
                     sh 'docker compose push'
                 }
             }
         }
-
-        // stage('Upload App Image') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry(brewhubRegistry, registryCredential) {
-        //                 authDockerImg.push("${env.BUILD_NUMBER}")
-        //                 authDockerImg.push("latest")
-        //                 orderDockerImg.push("${env.BUILD_NUMBER}")
-        //                 orderDockerImg.push("latest")
-        //                 userDockerImg.push("${env.BUILD_NUMBER}")
-        //                 userDockerImg.push("latest")
-        //                 adminDockerImg.push("${env.BUILD_NUMBER}")
-        //                 adminDockerImg.push("latest")
-        //                 clientDockerImg.push("${env.BUILD_NUMBER}")
-        //                 clientDockerImg.push("latest")
-        //             }
-        //         }
-        //     }
-        // }
     }
     post {
         always {

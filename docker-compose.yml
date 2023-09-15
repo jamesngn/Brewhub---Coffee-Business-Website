@@ -13,6 +13,7 @@ services:
     build:
       context: ./services
       dockerfile: Dockerfile.admin-server
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/admin-service-server:latest
     ports:
       - '5056:5056'
     depends_on:
@@ -38,6 +39,7 @@ services:
     build:
       context: ./services
       dockerfile: Dockerfile.order-server
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/order-service-server:latest
     ports:
       - '5052:5052'
     depends_on:
@@ -49,7 +51,8 @@ services:
     container_name: user-service-server
     build:
       context: ./services
-      dockerfile: Dockerfile.user-server
+      dockerfile: Dockerfile.user-
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/user-service-server:latest
     ports:
       - '5053:5053'
     depends_on:
@@ -62,6 +65,7 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/brewhub_api_client:latest
     volumes:
       - type: bind
         source: ./services/shared/
@@ -107,6 +111,7 @@ services:
 
   react-client:
     container_name: brewhub_react_client
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/brewhub_react_client:latest
     build:
       context: ./client
     ports:
@@ -114,6 +119,7 @@ services:
 
   socket:
     container_name: socket_server
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/socket_server:latest
     build:
       context: ./socket
     ports:
