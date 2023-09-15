@@ -35,9 +35,11 @@ pipeline {
         stage('Start Services') {
             steps {
                 script {
-                    sh 'docker compose up -d'
                     // //Start MongoDB
-                    // sh 'docker run -d --name mongodb --network mynetwork mongo:4'
+                    sh 'docker run -d --name mongodb --network mynetwork mongo:4'
+                    
+                    sh 'docker compose up -d'
+
                     
                     // //Start auth-service
                     // sh 'docker run -d --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'

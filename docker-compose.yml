@@ -1,12 +1,12 @@
 version: '3'
 services:
-  mongodb:
-    container_name: mongodb
-    image: mongo:4
-    ports:
-      - '27017:27017'
-    networks:
-      - my-network
+  # mongodb:
+  #   container_name: mongodb
+  #   image: mongo:4
+  #   ports:
+  #     - '27017:27017'
+  #   networks:
+  #     - my-network
 
   admin-service:
     container_name: admin-service-server
