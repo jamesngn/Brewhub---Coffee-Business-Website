@@ -1,45 +1,124 @@
 version: '3'
 services:
   mongodb:
+    container_name: mongodb
     image: mongo:4
-    volumes:
-      - brewhub_db:/data/db
-    environment:
-      - MONGO_INITDB_DATABASE=brewhub_db
     ports:
       - '27017:27017'
     networks:
       - my-network
-  auth-service:
+
+  admin-service:
+    container_name: admin-service-server
     build:
-      context: ./services/auth-service
-      dockerfile: Dockerfile.grpc
-    volumes:
-      - type: bind
-        source: ./services/shared 
-        target: /app/shared
+      context: ./services
+      dockerfile: Dockerfile.admin-server
+    ports:
+      - '5056:5055'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
+
+  auth-service:
+    container_name: auth-service-server
+    build:
+      context: ./services
+      dockerfile: Dockerfile.auth-server
+    # image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/auth-service-server:latest
     ports:
       - '5054:5054'
     depends_on:
       - mongodb
     networks:
       - my-network
-  test-runner:
+
+  order-service:
+    container_name: order-service-server
     build:
-      context: ./test/
-      dockerfile: Dockerfile.test
+      context: ./services
+      dockerfile: Dockerfile.order-server
+    ports:
+      - '5052:5052'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network   
+
+  user-service:
+    container_name: user-service-server
+    build:
+      context: ./services
+      dockerfile: Dockerfile.user-server
+    ports:
+      - '5053:5053'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network    
+
+  api-service:
+    container_name: brewhub_api_client
+    build:
+      context: ./api
+      dockerfile: Dockerfile
     volumes:
       - type: bind
         source: ./services/shared/
-        target: /app/services/shared
+        target: /app/services/shared/
+
       - type: bind
-        source: ./services/auth-service/auth.proto
-        target: /app/services/auth-service/auth.proto
+        source: ./services/auth-service/src/auth.proto
+        target: /app/services/auth-service/src/auth.proto
+      - type: bind
+        source: ./services/auth-service/src/client.js
+        target: /app/services/auth-service/src/client.js
+
+      - type: bind
+        source: ./services/user-service/src/user.proto
+        target: /app/services/user-service/src/user.proto
+      - type: bind
+        source: ./services/user-service/src/client.js
+        target: /app/services/user-service/src/client.js
+
+      - type: bind
+        source: ./services/order-service/src/order.proto
+        target: /app/services/order-service/src/order.proto
+      - type: bind
+        source: ./services/order-service/src/client.js
+        target: /app/services/order-service/src/client.js
+
+      - type: bind
+        source: ./services/admin-service/src/admin.proto
+        target: /app/services/admin-service/src/admin.proto
+      - type: bind
+        source: ./services/admin-service/src/client.js
+        target: /app/services/admin-service/src/client.js
+        
+    ports:
+      - '5000:5000'
     depends_on:
+      - order-service
+      - user-service
       - auth-service
-      - mongodb
+      - admin-service
     networks:
-      - my-network      
+      - my-network
+
+  react-client:
+    container_name: brewhub_react_client
+    build:
+      context: ./client
+    ports:
+      - '3000:3000'
+
+  socket:
+    container_name: socket_server
+    build:
+      context: ./socket
+    ports:
+      - '8080:8080'
+      
 networks:
   my-network:
     driver: bridge
@@ -57,76 +136,6 @@ volumes:
 #       - MONGO_INITDB_DATABASE=brewhub_db
 #     ports:
 #       - '27017:27017'
-#     networks:
-#       - my-network
-
-#   menu-service:
-#     build:
-#       context: ./services/menu-service
-#     volumes:
-#       - type: bind
-#         source: ./services/shared
-#         target: /app/shared
-#     ports:
-#       - '5051:5051'
-#     depends_on:
-#       - mongodb
-#     networks:
-#       - my-network  
-
-#   order-service:
-#     build:
-#       context: ./services/order-service
-#     volumes:
-#       - type: bind
-#         source: ./services/shared
-#         target: /app/shared
-#     ports:
-#       - '5052:5052'
-#     depends_on:
-#       - mongodb
-#     networks:
-#       - my-network
-
-#   user-service:
-#     build:
-#       context: ./services/user-service
-#     volumes:
-#       - type: bind
-#         source: ./services/shared
-#         target: /app/shared
-#     ports:
-#       - '5053:5053'
-#     depends_on:
-#       - mongodb
-#     networks:
-#       - my-network
-
-#   auth-service:
-#     build:
-#       context: ./services/auth-service
-#     volumes:
-#       - type: bind
-#         source: ./services/shared 
-#         target: /app/shared
-#     ports:
-#       - '5054:5054'
-#     depends_on:
-#       - mongodb
-#     networks:
-#       - my-network
-
-#   promo-service:
-#     build:
-#       context: ./services/promo-service
-#     volumes:
-#       - type: bind
-#         source: ./services/shared
-#         target: /app/shared
-#     ports:
-#       - '5055:5055'
-#     depends_on:
-#       - mongodb
 #     networks:
 #       - my-network
 

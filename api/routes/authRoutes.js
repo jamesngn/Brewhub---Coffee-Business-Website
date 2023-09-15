@@ -1,38 +1,7 @@
 const express = require("express");
 const router = express.Router();
-
-const grpc = require("grpc");
-const protoLoader = require("@grpc/proto-loader");
-
-const PROTO_PATH = __dirname + "/../../services/auth-service/auth.proto";
-const authPackageDef = protoLoader.loadSync(PROTO_PATH, {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-});
-// Load the gRPC objects for different services
-const authGrpcObject = grpc.loadPackageDefinition(authPackageDef);
-
 const path = require("path");
-const config = require(path.join(
-  __dirname,
-  "..",
-  "..",
-  "services",
-  "shared",
-  "src",
-  "config",
-  "config.js"
-));
-const authHost = config.grpc.authServiceHost;
-const authPort = config.grpc.authServicePort;
-
-const authClient = new authGrpcObject.authPackage.AuthService(
-  authHost + ":" + authPort,
-  grpc.credentials.createInsecure()
-);
+const { authClient } = require("../../services/auth-service/src/client.js");
 
 const authMiddleware = require(path.join(
   __dirname,

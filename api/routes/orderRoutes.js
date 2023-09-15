@@ -1,38 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
-const grpc = require("grpc");
-const protoLoader = require("@grpc/proto-loader");
-
-const PROTO_PATH = __dirname + "/../../services/order-service/order.proto";
-const orderPackageDef = protoLoader.loadSync(PROTO_PATH, {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-});
-// Load the gRPC objects for different services
-const orderGrpcObject = grpc.loadPackageDefinition(orderPackageDef);
-
-const path = require("path");
-const config = require(path.join(
-  __dirname,
-  "..",
-  "..",
-  "services",
-  "shared",
-  "src",
-  "config",
-  "config.js"
-));
-const orderHost = config.grpc.orderServiceHost;
-const orderPort = config.grpc.orderServicePort;
-
-const orderClient = new orderGrpcObject.orderPackage.OrderService(
-  orderHost + ":" + orderPort,
-  grpc.credentials.createInsecure()
-);
+const { orderClient } = require("../../services/order-service/src/client.js");
 
 router.post("/place", (req, res) => {
   const {

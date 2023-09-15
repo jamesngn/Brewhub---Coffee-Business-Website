@@ -12,11 +12,13 @@ pipeline {
             steps {
                 script {
                     // Build Docker image for auth-service
+                    sh 'docker-compose build'
+
                     dir('services/') {
-                        authDockerImg = docker.build('auth-service-server', '-f Dockerfile.auth-server .')
-                        orderDockerImg = docker.build('order-service-server', '-f Dockerfile.order-server .')
-                        userDockerImg = docker.build('user-service-server', '-f Dockerfile.user-server .')
-                        adminDockerImg = docker.build('admin-service-server', '-f Dockerfile.admin-server .') 
+                        // authDockerImg = docker.build('auth-service-server', '-f Dockerfile.auth-server .')
+                        // orderDockerImg = docker.build('order-service-server', '-f Dockerfile.order-server .')
+                        // userDockerImg = docker.build('user-service-server', '-f Dockerfile.user-server .')
+                        // adminDockerImg = docker.build('admin-service-server', '-f Dockerfile.admin-server .') 
 
                         docker.build('auth-service-test', '-f Dockerfile.auth-test .')
                         docker.build('order-service-test', '-f Dockerfile.order-test .')
@@ -24,31 +26,32 @@ pipeline {
                         docker.build('admin-service-test', '-f Dockerfile.admin-test .')
                     }
                      
-                    dir('client/') {
-                        clientDockerImg = docker.build('brewhub-react-client', '.')
-                    }
+                    // dir('client/') {
+                    //     clientDockerImg = docker.build('brewhub-react-client', '.')
+                    // }
                 }
             }
         }
         stage('Start Services') {
             steps {
                 script {
-                    //Start MongoDB
-                    sh 'docker run -d --name mongodb --network mynetwork mongo:4'
+                    sh 'docker-compose up -d'
+                    // //Start MongoDB
+                    // sh 'docker run -d --name mongodb --network mynetwork mongo:4'
                     
-                    //Start auth-service
-                    sh 'docker run -d --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
+                    // //Start auth-service
+                    // sh 'docker run -d --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
 
-                    //Start order-service
-                    sh 'docker run -d --name order-service-server -p 5052:5052 --network mynetwork order-service-server'
+                    // //Start order-service
+                    // sh 'docker run -d --name order-service-server -p 5052:5052 --network mynetwork order-service-server'
 
-                    //Start user-service
-                    sh 'docker run -d --name user-service-server -p 5053:5053 --network mynetwork user-service-server'
+                    // //Start user-service
+                    // sh 'docker run -d --name user-service-server -p 5053:5053 --network mynetwork user-service-server'
 
-                    //Start admin-service
-                    sh 'docker run -d --name admin-service-server -p 5056:5056 --network mynetwork admin-service-server'
+                    // //Start admin-service
+                    // sh 'docker run -d --name admin-service-server -p 5056:5056 --network mynetwork admin-service-server'
 
-                    //Start React Client 
+                    // //Start React Client 
                     
                 }
             }
@@ -73,24 +76,24 @@ pipeline {
             }
         }
 
-        stage('Upload App Image') {
-            steps {
-                script {
-                    docker.withRegistry(brewhubRegistry, registryCredential) {
-                        authDockerImg.push("${env.BUILD_NUMBER}")
-                        authDockerImg.push("latest")
-                        orderDockerImg.push("${env.BUILD_NUMBER}")
-                        orderDockerImg.push("latest")
-                        userDockerImg.push("${env.BUILD_NUMBER}")
-                        userDockerImg.push("latest")
-                        adminDockerImg.push("${env.BUILD_NUMBER}")
-                        adminDockerImg.push("latest")
-                        clientDockerImg.push("${env.BUILD_NUMBER}")
-                        clientDockerImg.push("latest")
-                    }
-                }
-            }
-        }
+        // stage('Upload App Image') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry(brewhubRegistry, registryCredential) {
+        //                 authDockerImg.push("${env.BUILD_NUMBER}")
+        //                 authDockerImg.push("latest")
+        //                 orderDockerImg.push("${env.BUILD_NUMBER}")
+        //                 orderDockerImg.push("latest")
+        //                 userDockerImg.push("${env.BUILD_NUMBER}")
+        //                 userDockerImg.push("latest")
+        //                 adminDockerImg.push("${env.BUILD_NUMBER}")
+        //                 adminDockerImg.push("latest")
+        //                 clientDockerImg.push("${env.BUILD_NUMBER}")
+        //                 clientDockerImg.push("latest")
+        //             }
+        //         }
+        //     }
+        // }
     }
     post {
         always {

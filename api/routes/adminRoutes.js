@@ -1,39 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const grpc = require("grpc");
-const protoLoader = require("@grpc/proto-loader");
-
-const PROTO_PATH = __dirname + "/../../services/admin-service/admin.proto";
-const adminPackageDef = protoLoader.loadSync(PROTO_PATH, {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-});
-// Load the gRPC objects for different services
-const adminGrpcObject = grpc.loadPackageDefinition(adminPackageDef);
-
-//config:
-const path = require("path");
-const config = require(path.join(
-  __dirname,
-  "..",
-  "..",
-  "services",
-  "shared",
-  "src",
-  "config",
-  "config.js"
-));
-const adminHost = config.grpc.adminServiceHost;
-const adminPort = config.grpc.adminServicePort;
-
-const adminClient = new adminGrpcObject.adminPackage.AdminService(
-  adminHost + ":" + adminPort,
-  grpc.credentials.createInsecure()
-);
+const { adminClient } = require("../../services/admin-service/src/client.js");
 
 router.post("/register", (req, res) => {
   const { username, email, password } = req.body;
