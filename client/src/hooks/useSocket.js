@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
+const config = require("../../config.json");
 
 const useSocket = (userId, userRole) => {
   const [socket, setSocket] = useState(null);
   const [response, setResponse] = useState("");
 
   useEffect(() => {
-    const socketInstance = io("http://localhost:8000", {
+    const socketInstance = io(`http://${config.publicIpAddress}:8000`, {
       query: { userId, userRole },
     });
 

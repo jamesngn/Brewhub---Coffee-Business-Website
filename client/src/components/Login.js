@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const config = require("../../config.json");
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,10 +12,13 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       //   Send a POST request to the API Gateway
-      const response = await axios.post("http://localhost:5000/auth/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `http://${config.publicIpAddress}:5000/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
       // Handle the response from the API Gateway
       if (response.data.success) {
         localStorage.setItem("authToken", response.data.token);
@@ -22,7 +26,7 @@ const Login = () => {
 
         //After successful login, fetch the user's role
         const roleResponse = await axios.get(
-          "http://localhost:5000/auth/user/role",
+          `http://${config.publicIpAddress}:5000/auth/user/role`,
           {
             headers: {
               "x-auth-token": response.data.token, // Include the authToken in headers

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import useSocket from "../hooks/useSocket";
+const config = require("../../config.json");
 
 const OrderForm = ({ userId, userRole }) => {
   const { socket } = useSocket(userId, userRole);
@@ -42,7 +43,7 @@ const OrderForm = ({ userId, userRole }) => {
   const handleOrderSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/order/place",
+        `http://${config.publicIpAddress}:5000/order/place`,
         order
       );
       if (response) {

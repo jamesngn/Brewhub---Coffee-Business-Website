@@ -14,7 +14,7 @@ services:
       context: ./services
       dockerfile: Dockerfile.admin-server
     ports:
-      - '5056:5055'
+      - '5056:5056'
     depends_on:
       - mongodb
     networks:

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+const config = require("../../config.json");
 
 const RegistrationForm = () => {
   const [username, setUsername] = useState("");
@@ -10,11 +11,14 @@ const RegistrationForm = () => {
   const handleRegister = async () => {
     try {
       //   Send a POST request to the API Gateway
-      const response = await axios.post("http://localhost:5000/user/register", {
-        username,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `http://${config.publicIpAddress}:5000/user/register`,
+        {
+          username,
+          email,
+          password,
+        }
+      );
       // Handle the response from the API Gateway
       if (response.data.success) {
         setMessage("Register successfully");
