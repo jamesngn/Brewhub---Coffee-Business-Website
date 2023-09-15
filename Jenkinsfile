@@ -57,7 +57,7 @@ pipeline {
         stage('Upload App Images to ECR') {
             steps {
                 script {
-                    SH "docker compose push"
+                    sh 'docker compose push'
                 }
             }
         }
