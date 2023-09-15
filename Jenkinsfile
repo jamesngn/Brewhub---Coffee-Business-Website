@@ -95,43 +95,43 @@ pipeline {
         //     }
         // }
     }
-    post {
-        always {
-            script {
-                // sh 'docker compose down'
-                // def authServiceContainer = sh(script: 'docker ps -q -f name=auth-service-server', returnStdout: true).trim()
-                // if (authServiceContainer) {
-                //     sh "docker stop $authServiceContainer"
-                //     sh "docker rm $authServiceContainer"
-                // }
+    // post {
+    //     always {
+    //         script {
+    //             sh 'docker compose down'
+    //             // def authServiceContainer = sh(script: 'docker ps -q -f name=auth-service-server', returnStdout: true).trim()
+    //             // if (authServiceContainer) {
+    //             //     sh "docker stop $authServiceContainer"
+    //             //     sh "docker rm $authServiceContainer"
+    //             // }
 
-                // def orderServiceContainer = sh(script: 'docker ps -q -f name=order-service-server', returnStdout: true).trim()
-                // if (orderServiceContainer) {
-                //     sh "docker stop $orderServiceContainer"
-                //     sh "docker rm $orderServiceContainer"
-                // }
+    //             // def orderServiceContainer = sh(script: 'docker ps -q -f name=order-service-server', returnStdout: true).trim()
+    //             // if (orderServiceContainer) {
+    //             //     sh "docker stop $orderServiceContainer"
+    //             //     sh "docker rm $orderServiceContainer"
+    //             // }
 
-                // def userServiceContainer = sh(script: 'docker ps -q -f name=user-service-server', returnStdout: true).trim()
-                // if (userServiceContainer) {
-                //     sh "docker stop $userServiceContainer"
-                //     sh "docker rm $userServiceContainer"
-                // }
+    //             // def userServiceContainer = sh(script: 'docker ps -q -f name=user-service-server', returnStdout: true).trim()
+    //             // if (userServiceContainer) {
+    //             //     sh "docker stop $userServiceContainer"
+    //             //     sh "docker rm $userServiceContainer"
+    //             // }
 
-                // def adminServiceContainer = sh(script: 'docker ps -q -f name=admin-service-server', returnStdout: true).trim()
-                // if (adminServiceContainer) {
-                //     sh "docker stop $adminServiceContainer"
-                //     sh "docker rm $adminServiceContainer"
-                // }
+    //             // def adminServiceContainer = sh(script: 'docker ps -q -f name=admin-service-server', returnStdout: true).trim()
+    //             // if (adminServiceContainer) {
+    //             //     sh "docker stop $adminServiceContainer"
+    //             //     sh "docker rm $adminServiceContainer"
+    //             // }
 
-                // sh 'docker stop mongodb'
-                // sh 'docker rm mongodb'
+    //             // sh 'docker stop mongodb'
+    //             // sh 'docker rm mongodb'
 
-                // //Clear unit testing containers
-                // sh 'docker rm auth-service-test'
-                // sh 'docker rm order-service-test'
-                // sh 'docker rm user-service-test'
-                // sh 'docker rm admin-service-test'
-            }
-        }
-    }
+    //             // //Clear unit testing containers
+    //             // sh 'docker rm auth-service-test'
+    //             // sh 'docker rm order-service-test'
+    //             // sh 'docker rm user-service-test'
+    //             // sh 'docker rm admin-service-test'
+    //         }
+    //     }
+    // }
 }
