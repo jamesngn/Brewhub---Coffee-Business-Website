@@ -3,7 +3,7 @@ const server = http.createServer((req, res) => {});
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: ["http://13.211.229.18:80"],
+    origin: ["http://13.211.229.18:3000"],
     methods: ["GET", "POST"],
   },
 });
