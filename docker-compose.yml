@@ -25,7 +25,7 @@ services:
     build:
       context: ./services
       dockerfile: Dockerfile.auth-server
-    # image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/auth-service-server:latest
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/auth-service-server:latest
     ports:
       - '5054:5054'
     depends_on:
