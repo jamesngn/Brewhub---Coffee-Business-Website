@@ -11,8 +11,6 @@ pipeline {
         stage('Build Microservices Docker Image') {
             steps {
                 script {
-                    // //Start MongoDB
-                    sh 'docker run -d --name mongodb --network mynetwork mongo:4'
                     // Build Docker image for auth-service
                     sh 'docker compose build'
 
@@ -37,11 +35,10 @@ pipeline {
         stage('Start Services') {
             steps {
                 script {
-                    
-                    
                     sh 'docker compose up -d'
-
-
+                    // //Start MongoDB
+                    // sh 'docker run -d --name mongodb --network mynetwork mongo:4'
+                    
                     // //Start auth-service
                     // sh 'docker run -d --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
 
