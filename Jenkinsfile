@@ -32,12 +32,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Dump Test') {
-            steps {
-                
-            }
-        }
         
         stage('Unit Testings') {
             steps {
