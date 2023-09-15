@@ -3,7 +3,7 @@ const server = http.createServer((req, res) => {});
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: ["http://52.62.10.201"],
+    origin: ["http://52.62.10.201:3000"],
     methods: ["GET", "POST"],
   },
 });
@@ -52,5 +52,5 @@ function broadcastToAdmins(data) {
 }
 
 server.listen(8080, () => {
-  console.log("WebSocket server is running on port 8000");
+  console.log("WebSocket server is running on port 8080");
 });
