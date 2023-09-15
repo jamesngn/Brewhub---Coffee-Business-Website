@@ -4,7 +4,7 @@ pipeline {
     agent any
     environment {
         awsCredentialId = 'awscreds'
-        awsRegion = 'ap-southeast-2'
+        AWS_REGION = 'ap-southeast-2'
         registryCredential = 'ecr:ap-southeast-2:awscreds'
         appRegistry = '548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/auth-service-server'
         brewhubRegistry = 'https://548137894424.dkr.ecr.ap-southeast-2.amazonaws.com'
@@ -47,13 +47,17 @@ pipeline {
                 }
             }
         }
-
+        stage('Authenticate with AWS ECR') {
+            steps {
+                script {
+                    sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin 548137894424.dkr.ecr.${AWS_REGION}.amazonaws.com"
+                }
+            }
+        }
         stage('Upload App Images to ECR') {
             steps {
                 script {
-                    withAWS(credentials: "${awsCredentialId}", region: "${awsRegion}") {
-                        sh 'docker compose push'
-                    }
+                    SH "docker compose push"
                 }
             }
         }
