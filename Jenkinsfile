@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image for auth-service
-                    sh 'docker-compose build'
+                    sh 'docker compose build'
 
                     dir('services/') {
                         // authDockerImg = docker.build('auth-service-server', '-f Dockerfile.auth-server .')
@@ -35,7 +35,7 @@ pipeline {
         stage('Start Services') {
             steps {
                 script {
-                    sh 'docker-compose up -d'
+                    sh 'docker compose up -d'
                     // //Start MongoDB
                     // sh 'docker run -d --name mongodb --network mynetwork mongo:4'
                     
