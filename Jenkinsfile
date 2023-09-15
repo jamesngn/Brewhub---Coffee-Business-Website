@@ -98,7 +98,7 @@ pipeline {
     post {
         always {
             script {
-                sh 'docker compose down'
+                // sh 'docker compose down'
                 // def authServiceContainer = sh(script: 'docker ps -q -f name=auth-service-server', returnStdout: true).trim()
                 // if (authServiceContainer) {
                 //     sh "docker stop $authServiceContainer"
