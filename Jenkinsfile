@@ -11,48 +11,22 @@ pipeline {
         stage('Build Microservices Docker Image') {
             steps {
                 script {
-                    // Build Docker image for auth-service
+                    // Build Docker images
                     sh 'docker compose build'
 
                     dir('services/') {
-                        // authDockerImg = docker.build('auth-service-server', '-f Dockerfile.auth-server .')
-                        // orderDockerImg = docker.build('order-service-server', '-f Dockerfile.order-server .')
-                        // userDockerImg = docker.build('user-service-server', '-f Dockerfile.user-server .')
-                        // adminDockerImg = docker.build('admin-service-server', '-f Dockerfile.admin-server .') 
-
                         docker.build('auth-service-test', '-f Dockerfile.auth-test .')
                         docker.build('order-service-test', '-f Dockerfile.order-test .')
                         docker.build('user-service-test', '-f Dockerfile.user-test .')
                         docker.build('admin-service-test', '-f Dockerfile.admin-test .')
                     }
-                     
-                    // dir('client/') {
-                    //     clientDockerImg = docker.build('brewhub-react-client', '.')
-                    // }
                 }
             }
         }
         stage('Start Services') {
             steps {
                 script {
-                    sh 'docker compose up -d'
-                    // //Start MongoDB
-                    // sh 'docker run -d --name mongodb --network mynetwork mongo:4'
-                    
-                    // //Start auth-service
-                    // sh 'docker run -d --name auth-service-server -p 5054:5054 --network mynetwork auth-service-server'
-
-                    // //Start order-service
-                    // sh 'docker run -d --name order-service-server -p 5052:5052 --network mynetwork order-service-server'
-
-                    // //Start user-service
-                    // sh 'docker run -d --name user-service-server -p 5053:5053 --network mynetwork user-service-server'
-
-                    // //Start admin-service
-                    // sh 'docker run -d --name admin-service-server -p 5056:5056 --network mynetwork admin-service-server'
-
-                    // //Start React Client 
-                    
+                    sh 'docker compose up -d'                    
                 }
             }
         }
@@ -65,16 +39,16 @@ pipeline {
             }
         }
         
-        // stage('Run Unit Testing') {
-        //     steps {
-        //         script {
-        //             sh 'docker run --name auth-service-test --network mynetwork auth-service-test'
-        //             sh 'docker run --name order-service-test --network mynetwork order-service-test'
-        //             sh 'docker run --name user-service-test --network mynetwork user-service-test'
-        //             sh 'docker run --name admin-service-test --network mynetwork admin-service-test'
-        //         }
-        //     }
-        // }
+        stage('Run Unit Testing') {
+            steps {
+                script {
+                    sh 'docker run --name auth-service-test --network mynetwork auth-service-test'
+                    sh 'docker run --name order-service-test --network mynetwork order-service-test'
+                    sh 'docker run --name user-service-test --network mynetwork user-service-test'
+                    sh 'docker run --name admin-service-test --network mynetwork admin-service-test'
+                }
+            }
+        }
 
         // stage('Upload App Image') {
         //     steps {
