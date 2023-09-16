@@ -65,7 +65,7 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/brewhub_api_client:latest
+    image: brewhub_api_client
     volumes:
       - type: bind
         source: ./services/shared/
