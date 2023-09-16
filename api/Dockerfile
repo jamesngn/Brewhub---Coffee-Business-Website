@@ -5,14 +5,30 @@ FROM node:14-alpine
 WORKDIR /app
 
 # Copy package.json and package-lock.json (if present)
-COPY package*.json ./
+COPY api/package*.json ./
 
 # Install application dependencies
 RUN npm install
 
 # Copy all application files into the working directory
-COPY ./routes ./api/routes
-COPY ./app.js ./api/app.js
+COPY ./api/routes ./api/routes
+COPY ./api/app.js ./api/app.js
+
+# Copy proto files and client.js from the parent directory
+COPY services/shared/ ./services/shared/
+
+COPY services/auth-service/src/auth.proto ./services/auth-service/src/auth.proto
+COPY services/auth-service/src/client.js ./services/auth-service/src/client.js
+
+COPY services/user-service/src/user.proto ./services/user-service/src/user.proto
+COPY services/user-service/src/client.js ./services/user-service/src/client.js
+
+COPY services/order-service/src/order.proto ./services/order-service/src/order.proto
+COPY services/order-service/src/client.js ./services/order-service/src/client.js
+
+COPY services/admin-service/src/admin.proto ./services/admin-service/src/admin.proto
+COPY services/admin-service/src/client.js ./services/admin-service/src/client.js
+
 
 # Expose the port on which your React app will run
 EXPOSE 5000
