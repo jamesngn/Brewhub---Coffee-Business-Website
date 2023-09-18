@@ -3,8 +3,8 @@ require("dotenv").config({ path: __dirname + "/../.env" });
 module.exports = {
   // MongoDB configuration
   mongo: {
-    host: "mongodb",
-    // host: "127.0.0.1",
+    // host: "mongodb",
+    host: "172.31.31.248 ",
     port: 27017,
     database: "brewhub_db",
   },
@@ -12,32 +12,32 @@ module.exports = {
   // gRPC service configuration
   //172.17.0.1
   grpc: {
-    menuServiceHost: "menu-service-server",
-    // menuServiceHost: "127.0.0.1",
+    // menuServiceHost: "menu-service-server",
+    menuServiceHost: "172.31.31.248 ",
     menuServicePort: 5051,
 
-    orderServiceHost: "order-service-server",
-    // orderServiceHost: "127.0.0.1",
+    // orderServiceHost: "order-service-server",
+    orderServiceHost: "172.31.31.248 ",
     orderServicePort: 5052,
 
-    userServiceHost: "user-service-server",
-    // userServiceHost: "127.0.0.1",
+    // userServiceHost: "user-service-server",
+    userServiceHost: "172.31.31.248 ",
     userServicePort: 5053,
 
-    authServiceHost: "auth-service-server",
-    // authServiceHost: "127.0.0.1",
+    // authServiceHost: "auth-service-server",
+    authServiceHost: "172.31.31.248 ",
     authServicePort: 5054,
 
-    promoServiceHost: "promo-service-server",
-    // promoServiceHost: "127.0.0.1",
+    // promoServiceHost: "promo-service-server",
+    promoServiceHost: "172.31.31.248 ",
     promoServicePort: 5055,
 
-    adminServiceHost: "admin-service-server",
-    // adminServiceHost: "127.0.0.1",
+    // adminServiceHost: "admin-service-server",
+    adminServiceHost: "172.31.31.248 ",
     adminServicePort: 5056,
 
-    imageServiceHost: "image-service-server",
-    // imageServiceHost: "127.0.0.1",
+    // imageServiceHost: "image-service-server",
+    imageServiceHost: "172.31.31.248 ",
     imageServicePort: 5057,
   },
 

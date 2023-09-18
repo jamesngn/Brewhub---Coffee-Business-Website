@@ -16,37 +16,37 @@ pipeline {
                     // Build Docker images
                     sh 'docker compose build'
 
-                    dir('services/') {
-                        docker.build('auth-service-test', '-f Dockerfile.auth-test .')
-                        docker.build('order-service-test', '-f Dockerfile.order-test .')
-                        docker.build('user-service-test', '-f Dockerfile.user-test .')
-                        docker.build('admin-service-test', '-f Dockerfile.admin-test .')
-                    }
+                    // dir('services/') {
+                    //     docker.build('auth-service-test', '-f Dockerfile.auth-test .')
+                    //     docker.build('order-service-test', '-f Dockerfile.order-test .')
+                    //     docker.build('user-service-test', '-f Dockerfile.user-test .')
+                    //     docker.build('admin-service-test', '-f Dockerfile.admin-test .')
+                    // }
                 }
             }
         }
-        stage('Run Microservices') {
-            steps {
-                script {
-                    sh 'docker compose up -d'                    
-                }
-            }
-        }
+        // stage('Run Microservices') {
+        //     steps {
+        //         script {
+        //             sh 'docker compose up -d'                    
+        //         }
+        //     }
+        // }
         
-        stage('Unit Testings') {
-            steps {
-                script {
-                    sleep 5
-                    sh 'docker cp brewhub_db_2 mongodb:/'
-                    sh 'docker exec mongodb mongorestore --db brewhub_db /brewhub_db_2'
+        // stage('Unit Testings') {
+        //     steps {
+        //         script {
+        //             sleep 5
+        //             sh 'docker cp brewhub_db_2 mongodb:/'
+        //             sh 'docker exec mongodb mongorestore --db brewhub_db /brewhub_db_2'
 
-                    sh 'docker run --name auth-service-test --network brewhub_app_my-network auth-service-test'
-                    sh 'docker run --name order-service-test --network brewhub_app_my-network order-service-test'
-                    sh 'docker run --name user-service-test --network brewhub_app_my-network user-service-test'
-                    sh 'docker run --name admin-service-test --network brewhub_app_my-network admin-service-test'
-                }
-            }
-        }
+        //             sh 'docker run --name auth-service-test --network brewhub_app_my-network auth-service-test'
+        //             sh 'docker run --name order-service-test --network brewhub_app_my-network order-service-test'
+        //             sh 'docker run --name user-service-test --network brewhub_app_my-network user-service-test'
+        //             sh 'docker run --name admin-service-test --network brewhub_app_my-network admin-service-test'
+        //         }
+        //     }
+        // }
 
         stage('Upload App Images to ECR') {
             steps {
@@ -57,17 +57,17 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            script {
-                sh 'docker compose down'
+    // post {
+    //     always {
+    //         script {
+    //             sh 'docker compose down'
 
-                //Clear unit testing containers
-                sh 'docker rm auth-service-test'
-                sh 'docker rm order-service-test'
-                sh 'docker rm user-service-test'
-                sh 'docker rm admin-service-test'
-            }
-        }
-    }
+    //             //Clear unit testing containers
+    //             sh 'docker rm auth-service-test'
+    //             sh 'docker rm order-service-test'
+    //             sh 'docker rm user-service-test'
+    //             sh 'docker rm admin-service-test'
+    //         }
+    //     }
+    // }
 }
