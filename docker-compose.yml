@@ -68,10 +68,7 @@ services:
     ports:
       - '5000:5000'
     depends_on:
-      - order-service
-      - user-service
       - auth-service
-      - admin-service
     networks:
       - my-network
 
