@@ -4,7 +4,7 @@ module.exports = {
   // MongoDB configuration
   mongo: {
     // host: "mongodb",
-    host: "172.31.31.248 ",
+    host: "172.31.47.199",
     port: 27017,
     database: "brewhub_db",
   },
@@ -13,31 +13,31 @@ module.exports = {
   //172.17.0.1
   grpc: {
     // menuServiceHost: "menu-service-server",
-    menuServiceHost: "172.31.31.248 ",
+    menuServiceHost: "172.31.47.199",
     menuServicePort: 5051,
 
     // orderServiceHost: "order-service-server",
-    orderServiceHost: "172.31.31.248 ",
+    orderServiceHost: "172.31.47.199",
     orderServicePort: 5052,
 
     // userServiceHost: "user-service-server",
-    userServiceHost: "172.31.31.248 ",
+    userServiceHost: "172.31.47.199",
     userServicePort: 5053,
 
     // authServiceHost: "auth-service-server",
-    authServiceHost: "172.31.31.248 ",
+    authServiceHost: "172.31.47.199",
     authServicePort: 5054,
 
     // promoServiceHost: "promo-service-server",
-    promoServiceHost: "172.31.31.248 ",
+    promoServiceHost: "172.31.47.199",
     promoServicePort: 5055,
 
     // adminServiceHost: "admin-service-server",
-    adminServiceHost: "172.31.31.248 ",
+    adminServiceHost: "172.31.47.199",
     adminServicePort: 5056,
 
     // imageServiceHost: "image-service-server",
-    imageServiceHost: "172.31.31.248 ",
+    imageServiceHost: "172.31.47.199",
     imageServicePort: 5057,
   },
 
