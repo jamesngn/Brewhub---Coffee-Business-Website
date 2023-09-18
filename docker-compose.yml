@@ -8,18 +8,18 @@ services:
     networks:
       - my-network
 
-  admin-service:
-    container_name: admin-service-server
-    build:
-      context: ./services
-      dockerfile: admin-service/Dockerfile
-    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/admin-service-server:latest
-    ports:
-      - '5056:5056'
-    depends_on:
-      - mongodb
-    networks:
-      - my-network
+  # admin-service:
+  #   container_name: admin-service-server
+  #   build:
+  #     context: ./services
+  #     dockerfile: admin-service/Dockerfile
+  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/admin-service-server:latest
+  #   ports:
+  #     - '5056:5056'
+  #   depends_on:
+  #     - mongodb
+  #   networks:
+  #     - my-network
 
   auth-service:
     container_name: auth-service-server
@@ -34,31 +34,31 @@ services:
     networks:
       - my-network
 
-  order-service:
-    container_name: order-service-server
-    build:
-      context: ./services
-      dockerfile: order-service/Dockerfile
-    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/order-service-server:latest
-    ports:
-      - '5052:5052'
-    depends_on:
-      - mongodb
-    networks:
-      - my-network   
+  # order-service:
+  #   container_name: order-service-server
+  #   build:
+  #     context: ./services
+  #     dockerfile: order-service/Dockerfile
+  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/order-service-server:latest
+  #   ports:
+  #     - '5052:5052'
+  #   depends_on:
+  #     - mongodb
+  #   networks:
+  #     - my-network   
 
-  user-service:
-    container_name: user-service-server
-    build:
-      context: ./services
-      dockerfile: user-service/Dockerfile
-    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/user-service-server:latest
-    ports:
-      - '5053:5053'
-    depends_on:
-      - mongodb
-    networks:
-      - my-network    
+  # user-service:
+  #   container_name: user-service-server
+  #   build:
+  #     context: ./services
+  #     dockerfile: user-service/Dockerfile
+  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/user-service-server:latest
+  #   ports:
+  #     - '5053:5053'
+  #   depends_on:
+  #     - mongodb
+  #   networks:
+  #     - my-network    
 
   api-service:
     container_name: brewhub_api_client
@@ -83,83 +83,16 @@ services:
     ports:
       - '3000:3000'
 
-  socket:
-    container_name: socket_server
-    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/socket_server:latest
-    build:
-      context: ./socket
-    ports:
-      - '8000:8000'
+  # socket:
+  #   container_name: socket_server
+  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/socket_server:latest
+  #   build:
+  #     context: ./socket
+  #   ports:
+  #     - '8000:8000'
       
 networks:
   my-network:
     driver: bridge
 volumes:
   brewhub_db:  
-
-# version: '3.8'
-
-# services:
-#   mongodb:
-#     image: mongo:4
-#     volumes:
-#       - brewhub_db:/data/db
-#     environment:
-#       - MONGO_INITDB_DATABASE=brewhub_db
-#     ports:
-#       - '27017:27017'
-#     networks:
-#       - my-network
-
-#   socket-server:
-#     build:
-#       context: ./socket
-#     ports:
-#       - '8080:8080'
-#     networks:
-#       - my-network
-
-#   api-server:
-#     build:
-#       context: ./api
-#     volumes:
-#       - type: bind
-#         source: ./services/shared/
-#         target: /app/services/shared/
-#       - type: bind
-#         source: ./services/admin-service/admin.proto
-#         target: /app/services/admin-service/admin.proto
-#       - type: bind
-#         source: ./services/auth-service/auth.proto
-#         target: /app/services/auth-service/auth.proto
-#       - type: bind
-#         source: ./services/order-service/order.proto
-#         target: /app/services/order-service/order.proto
-#       - type: bind
-#         source: ./services/user-service/user.proto
-#         target: /app/services/user-service/user.proto
-#     ports:
-#       - '5000:5000'
-#     depends_on:
-#       - menu-service
-#       - order-service
-#       - user-service
-#       - auth-service
-#       - promo-service
-#     networks:
-#       - my-network
-
-#   app:
-#     build:
-#       context: ./client
-#     ports:
-#       - '3000:3000'
-#     depends_on:
-#       - socket-server
-
-# networks:
-#   my-network:
-#     driver: bridge
-
-# volumes:
-#   brewhub_db:  
