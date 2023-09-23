@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import useSocket from "../../hooks/useSocket";
+import AddMenuItem from "../../components/AddMenuItemForm";
+import Logout from "../../components/Logout";
 
 const Dashboard = ({ userId, userRole }) => {
   const { socket, response } = useSocket(userId, userRole); // Use the useSocket hook
@@ -20,6 +22,8 @@ const Dashboard = ({ userId, userRole }) => {
       <div>
         <strong>Server Message:</strong> {response}
       </div>
+      <AddMenuItem />
+      <Logout />
     </div>
   );
 };
