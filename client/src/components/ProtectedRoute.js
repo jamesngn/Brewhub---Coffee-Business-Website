@@ -1,8 +1,9 @@
 // ProtectedRoute.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../auth/auth";
 import Unauthorized from "../containers/Unauthorized";
+import { UserContext } from "../contexts/UserContext";
 
 const ProtectedRoute = ({
   component: Component,
@@ -10,12 +11,13 @@ const ProtectedRoute = ({
   userRequired = false,
 }) => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [userId, setUserId] = useState(null);
-  const [userRole, setUserRole] = useState("");
+  const { userId, userRole, setUserId, setUserRole } = useContext(UserContext); // Access userId and userRole directly from context
+
   const [adminAuthorized, setAdminAuthorized] = useState(false);
   const [userAuthorized, setUserAuthorized] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  // Check authentication status when the component mounts
   useEffect(() => {
     async function checkAuthentication() {
       try {
