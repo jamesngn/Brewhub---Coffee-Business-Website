@@ -3,7 +3,8 @@
 //grpc setup
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
-const packageDef = protoLoader.loadSync("menu.proto", {});
+const PROTOPATH = __dirname + "/menu.proto";
+const packageDef = protoLoader.loadSync(PROTOPATH, {});
 const grpcObject = grpc.loadPackageDefinition(packageDef);
 const menuPackage = grpcObject.menuPackage;
 
@@ -16,6 +17,7 @@ const MenuItem = require("./models/menuItem");
 const path = require("path");
 const config = require(path.join(
   __dirname,
+  "..",
   "..",
   "shared",
   "src",
@@ -74,11 +76,9 @@ async function addMenuItem(call, callback) {
   try {
     const newItem = new MenuItem(call.request);
     await newItem.save();
-    callback(null, {
-      id: newItem._id.toString(),
-      name: newItem.name,
-      price: newItem.price,
-    });
+
+    const response = { success: true, message: "Added menu item successfully" };
+    callback(null, response);
   } catch (error) {
     console.error("Error adding menu item:", error);
     callback({
