@@ -1,50 +1,71 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import useSocket from "../hooks/useSocket";
+import { UserContext } from "../contexts/UserContext";
+
 const config = require("../config.json");
 
-const OrderForm = ({ userId, userRole }) => {
+const OrderForm = ({ selectedItems, handlePlaceOrder }) => {
+  const { userId, userRole } = useContext(UserContext);
   const { socket } = useSocket(userId, userRole);
   const [message, setMessage] = useState("");
-  const [order, setOrder] = useState({
-    userId: userId, // Replace with a valid user ID
-    orderItems: [
-      {
-        itemId: "item1", // Replace with a valid menu item ID
-        itemName: "Latte",
-        quantity: 2,
-        price: 4.99,
-        subtotal: 9.98,
-      },
-      {
-        itemId: "item2", // Replace with a valid menu item ID
-        itemName: "Cappuccino",
-        quantity: 1,
-        price: 3.99,
-        subtotal: 3.99,
-      },
-    ],
-    paymentMethod: "Credit Card",
+  const [orderDetails, setOrderDetails] = useState({
+    userId: userId,
+    orderItems: [],
+    paymentMethod: "",
     deliveryAddress: {
-      street: "123 Main St",
-      city: "Exampleville",
-      state: "CA",
-      postalCode: "12345",
-      country: "USA",
+      street: "",
+      city: "",
+      state: "",
+      postalCode: "",
+      country: "",
     },
-    promotionsApplied: [
-      {
-        promoCode: "promo123", // Replace with a valid promotion code
-        discountPercentage: 2.0, // Replace with the actual discount amount
-      },
-    ],
+    promotionsApplied: [],
   });
 
+  useEffect(() => {
+    setOrderDetails((prevOrderDetails) => ({
+      ...prevOrderDetails,
+      orderItems: selectedItems.map((selectedItem) => {
+        return {
+          itemId: selectedItem.itemId,
+          itemName: selectedItem.itemName,
+          quantity: selectedItem.quantity,
+          price: selectedItem.price,
+          subtotal: selectedItem.subtotal,
+        };
+      }),
+    }));
+  }, [selectedItems]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    // Check if the name is a nested property (e.g., 'deliveryAddress.street')
+    if (name.includes(".")) {
+      const [nestedProp, subProp] = name.split(".");
+
+      setOrderDetails({
+        ...orderDetails,
+        [nestedProp]: {
+          ...orderDetails[nestedProp],
+          [subProp]: value,
+        },
+      });
+    } else {
+      setOrderDetails({
+        ...orderDetails,
+        [name]: value,
+      });
+    }
+  };
+
   const handleOrderSubmit = async () => {
+    console.log("handleOrderSubmit: " + JSON.stringify(orderDetails));
     try {
       const response = await axios.post(
         `http://${config.publicIpAddress}:5000/order/place`,
-        order
+        orderDetails
       );
       if (response) {
         setMessage(
@@ -69,12 +90,67 @@ const OrderForm = ({ userId, userRole }) => {
   return (
     <div>
       <h2>Place Your Order</h2>
-      {/* Include code for selecting menu items */}
-      <div>...Item Content...</div>
+
+      <div>
+        <label>
+          Payment Method:
+          <input
+            type="text"
+            name="paymentMethod"
+            value={orderDetails.paymentMethod}
+            onChange={handleInputChange}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Street:
+          <input
+            type="text"
+            name="deliveryAddress.street"
+            value={orderDetails.deliveryAddress.street}
+            onChange={handleInputChange}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          City:
+          <input
+            type="text"
+            name="deliveryAddress.city"
+            value={orderDetails.deliveryAddress.city}
+            onChange={handleInputChange}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          State:
+          <input
+            type="text"
+            name="deliveryAddress.postalCode"
+            value={orderDetails.deliveryAddress.postalCode}
+            onChange={handleInputChange}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Country:
+          <input
+            type="text"
+            name="deliveryAddress.country"
+            value={orderDetails.deliveryAddress.country}
+            onChange={handleInputChange}
+          />
+        </label>
+      </div>
       <div>
         <button onClick={handleOrderSubmit}>Place Order</button>
-        <p>{message}</p>
       </div>
+
+      <p>{message}</p>
     </div>
   );
 };
