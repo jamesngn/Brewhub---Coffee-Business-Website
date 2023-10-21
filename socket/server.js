@@ -3,7 +3,7 @@ const server = http.createServer((req, res) => {});
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: ["http://127.0.0.1:3000"],
+    origin: ["http://localhost:3000"],
     methods: ["GET", "POST"],
   },
 });
@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
 });
 
 function broadcastToAdmins(data) {
-  // Loop through socketMap and send data to all admin sockets
+  // Loop through socketMap and send data to all admin socket
   for (const [userId, { socket, role }] of socketMap) {
     if (role === "admin") {
       socket.emit("message", data);
