@@ -1,0 +1,46 @@
+.menu-item-ctn {
+    box-shadow: none;
+  }
+  
+  .menu-item-img {
+    width: 75%;
+    transition: transform 0.3s;
+    transform-origin: "bottom center";
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.15);
+  }
+  
+  .menu-item-title {
+    margin-top: 1rem;
+    color: black;
+  }
+  /* Font size for phones */
+  @media screen and (max-width: 414px) {
+    .menu-item-title {
+      font-size: 1.02rem; /* Adjust as needed */
+    }
+  }
+  
+  /* Font size for tablets */
+  @media screen and (min-width: 600px) and (max-width: 1000px) {
+    .menu-item-title {
+      font-size: 1.075rem; /* Adjust as needed */
+    }
+  }
+  
+  /* Font size for laptops */
+  @media screen and (min-width: 1000px) and (max-width: 1279px) {
+    .menu-item-title {
+      font-size: 1.15rem; /* Adjust as needed */
+    }
+  }
+  
+  /* Font size for desktops (1280px and above) */
+  @media screen and (min-width: 1280px) {
+    .menu-item-title {
+      font-size: 1.2rem; /* Adjust as needed */
+    }
+  }
+  
