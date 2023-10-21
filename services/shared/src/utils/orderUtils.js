@@ -3,7 +3,9 @@ function calculateTotal(orderItems, promotionsApplied) {
   orderItems.map((orderItem) => {
     total += orderItem.price * orderItem.quantity;
   });
-  total -= calculateDiscount(total, promotionsApplied);
+  if (promotionsApplied && promotionsApplied.length !== 0) {
+    total -= calculateDiscount(total, promotionsApplied);
+  }
   return total;
 }
 
