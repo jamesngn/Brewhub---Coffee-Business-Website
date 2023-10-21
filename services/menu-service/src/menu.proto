@@ -3,8 +3,15 @@ syntax = "proto3";
 package menuPackage;
 
 service Menu {
-    rpc addMenuItem(MenuItemInput) returns (AddMenuItemResponse);
+    rpc addMenuItem(MenuItemInput) returns (SuccessMessageResponse);
     rpc getMenuItems(MenuRequest) returns (GetMenuItemsResponse);
+    rpc getMenuItemsByCategoryId(MenuItemByCategoryIdRequest) returns (GetMenuItemsResponse);
+    rpc addCategory(CategoryInput) returns (AddCategoryResponse); 
+    rpc getCategory(CategoryRequest) returns(GetCategoryResponse);
+    rpc getCategoryById(IdRequest) returns (GetCategoryResponse);
+    rpc getCategoryId(CategoryInput) returns (CategoryInput);
+    rpc getMenuItemsWithCategoryInfo(MenuRequest) returns (GetMenuItemsWithCategoryResponse);
+    rpc deleteMenuItem(IdRequest) returns (SuccessMessageResponse);
 }
 
 message MenuRequest {
@@ -31,7 +38,52 @@ message MenuItem {
     // Other fields
 }
 
-message AddMenuItemResponse {
+message SuccessMessageResponse {
     bool success = 1;
     string message = 2;
+}
+
+message MenuItemByCategoryIdRequest {
+    string categoryId = 1;
+}
+
+message CategoryInput {
+    string category = 1;
+    string subCategory = 2;
+}
+
+message CategoryRequest {}
+
+message IdRequest {
+    string id = 1;
+}
+
+message CategoryItem {
+    string id = 1;
+    string category = 2;
+    string subCategory = 3;
+}
+
+message AddCategoryResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message GetCategoryResponse {
+    repeated CategoryItem categories = 1;
+}
+message GetCategoryIdResponse{
+    string id = 1;
+}
+
+message GetMenuItemsWithCategoryResponse {
+    repeated MenuItemsWithCategory items = 1;
+}
+message MenuItemsWithCategory {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string category = 4;
+    string subcategory = 5;
+    double price = 6;
 }
