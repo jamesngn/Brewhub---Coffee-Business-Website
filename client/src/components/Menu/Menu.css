@@ -1,0 +1,20 @@
+.menu-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .menu-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .menu-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .quantity-input {
+    margin-top: 10px;
+  }
+  
