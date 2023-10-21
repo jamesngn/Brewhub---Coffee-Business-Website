@@ -4,6 +4,10 @@ package userPackage;
 
 service UserService {
   rpc registerUser(RegisterRequest) returns (RegisterResponse);
+  rpc updateCart(UpdateCartRequest) returns (UpdateCartResponse);
+  rpc getCartItems(UserIdRequest) returns (GetCartResponse);
+  rpc getUserName(UserIdRequest) returns (NameResponse);
+  rpc getAllUsers(EmptyRequest) returns (AllUsersResponse);
 }
 
 //Register
@@ -16,4 +20,51 @@ message RegisterRequest {
 message RegisterResponse {
   bool success = 1;
   string message = 2;
+}
+
+message UpdateCartRequest{
+  string userId = 1;
+  string itemId = 2;
+  string itemName = 3;
+  double price = 4;
+  int32 quantity = 5;
+}
+
+message UpdateCartResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message UserIdRequest {
+  string userId = 1;
+}
+
+message CartItem {
+  string itemId = 1;
+  string itemName = 2;
+  double price = 3;
+  int32 quantity = 4;
+}
+
+message GetCartResponse {
+  repeated CartItem items = 1;
+}
+
+message NameResponse {
+  string name = 1;
+}
+
+message EmptyRequest {
+
+}
+message UserResponse {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string password = 4;
+  string role = 5;
+  string createdAt = 6;
+}
+message AllUsersResponse {
+  repeated UserResponse users = 1;
 }

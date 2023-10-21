@@ -7,6 +7,14 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   role: { type: String, enum: ["user", "admin"], default: "user" },
+  cart: [
+    {
+      itemId: { type: String, required: true },
+      itemName: { type: String, required: true },
+      price: { type: Number, required: true },
+      quantity: { type: Number, required: true, default: 1 },
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {

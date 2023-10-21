@@ -55,6 +55,10 @@ server.bind(
 
 server.addService(userPackage.UserService.service, {
   registerUser: registerUser,
+  getAllUsers: getAllUsers,
+  getUserName: getUserName,
+  updateCart: updateCart,
+  getCartItems: getCartItems,
 });
 
 async function registerUser(call, callback) {
@@ -91,6 +95,117 @@ async function registerUser(call, callback) {
     callback({
       code: grpc.status.INTERNAL,
       details: "Error registering user",
+    });
+  }
+}
+
+async function getAllUsers(call, callback) {
+  try {
+    const users = await User.find();
+    const response = {
+      users: users.map((user) => {
+        return {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          role: user.role,
+          createdAt: user.createdAt,
+        };
+      }),
+    };
+    console.log(response);
+    callback(null, response);
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error retrieving users.",
+    });
+  }
+}
+
+async function updateCart(call, callback) {
+  const { userId, itemId, itemName, price, quantity } = call.request;
+
+  try {
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      callback(null, { success: false, message: "User not found!" });
+      return;
+    }
+
+    const cartItem = user.cart.find((item) => item.itemId === itemId);
+
+    if (cartItem) {
+      cartItem.quantity = quantity;
+      callback(null, {
+        success: true,
+        message: `Update quantity successfully`,
+      });
+    } else {
+      user.cart.push({ itemId, itemName, price, quantity });
+      callback(null, {
+        success: true,
+        message: `Add item to cart successfully`,
+      });
+    }
+
+    await user.save();
+  } catch (error) {
+    console.error("Error updating cart:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error updating cart",
+    });
+  }
+}
+
+async function getCartItems(call, callback) {
+  const { userId } = call.request;
+
+  try {
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      callback(null, { items: [] });
+      return;
+    }
+
+    const cartItems = user.cart.map((item) => {
+      return {
+        itemId: item.itemId.toString(),
+        itemName: item.itemName,
+        price: item.price,
+        quantity: item.quantity,
+      };
+    });
+
+    callback(null, { items: cartItems });
+  } catch (error) {
+    console.error("Error fetching cart items:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error fetching cart items",
+    });
+  }
+}
+
+async function getUserName(call, callback) {
+  const { userId } = call.request;
+
+  try {
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      callback(null, { name: "" });
+      return;
+    }
+    const response = { name: user.username };
+    callback(null, response);
+  } catch (error) {
+    console.error("Error getting username:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error getting username",
     });
   }
 }
