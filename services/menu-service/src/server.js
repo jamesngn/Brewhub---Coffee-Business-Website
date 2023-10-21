@@ -15,6 +15,7 @@ const MenuItem = require("./models/menuItem");
 /*------------------------------------------------------------------------------------------------ */
 //config
 const path = require("path");
+const Category = require("./models/category");
 const config = require(path.join(
   __dirname,
   "..",
@@ -56,13 +57,19 @@ server.bind(
 server.addService(menuPackage.Menu.service, {
   getMenuItems: getMenuItems,
   addMenuItem: addMenuItem,
+  getMenuItemsByCategoryId: getMenuItemsByCategoryId,
+  getMenuItemsWithCategoryInfo: getMenuItemsWithCategoryInfo,
+  addCategory: addCategory,
+  getCategory: getCategory,
+  getCategoryById: getCategoryById,
+  getCategoryId: getCategoryId,
+  deleteMenuItem: deleteMenuItem,
 });
 
 async function getMenuItems(call, callback) {
   try {
     const menuItems = await MenuItem.find();
-    const menuItemsResponse = { items: menuItems };
-    callback(null, menuItemsResponse);
+    callback(null, { items: menuItems });
   } catch (error) {
     console.error("Error fetching menu items:", error);
     callback({
@@ -74,16 +81,174 @@ async function getMenuItems(call, callback) {
 
 async function addMenuItem(call, callback) {
   try {
-    const newItem = new MenuItem(call.request);
-    await newItem.save();
+    const menuItemExists = await MenuItem.findOne({ name: call.request.name });
+    if (menuItemExists) {
+      const response = { success: false, message: "Menu Item already exists" };
+      callback(null, response);
+    } else {
+      const newItem = new MenuItem(call.request);
+      await newItem.save();
 
-    const response = { success: true, message: "Added menu item successfully" };
-    callback(null, response);
+      const response = {
+        success: true,
+        message: "Added menu item successfully",
+      };
+      callback(null, response);
+    }
   } catch (error) {
     console.error("Error adding menu item:", error);
     callback({
       code: grpc.status.INTERNAL,
       details: "Error adding menu item",
+    });
+  }
+}
+
+async function getMenuItemsByCategoryId(call, callback) {
+  try {
+    const { categoryId } = call.request;
+    const menuItemsByCategoryId = await MenuItem.find({ category: categoryId });
+    callback(null, { items: menuItemsByCategoryId });
+  } catch (error) {
+    console.error("Error fetching menu items by categoryId:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error fetching menu items by categoryId",
+    });
+  }
+}
+
+async function getMenuItemsWithCategoryInfo(call, callback) {
+  try {
+    const menuItems = await MenuItem.find();
+    const items = await Promise.all(
+      menuItems.map(async (item) => {
+        const categoryId = item.category;
+        const categoryInfo = await Category.findOne({ _id: categoryId });
+        return {
+          id: item._id,
+          name: item.name,
+          description: item.description,
+          category: categoryInfo ? categoryInfo.category : "",
+          subcategory: categoryInfo ? categoryInfo.subCategory : "",
+          price: item.price,
+        };
+      })
+    );
+
+    callback(null, { items: items });
+  } catch (error) {
+    console.error("Error getting menu items: ", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error getting menu items.",
+    });
+  }
+}
+
+async function addCategory(call, callback) {
+  try {
+    const { category, subCategory } = call.request;
+    const categoryExists = await Category.findOne({
+      category: category,
+      subCategory: subCategory,
+    });
+
+    if (categoryExists) {
+      const response = {
+        success: false,
+        message: "Category already exists",
+      };
+      callback(null, response);
+    } else {
+      const newCategory = new Category({ category, subCategory });
+      await newCategory.save();
+
+      const response = {
+        success: true,
+        message: "Added category successfully",
+      };
+      callback(null, response);
+    }
+  } catch (error) {
+    console.error("Error adding category:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error adding category",
+    });
+  }
+}
+
+async function getCategory(call, callback) {
+  try {
+    const categories = await Category.find();
+    callback(null, { categories: categories });
+  } catch (error) {}
+}
+
+async function getCategoryById(call, callback) {
+  try {
+    const { categoryId } = call.request;
+    const categoryItem = await Category.findOne({ id: categoryId });
+    if (category) {
+      callback(null, {
+        category: categoryItem.category,
+        subCategory: categoryItem.subCategory,
+      });
+    } else {
+      callback(null, { category: "", subCategory: "" });
+    }
+  } catch (error) {}
+}
+
+async function getCategoryId(call, callback) {
+  try {
+    const { category, subCategory } = call.request;
+    const categoryId = await Category.findOne(
+      {
+        category: category,
+        subCategory: subCategory,
+      },
+      { _id: 1 }
+    );
+    if (categoryId) {
+      const categoryIdValue = categoryId._id.toString();
+      callback(null, { id: categoryIdValue });
+    } else {
+      callback(null, { id: null });
+    }
+  } catch (error) {
+    console.error("Error getting category Id:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error getting category Id",
+    });
+  }
+}
+
+async function deleteMenuItem(call, callback) {
+  const { id } = call.request;
+  console.log(call.request);
+  try {
+    const deletedMenuItem = await MenuItem.findByIdAndDelete(id);
+    console.log(deletedMenuItem);
+    if (deletedMenuItem) {
+      const response = {
+        success: true,
+        message: "Menu item deleted successfully",
+      };
+      callback(null, response);
+      return;
+    } else {
+      const response = { success: false, message: "Menu item not found" };
+      callback(null, response);
+      return;
+    }
+  } catch (error) {
+    console.error("Error deleting menu item:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error deleting menu item",
     });
   }
 }
