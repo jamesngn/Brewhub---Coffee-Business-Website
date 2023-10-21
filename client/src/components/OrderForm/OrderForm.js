@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import useSocket from "../hooks/useSocket";
-import { UserContext } from "../contexts/UserContext";
+import useSocket from "../../hooks/useSocket";
+import { UserContext } from "../../contexts/UserContext";
 
-const config = require("../config.json");
+const config = require("../../config.json");
 
 const OrderForm = ({ selectedItems, handlePlaceOrder }) => {
   const { userId, userRole } = useContext(UserContext);
