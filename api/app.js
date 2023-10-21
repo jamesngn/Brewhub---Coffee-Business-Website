@@ -9,12 +9,14 @@ app.use(cors());
 
 const adminRoutes = require("./routes/adminRoutes");
 const authRoutes = require("./routes/authRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 app.use("/admin", adminRoutes);
 app.use("/auth", authRoutes);
+app.use("/category", categoryRoutes);
 app.use("/menu", menuRoutes);
 app.use("/order", orderRoutes);
 app.use("/user", userRoutes);
