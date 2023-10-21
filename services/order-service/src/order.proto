@@ -5,6 +5,7 @@ package orderPackage;
 service OrderService {
   rpc PlaceOrder(OrderRequest) returns (OrderResponse);
   rpc GetOrderDetails(OrderDetailsRequest) returns (OrderDetailsResponse);
+  rpc GetAllOrderDetails(EmptyRequest) returns (AllOrderDetailsResponse);
   rpc GetOrderStatus(OrderStatusRequest) returns (OrderStatusResponse);
   rpc GetOrderHistory(OrderHistoryRequest) returns (OrderHistoryResponse);
   rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
@@ -19,7 +20,6 @@ message OrderRequest {
   DeliveryAddress deliveryAddress = 4;
   repeated PromotionApplied promotionsApplied = 5;
 }
-
 message OrderResponse {
   string orderId = 1;
   string orderDate = 2;
@@ -27,6 +27,7 @@ message OrderResponse {
   string orderStatus = 4;
   string paymentStatus = 5;
 }
+
 message OrderDetailsRequest{
   string orderId = 1;
 }
@@ -41,6 +42,13 @@ message OrderDetailsResponse {
   string paymentMethod = 8;
   DeliveryAddress deliveryAddress = 9;
   repeated PromotionApplied promotionsApplied = 10;
+}
+
+message EmptyRequest {
+
+}
+message AllOrderDetailsResponse {
+  repeated OrderDetailsResponse orderDetailsList = 1;
 }
 
 message OrderStatusRequest {
