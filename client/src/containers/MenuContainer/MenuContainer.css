@@ -1,0 +1,20 @@
+.brewhubMenu-flex-container {
+    display: flex;
+    gap: 5rem;
+    margin-top: 5rem;
+  }
+  
+  .brewhubMenu-sidebar-box {
+    flex: 1;
+  }
+  
+  .brewhubMenu-menu-box {
+    flex: 2;
+  }
+  
+  @media (max-width: 600px) {
+    .brewhubMenu-flex-container {
+      flex-direction: column;
+    }
+  }
+  

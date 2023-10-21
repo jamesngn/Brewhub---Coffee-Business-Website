@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import Menu from "../../components/Menu";
+import Menu from "../../components/Menu/Menu";
 import SelectedItems from "../../components/SelectedItems";
-import OrderForm from "../../components/OrderForm";
+import OrderForm from "../../components/OrderForm/OrderForm";
 
 const config = require("../../config.json");
 
