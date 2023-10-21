@@ -34,9 +34,9 @@ const Login = () => {
           }
         );
         if (roleResponse.data === "admin") {
-          navigate("/admin");
-        } else {
-          navigate(`/`);
+          navigate("/admin/dashboard");
+        } else if (roleResponse.data === "user") {
+          navigate(`/menu`);
         }
       } else {
         setMessage("Login failed: " + response.data.message);
