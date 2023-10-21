@@ -11,7 +11,8 @@ const menuItemSchema = new Schema({
     required: true,
   },
   category: {
-    type: String,
+    type: Schema.Types.ObjectId, // Reference to Category document
+    ref: "Category", // Refers to the Category model
     required: true,
   },
   price: {
