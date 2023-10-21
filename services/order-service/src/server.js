@@ -59,6 +59,7 @@ server.bind(
 server.addService(orderPackage.OrderService.service, {
   PlaceOrder: PlaceOrder,
   GetOrderDetails: GetOrderDetails,
+  GetAllOrderDetails: GetAllOrderDetails,
   GetOrderStatus: GetOrderStatus,
   GetOrderHistory: GetOrderHistory,
   UpdateOrderStatus: UpdateOrderStatus,
@@ -115,6 +116,8 @@ async function GetOrderDetails(call, callback) {
     }
 
     const order = await Order.findOne({ _id: orderId });
+
+    console.log("GetOrderDetails:" + order);
     if (!order) {
       callback({
         code: grpc.status.NOT_FOUND,
@@ -136,6 +139,36 @@ async function GetOrderDetails(call, callback) {
       };
       callback(null, response);
     }
+  } catch (error) {
+    console.error("Error finding order details: ", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error finding order details.",
+    });
+  }
+}
+
+async function GetAllOrderDetails(call, callback) {
+  try {
+    const orders = await Order.find().sort({ orderDate: -1 }); // Sort by orderDate in descending order
+
+    const allOrderDetailsResponse = {
+      orderDetailsList: orders.map((order) => {
+        return {
+          orderId: order._id,
+          userId: order.userId,
+          orderDate: order.orderDate,
+          orderItems: order.orderItems,
+          totalAmount: order.totalAmount,
+          orderStatus: order.orderStatus,
+          paymentStatus: order.paymentStatus,
+          paymentMethod: order.paymentMethod,
+          deliveryAddress: order.deliveryAddress,
+          promotionsApplied: order.promotionsApplied,
+        };
+      }),
+    };
+    callback(null, allOrderDetailsResponse);
   } catch (error) {
     console.error("Error finding order details: ", error);
     callback({
