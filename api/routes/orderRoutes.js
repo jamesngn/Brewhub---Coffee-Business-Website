@@ -10,6 +10,7 @@ router.post("/place", (req, res) => {
     deliveryAddress,
     promotionsApplied,
   } = req.body;
+
   orderClient.PlaceOrder(
     { userId, orderItems, paymentMethod, deliveryAddress, promotionsApplied },
     (error, response) => {
@@ -37,6 +38,35 @@ router.post("/place", (req, res) => {
       }
     }
   );
+});
+
+router.get("/retrieveById", (req, res) => {
+  const { orderId } = req.query;
+  orderClient.GetOrderDetails({ orderId }, (error, response) => {
+    if (error) {
+      return res.status(500).json({ error: error });
+    } else {
+      if (response) {
+        return res.status(200).json(response);
+      } else {
+        res.status(500).json({ error: "Internal server error" });
+      }
+    }
+  });
+});
+
+router.get("/retrieveAll", (req, res) => {
+  orderClient.GetAllOrderDetails({}, (error, response) => {
+    if (error) {
+      return res.status(500).json({ error: error });
+    } else {
+      if (response) {
+        return res.status(200).json(response);
+      } else {
+        res.status(500).json({ error: "Internal server error" });
+      }
+    }
+  });
 });
 
 module.exports = router;
