@@ -1,0 +1,29 @@
+nav {
+    position: sticky;
+    top: 15rem;
+    background-color: #f9f9f9;
+  }
+  
+  .MuiListItemButton-gutters {
+    padding: 2px 1.5rem;
+  }
+  
+  .MuiListItemText-primary {
+    color: #525252;
+    opacity: 65%;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  
+  .MuiListItemText-secondary {
+    color: #525252;
+    opacity: 75%;
+    font-size: 1rem;
+  }
+  .MuiListItemButton-root.Mui-selected {
+    background-color: #f9f9f9;
+  }
+  .MuiListItemButton-root.Mui-selected .MuiListItemText-secondary {
+    font-weight: 700;
+  }
+  
