@@ -5,10 +5,23 @@ const { menuClient } = require("../../src/client");
 describe("menu-service", () => {
   describe("addMenuItem", () => {
     it("should return successful message if menu item is added", async () => {
+      const categoryIdResponse = await new Promise((resolve) => {
+        menuClient.getCategoryId(
+          {
+            category: "Beverages", // Name of the category
+            subCategory: "Cold Brew", // Sub-category (optional)
+          },
+          (error, response) => {
+            resolve({ error, response });
+          }
+        );
+      });
+      const categoryIdValue = categoryIdResponse.response.id;
+
       const request = {
         name: "Cold Brew Coffee",
         description: "Smooth and refreshing cold brew coffee.",
-        category: "Coffee",
+        category: categoryIdValue,
         price: 4.99,
       };
 
