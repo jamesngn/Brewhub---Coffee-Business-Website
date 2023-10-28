@@ -2,6 +2,19 @@
 
 Welcome to the Brewhub Client, the front-end of our Coffee Business Web Application. This React app provides an intuitive interface for users to interact with the Brewhub platform.
 
+### Screenshot 5: Sign In Modal Box
+![Screenshot 5: Sign In Modal Box](../screenshots/screenshot5.png)
+
+### Screenshot 6: Menu Item View Page
+![Screenshot 6: Menu Item View Page](../screenshots/screenshot6.png)
+
+### Screenshot 7: Successful Order Page
+![Screenshot 7: Successful Order Page](../screenshots/screenshot7.png)
+
+### Screenshot 8: Order Admin Page
+![Screenshot 8: Order Admin Page](../screenshots/screenshot8.png)
+
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
