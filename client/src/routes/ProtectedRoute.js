@@ -24,7 +24,7 @@ const ProtectedRoute = ({
         const response = await isAuthenticated();
 
         if (!response) {
-          navigate("/login");
+          navigate("/");
         } else {
           setUserId(response.userId);
           setUserRole(response.role);
