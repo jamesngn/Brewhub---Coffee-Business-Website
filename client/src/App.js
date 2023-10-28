@@ -6,17 +6,19 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import OrderManagment from "./pages/OrderManagement/OrderManagement";
 import Home from "./pages/Home/Home";
-import Menu from "./pages/Menu/Menu";
+import { LandingMenu, Menu } from "./pages/Menu/Menu";
 import Order from "./pages/Order/Order";
 import MenuManagment from "./pages/MenuManagement/MenuManagement";
 import AccountManagment from "./pages/AccountManagement/AccountManagement";
 import CategoryManagment from "./pages/CategoryManagement/CategoryManagement";
+import Landing from "./pages/Landing/Landing";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/coffee-menu" element={<LandingMenu />} />
         <Route
           path="/menu"
           element={<ProtectedRoute component={Menu} userRequired />}
