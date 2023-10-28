@@ -1,6 +1,19 @@
 # Brewhub - Coffee Business Web Application
+## Screenshots
 
-![Website Screenshot](./images/website_screenshot.png)
+### Screenshot 1: Landing Page
+![Screenshot 1](./screenshots/screenshot1.png)
+
+### Screenshot 2: Menu Catalog
+![Screenshot 2](./screenshots/screenshot2.png)
+
+### Screenshot 3: User Order Page
+![Screenshot 3](./screenshots/screenshot3.png)
+
+### Screenshot 4: Admin Dashboard Page
+![Screenshot 4](./screenshots/screenshot4.png)
+
+
 
 Welcome to Brewhub, a web application designed to streamline and enhance your coffee business operations. This README.md will guide you through the setup process and provide an overview of the application's features.
 
