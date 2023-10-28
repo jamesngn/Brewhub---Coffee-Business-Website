@@ -1,29 +1,40 @@
 import * as React from "react";
 import PropTypes from "prop-types";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  Toolbar,
+  Typography,
+  Paper,
+  Checkbox,
+  IconButton,
+  Tooltip,
+  Modal,
+  FormControlLabel,
+  Switch,
+  Collapse,
+} from "@mui/material";
+
 import { alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import Collapse from "@mui/material/Collapse";
 import { visuallyHidden } from "@mui/utils";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
+import {
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  FilterList as FilterListIcon,
+  KeyboardArrowDown as KeyboardArrowDownIcon,
+  KeyboardArrowUp as KeyboardArrowUpIcon,
+} from "@mui/icons-material";
+
+import { deleteCategory } from "../../services/categoryService";
+import UpdateCategoryForm from "../UpdateCategoryForm/UpdateCategoryForm";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -95,7 +106,17 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox"></TableCell>
+        <TableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{
+              "aria-label": "select all menu items",
+            }}
+          />
+        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -131,40 +152,115 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
+const EditModal = ({ open, handleClose, selectedCategoryId }) => {
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "33vw",
+    height: "70vh",
+    bgcolor: "#F5DEB3",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <UpdateCategoryForm selectedCategoryId={selectedCategoryId} />
+      </Box>
+    </Modal>
+  );
+};
+
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, onDelete, selectedCategoryId } = props;
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Toolbar
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
+        ...(numSelected > 0 && {
+          bgcolor: (theme) =>
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity
+            ),
+        }),
       }}
     >
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-      >
-        Category Summary
-      </Typography>
+      {numSelected > 0 ? (
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          Menu Item
+        </Typography>
+      )}
 
-      <Tooltip title="Filter list">
-        <IconButton>
-          <FilterListIcon />
-        </IconButton>
-      </Tooltip>
+      {numSelected === 1 ? (
+        <Tooltip title="Actions">
+          <Box display={"flex"}>
+            <IconButton onClick={handleOpen}>
+              <EditIcon />
+            </IconButton>
+            <EditModal
+              open={open}
+              handleClose={handleClose}
+              selectedCategoryId={selectedCategoryId}
+            />
+            <IconButton onClick={onDelete}>
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+        </Tooltip>
+      ) : numSelected > 1 ? (
+        <Tooltip title="Delete">
+          <IconButton onClick={onDelete}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Filter list">
+          <IconButton>
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
     </Toolbar>
   );
 }
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  selectedCategoryId: PropTypes.string.isRequired,
 };
 
 const CategoryTable = (props) => {
-  const { rows } = props;
+  const { rows, setRows } = props;
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -181,7 +277,7 @@ const CategoryTable = (props) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.orderId);
+      const newSelected = rows.map((n) => n.itemId);
       setSelected(newSelected);
       return;
     }
@@ -236,14 +332,33 @@ const CategoryTable = (props) => {
     [rows, order, orderBy, page, rowsPerPage]
   );
 
+  const handleDelete = () => {
+    selected.forEach(async (categoryId) => {
+      const response = await deleteCategory(categoryId);
+      console.log(response);
+      if (response.success) {
+        setRows((prevRows) => prevRows.filter((row) => row.id !== categoryId));
+      }
+    });
+    setSelected([]);
+  };
+
   const Row = (props) => {
     const { row, index } = props;
-    const [open, setOpen] = React.useState(false);
-    const isItemSelected = isSelected(row.orderId);
+    const isItemSelected = isSelected(row.id);
     const labelId = `enhanced-table-checkbox-${index}`;
     return (
       <React.Fragment>
-        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+        <TableRow
+          hover
+          onClick={(event) => handleClick(event, row.id)}
+          role="checkbox"
+          aria-checked={isItemSelected}
+          tabIndex={-1}
+          key={row.itemId}
+          selected={isItemSelected}
+          sx={{ "& > *": { borderBottom: "unset" }, cursor: "pointer" }}
+        >
           <TableCell padding="checkbox">
             <Checkbox
               color="primary"
@@ -266,7 +381,11 @@ const CategoryTable = (props) => {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          onDelete={handleDelete}
+          selectedCategoryId={selected[0] ? selected[0] : ""}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
