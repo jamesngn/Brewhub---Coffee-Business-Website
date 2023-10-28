@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import "typeface-old-standard-tt"; // Import the font
+
 const config = require("../config.json");
 
 const Login = () => {
@@ -48,23 +52,55 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <input
-        type="text"
-        placeholder="Email"
+    <Box padding={"1rem"} sx={{ display: "flex", flexDirection: "column" }}>
+      <Typography
+        variant="h4"
+        color={"black"}
+        fontWeight={"bold"}
+        sx={{ fontFamily: "Old Standard TT, serif", paddingY: "0.5rem" }}
+      >
+        Welcome to <span style={{ color: "#8B4513" }}>Brewhub</span>
+      </Typography>
+      <Typography
+        variant="body1"
+        color={"black"}
+        sx={{ fontFamily: "Old Standard TT, serif", paddingY: "0.5rem" }}
+      >
+        Please enter details for login to your account.
+      </Typography>
+      <Box sx={{ height: "7vh" }}>{message}</Box>
+      <TextField
+        sx={{ width: "25vw", paddingY: "1rem" }}
+        label="Email"
+        type="email"
+        variant="outlined"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <input
+      <TextField
+        sx={{ width: "25vw", paddingY: "1rem" }}
         type="password"
-        placeholder="Password"
+        label="Password"
+        variant="outlined"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleLogin}>Login</button>
-      <p>{message}</p>
-    </div>
+
+      <Button
+        onClick={handleLogin}
+        sx={{
+          backgroundColor: "#8B4513",
+          color: "#FFFFF0",
+          height: "3rem",
+          fontSize: "1.2rem",
+          "&:hover": {
+            backgroundColor: "#A0522D", // Change to the desired hover color
+          },
+        }}
+      >
+        Login
+      </Button>
+    </Box>
   );
 };
 
