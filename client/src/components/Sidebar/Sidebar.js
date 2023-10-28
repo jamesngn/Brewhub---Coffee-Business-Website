@@ -133,7 +133,7 @@ const Sidebar = () => {
               onClick={() => {
                 localStorage.removeItem("authToken");
               }}
-              to={"/login"}
+              to={"/"}
             >
               <LogoutIcon
                 style={{ marginRight: "10px", verticalAlign: "middle" }}
