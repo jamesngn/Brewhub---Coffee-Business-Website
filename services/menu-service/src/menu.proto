@@ -5,13 +5,17 @@ package menuPackage;
 service Menu {
     rpc addMenuItem(MenuItemInput) returns (SuccessMessageResponse);
     rpc getMenuItems(MenuRequest) returns (GetMenuItemsResponse);
+    rpc getMenuItemsById(IdRequest) returns (MenuItem);
     rpc getMenuItemsByCategoryId(MenuItemByCategoryIdRequest) returns (GetMenuItemsResponse);
     rpc addCategory(CategoryInput) returns (AddCategoryResponse); 
     rpc getCategory(CategoryRequest) returns(GetCategoryResponse);
-    rpc getCategoryById(IdRequest) returns (GetCategoryResponse);
+    rpc getCategoryById(IdRequest) returns (CategoryItem);
     rpc getCategoryId(CategoryInput) returns (CategoryInput);
     rpc getMenuItemsWithCategoryInfo(MenuRequest) returns (GetMenuItemsWithCategoryResponse);
     rpc deleteMenuItem(IdRequest) returns (SuccessMessageResponse);
+    rpc updateMenuItem(MenuItem) returns (SuccessMessageResponse);
+    rpc deleteCategory(IdRequest) returns (SuccessMessageResponse);
+    rpc updateCategory(CategoryItem) returns (SuccessMessageResponse);
 }
 
 message MenuRequest {

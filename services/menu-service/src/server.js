@@ -56,6 +56,7 @@ server.bind(
 /*------------------------------------------------------------------------------------------------ */
 server.addService(menuPackage.Menu.service, {
   getMenuItems: getMenuItems,
+  getMenuItemsById: getMenuItemsById,
   addMenuItem: addMenuItem,
   getMenuItemsByCategoryId: getMenuItemsByCategoryId,
   getMenuItemsWithCategoryInfo: getMenuItemsWithCategoryInfo,
@@ -64,6 +65,9 @@ server.addService(menuPackage.Menu.service, {
   getCategoryById: getCategoryById,
   getCategoryId: getCategoryId,
   deleteMenuItem: deleteMenuItem,
+  updateMenuItem: updateMenuItem,
+  deleteCategory: deleteCategory,
+  updateCategory: updateCategory,
 });
 
 async function getMenuItems(call, callback) {
@@ -75,6 +79,20 @@ async function getMenuItems(call, callback) {
     callback({
       code: grpc.status.INTERNAL,
       details: "Error fetching menu items",
+    });
+  }
+}
+
+async function getMenuItemsById(call, callback) {
+  const { id } = call.request;
+  try {
+    const menuItem = await MenuItem.findById(id);
+    callback(null, menuItem);
+  } catch (error) {
+    console.error("Error fetching menu item:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error fetching menu item",
     });
   }
 }
@@ -188,15 +206,17 @@ async function getCategory(call, callback) {
 
 async function getCategoryById(call, callback) {
   try {
-    const { categoryId } = call.request;
-    const categoryItem = await Category.findOne({ id: categoryId });
-    if (category) {
-      callback(null, {
+    const { id } = call.request;
+    const categoryItem = await Category.findById(id);
+    if (categoryItem) {
+      const response = {
+        id: categoryItem.id,
         category: categoryItem.category,
         subCategory: categoryItem.subCategory,
-      });
+      };
+      callback(null, response);
     } else {
-      callback(null, { category: "", subCategory: "" });
+      callback(null, { id: "", category: "", subCategory: "" });
     }
   } catch (error) {}
 }
@@ -228,10 +248,8 @@ async function getCategoryId(call, callback) {
 
 async function deleteMenuItem(call, callback) {
   const { id } = call.request;
-  console.log(call.request);
   try {
     const deletedMenuItem = await MenuItem.findByIdAndDelete(id);
-    console.log(deletedMenuItem);
     if (deletedMenuItem) {
       const response = {
         success: true,
@@ -249,6 +267,102 @@ async function deleteMenuItem(call, callback) {
     callback({
       code: grpc.status.INTERNAL,
       details: "Error deleting menu item",
+    });
+  }
+}
+async function updateMenuItem(call, callback) {
+  const { id, name, description, category, price } = call.request;
+  try {
+    const result = await MenuItem.updateOne(
+      { _id: id },
+      {
+        $set: {
+          name: name,
+          description: description,
+          category: category,
+          price: price,
+        },
+      }
+    );
+    console.log(result);
+    if (result.modifiedCount !== 0) {
+      callback(null, {
+        success: true,
+        message: "Menu item updated successfully",
+      });
+      return;
+    } else {
+      callback(null, {
+        success: false,
+        message: "No changes have been made",
+      });
+      return;
+    }
+  } catch (error) {
+    console.error("Error updating menu item:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error updating menu item",
+    });
+  }
+}
+async function deleteCategory(call, callback) {
+  const { id } = call.request;
+  try {
+    const deletedCategory = await Category.findByIdAndDelete(id);
+    if (deletedCategory) {
+      const response = {
+        success: true,
+        message: "Category deleted successfully",
+      };
+      callback(null, response);
+      return;
+    } else {
+      const response = { success: false, message: "Category not found" };
+      callback(null, response);
+      return;
+    }
+  } catch (error) {
+    console.error("Error deleting menu item:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error deleting menu item",
+    });
+  }
+}
+
+async function updateCategory(call, callback) {
+  const { id, category, subCategory } = call.request;
+  console.log(call.request);
+  try {
+    const result = await Category.updateOne(
+      { _id: id },
+      {
+        $set: {
+          category: category,
+          subCategory: subCategory,
+        },
+      }
+    );
+    console.log(result);
+    if (result.modifiedCount !== 0) {
+      callback(null, {
+        success: true,
+        message: "Category updated successfully",
+      });
+      return;
+    } else {
+      callback(null, {
+        success: false,
+        message: "No changes have been made",
+      });
+      return;
+    }
+  } catch (error) {
+    console.error("Error updating category:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error updating category",
     });
   }
 }
