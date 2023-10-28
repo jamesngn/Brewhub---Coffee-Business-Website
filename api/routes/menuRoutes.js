@@ -17,6 +17,17 @@ router.post("/add", (req, res) => {
   );
 });
 
+router.get("/getItemById", (req, res) => {
+  const id = req.query.menuItemId;
+  menuClient.getMenuItemsById({ id }, (error, response) => {
+    if (error) {
+      return res.status(500).json({ error: error });
+    } else {
+      return res.status(200).json(response);
+    }
+  });
+});
+
 router.get("/getItemByCategoryId", (req, res) => {
   const categoryId = req.query.categoryId;
   menuClient.getMenuItemsByCategoryId({ categoryId }, (error, response) => {
@@ -57,6 +68,22 @@ router.delete("/delete", (req, res) => {
       return res.status(200).json(response);
     }
   });
+});
+
+router.put("/update", (req, res) => {
+  const { id, name, description, category, price } = req.body;
+  console.log(req.body);
+  menuClient.updateMenuItem(
+    { id, name, description, category, price },
+    (error, response) => {
+      if (error) {
+        return res.status(500).json({ error: error });
+      } else {
+        console.log(response);
+        return res.status(200).json(response);
+      }
+    }
+  );
 });
 
 module.exports = router;
