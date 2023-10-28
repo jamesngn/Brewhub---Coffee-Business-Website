@@ -16,6 +16,7 @@ import {
   Checkbox,
   IconButton,
   Tooltip,
+  Modal,
   FormControlLabel,
   Switch,
   Collapse,
@@ -33,6 +34,7 @@ import {
 } from "@mui/icons-material";
 
 import { deleteMenuItem } from "../../services/menuItemService";
+import UpdateMenuItemForm from "../UpdateMenuItemForm/UpdateMenuItemForm";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -168,8 +170,39 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
+const EditModal = ({ open, handleClose, selectedMenuItemId }) => {
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "33vw",
+    height: "70vh",
+    bgcolor: "#F5DEB3",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <UpdateMenuItemForm selectedMenuItemId={selectedMenuItemId} />
+      </Box>
+    </Modal>
+  );
+};
+
 function EnhancedTableToolbar(props) {
-  const { numSelected, onDelete } = props;
+  const { numSelected, onDelete, selectedMenuItemId } = props;
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Toolbar
@@ -208,9 +241,14 @@ function EnhancedTableToolbar(props) {
       {numSelected === 1 ? (
         <Tooltip title="Actions">
           <Box display={"flex"}>
-            <IconButton>
+            <IconButton onClick={handleOpen}>
               <EditIcon />
             </IconButton>
+            <EditModal
+              open={open}
+              handleClose={handleClose}
+              selectedMenuItemId={selectedMenuItemId}
+            />
             <IconButton onClick={onDelete}>
               <DeleteIcon />
             </IconButton>
@@ -236,6 +274,7 @@ function EnhancedTableToolbar(props) {
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
+  selectedMenuItemId: PropTypes.string.isRequired,
 };
 
 const MenuTable = (props) => {
@@ -365,6 +404,7 @@ const MenuTable = (props) => {
         <EnhancedTableToolbar
           numSelected={selected.length}
           onDelete={handleDelete}
+          selectedMenuItemId={selected[0] ? selected[0] : ""}
         />
         <TableContainer>
           <Table
