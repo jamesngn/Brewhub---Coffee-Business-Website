@@ -155,7 +155,6 @@ const MenuManagementContainer = ({ userId, userRole }) => {
       try {
         const menuItemsList = await fetchAllMenuItems();
         setMenuItemList(menuItemsList);
-        console.log(menuItemsList);
       } catch (error) {
         console.error(error);
       }

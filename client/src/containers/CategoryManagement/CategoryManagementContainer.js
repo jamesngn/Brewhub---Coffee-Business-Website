@@ -183,7 +183,7 @@ const CategoryManagementContainer = ({ userId, userRole }) => {
     <Box sx={{ flex: "1", padding: "25px", backgroundColor: "#F5DEB3" }}>
       <CategoryHeader />
       <CategorySearch />
-      <CategoryTable rows={rows} />
+      <CategoryTable rows={rows} setRows={setRows} />
     </Box>
   );
 };
