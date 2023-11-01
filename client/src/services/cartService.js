@@ -27,4 +27,17 @@ const getCartItems = async (userId) => {
   }
 };
 
-export { addItemToCart, getCartItems };
+const clearCart = async (userId) => {
+  try {
+    const response = await axios.delete(
+      `http://${config.publicIpAddress}:5000/user/clear-cart`,
+      { params: { userId: userId } }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error clearing cart items:", error);
+    throw error;
+  }
+};
+
+export { addItemToCart, getCartItems, clearCart };
