@@ -56,7 +56,11 @@ const MenuContainer = () => {
   const handleQuantityChange = (itemId, quantity) => {
     const updatedSelectedItems = selectedItems.map((item) => {
       if (itemId === item.itemId) {
-        return { ...item, quantity: quantity, subtotal: quantity * item.price };
+        return {
+          ...item,
+          quantity: quantity,
+          subtotal: (quantity * item.price).toFixed(2),
+        };
       }
       return item;
     });
