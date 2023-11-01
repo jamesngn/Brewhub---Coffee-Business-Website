@@ -20,7 +20,7 @@ const OrderSummary = ({ subtotal, discounts, tax }) => {
             Subtotal
           </Typography>
           <Typography variant="body2" fontWeight={"bold"}>
-            ${subtotal}
+            ${subtotal.toFixed(2)}
           </Typography>
         </Box>
         <Box sx={orderSumItemStyle}>
@@ -53,7 +53,7 @@ const OrderSummary = ({ subtotal, discounts, tax }) => {
             TOTAL
           </Typography>
           <Typography variant="h5" fontWeight={"bold"}>
-            ${subtotal + discounts + tax}
+            ${(subtotal + discounts + tax).toFixed(2)}
           </Typography>
         </Box>
       </Paper>
