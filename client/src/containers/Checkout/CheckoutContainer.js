@@ -4,7 +4,7 @@ import OrderSummary from "../../components/OrderSummary/OrderSummary";
 import CartSummary from "../../components/CartSummary/CartSummary";
 import { Box } from "@mui/material";
 
-import { getCartItems } from "../../services/cartService";
+import { clearCart, getCartItems } from "../../services/cartService";
 import { UserContext } from "../../contexts/UserContext";
 
 const CheckoutContainer = () => {
@@ -24,6 +24,13 @@ const CheckoutContainer = () => {
     GetCartItems();
   }, []);
 
+  const handleClearCart = async () => {
+    const response = await clearCart(userId);
+    if (response.success) {
+      setCartItems([]);
+    }
+  };
+
   useEffect(() => {
     function calculateSubtotal() {
       var subtotal = 0;
@@ -41,11 +48,14 @@ const CheckoutContainer = () => {
       <style>{}</style>
       <Box sx={{ display: "flex" }}>
         <Box sx={{ width: "65vw" }}>
-          <CheckoutForm cartItems={cartItems} />
+          <CheckoutForm
+            cartItems={cartItems}
+            handleClearCart={handleClearCart}
+          />
         </Box>
         <Box sx={{ flex: "1", borderLeft: "3px solid rgba(0,0,0,0.1)" }}>
           <OrderSummary subtotal={subtotal} />
-          <CartSummary cartItems={cartItems} />
+          <CartSummary cartItems={cartItems} onClearCart={handleClearCart} />
         </Box>
       </Box>
     </>
