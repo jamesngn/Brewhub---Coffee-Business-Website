@@ -59,6 +59,7 @@ server.addService(userPackage.UserService.service, {
   getUserName: getUserName,
   updateCart: updateCart,
   getCartItems: getCartItems,
+  clearCart: clearCart,
 });
 
 async function registerUser(call, callback) {
@@ -157,6 +158,32 @@ async function updateCart(call, callback) {
     callback({
       code: grpc.status.INTERNAL,
       details: "Error updating cart",
+    });
+  }
+}
+
+async function clearCart(call, callback) {
+  const { userId } = call.request;
+
+  try {
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      callback(null, { success: false, message: "User not found!" });
+      return;
+    }
+
+    user.cart = []; // Clear the cart by setting it to an empty array
+    await user.save();
+
+    callback(null, {
+      success: true,
+      message: `Cart cleared successfully`,
+    });
+  } catch (error) {
+    console.error("Error clearing cart:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error clearing cart",
     });
   }
 }
