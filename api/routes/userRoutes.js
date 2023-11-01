@@ -57,6 +57,18 @@ router.get("/get-cart-items", (req, res) => {
   });
 });
 
+router.delete("/clear-cart", (req, res) => {
+  const userId = req.query.userId;
+
+  userClient.clearCart({ userId }, (error, response) => {
+    if (error) {
+      return res.status(500).json({ error: error });
+    } else {
+      return res.status(200).json(response);
+    }
+  });
+});
+
 router.get("/retrieve-name", (req, res) => {
   const userId = req.query.userId;
   userClient.getUserName({ userId }, (error, response) => {
