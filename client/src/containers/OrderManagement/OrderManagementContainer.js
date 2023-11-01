@@ -198,7 +198,7 @@ const OrderManagementContainer = ({ userId, userRole }) => {
     <Box sx={{ flex: "1", padding: "25px", backgroundColor: "#F5DEB3" }}>
       <OrderHeader />
       <OrderSearch />
-      <EnhancedTable rows={rows} />
+      <EnhancedTable rows={rows} socket={socket} />
     </Box>
   );
 };
