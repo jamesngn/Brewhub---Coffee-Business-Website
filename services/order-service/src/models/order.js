@@ -43,11 +43,13 @@ const orderDocument = {
         type: "Number",
         required: true,
         description: "The price of a single unit of the menu item.",
+        set: (value) => parseFloat(value.toFixed(2)),
       },
       subtotal: {
         type: "Number",
         required: true,
         description: "The subtotal for this menu item (quantity * price).",
+        set: (value) => parseFloat(value.toFixed(2)),
       },
     },
   },
@@ -56,6 +58,7 @@ const orderDocument = {
     required: true,
     description:
       "The total amount for the order, including all ordered items and discounts.",
+    set: (value) => parseFloat(value.toFixed(2)),
   },
   orderStatus: {
     type: "String",
