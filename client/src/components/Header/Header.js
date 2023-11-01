@@ -38,6 +38,8 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
     if (setting === "Logout") {
       handleLogout();
+    } else if (setting === "Order History") {
+      navigate("/account/order-history");
     }
   };
 
