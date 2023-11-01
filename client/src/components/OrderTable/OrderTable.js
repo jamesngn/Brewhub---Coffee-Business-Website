@@ -17,6 +17,7 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { FormControl, Select, MenuItem } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -24,6 +25,7 @@ import Collapse from "@mui/material/Collapse";
 import { visuallyHidden } from "@mui/utils";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { updateOrderStatus } from "../../services/orderService";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -182,7 +184,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 const EnhancedTable = (props) => {
-  const { rows } = props;
+  const { rows, socket } = props;
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -255,8 +257,33 @@ const EnhancedTable = (props) => {
   );
 
   const Row = (props) => {
-    const { row, index } = props;
+    const { row, index, socket } = props;
     const [open, setOpen] = React.useState(false);
+    const [selectedStatus, setSelectedStatus] = React.useState(row.orderStatus); // Track the selected status
+
+    const statusColors = {
+      Pending: "#FFECB3", // Light Yellow
+      Processing: "#C8E6C9", // Light Green
+      Delivered: "#B3E5FC", // Light Blue
+      Cancelled: "#FFCCBC", // Light Red
+    };
+
+    const handleStatusChange = async (event) => {
+      setSelectedStatus(event.target.value);
+      // Here you can perform any additional actions, like sending an API request to update the order status in the backend
+      const response = await updateOrderStatus(row.orderId, event.target.value);
+
+      socket.emit("orderStatusUpdate", {
+        userId: row.customerName,
+        message: {
+          orderId: row.orderId,
+          newStatus: event.target.value,
+        },
+      });
+
+      console.log(response);
+    };
+
     const isItemSelected = isSelected(row.orderId);
     const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -272,7 +299,12 @@ const EnhancedTable = (props) => {
               }}
             />
           </TableCell> */}
-        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+        <TableRow
+          sx={{
+            "& > *": { borderBottom: "unset" },
+            backgroundColor: statusColors[selectedStatus],
+          }}
+        >
           <TableCell>
             <IconButton
               aria-label="expand row"
@@ -288,7 +320,25 @@ const EnhancedTable = (props) => {
           <TableCell align="left">{row.customerName}</TableCell>
           <TableCell align="left">{row.deliveryAddress}</TableCell>
           <TableCell align="left">{row.dateTime}</TableCell>
-          <TableCell align="left">{row.orderStatus}</TableCell>
+          <TableCell align="left">
+            {/* Render a dropdown to select the status */}
+            <FormControl>
+              <Select
+                labelId="order-status-label"
+                id="order-status"
+                value={selectedStatus}
+                onChange={handleStatusChange}
+              >
+                {["Pending", "Processing", "Delivered", "Cancelled"].map(
+                  (status) => (
+                    <MenuItem key={status} value={status}>
+                      {status}
+                    </MenuItem>
+                  )
+                )}
+              </Select>
+            </FormControl>
+          </TableCell>
           <TableCell align="right">{row.totalPrice}</TableCell>
         </TableRow>
         <TableRow>
@@ -355,7 +405,7 @@ const EnhancedTable = (props) => {
             />
             <TableBody>
               {visibleRows.map((row, index) => (
-                <Row key={index} row={row} index={index} />
+                <Row key={index} row={row} index={index} socket={socket} />
               ))}
               {emptyRows > 0 && (
                 <TableRow
