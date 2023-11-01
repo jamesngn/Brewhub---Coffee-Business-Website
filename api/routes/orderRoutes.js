@@ -69,4 +69,34 @@ router.get("/retrieveAll", (req, res) => {
   });
 });
 
+router.get("/retrieveOrderHistory", (req, res) => {
+  const { userId } = req.query;
+  orderClient.GetOrderHistory({ userId }, (error, response) => {
+    if (error) {
+      return res.status(500).json({ error: error });
+    } else {
+      if (response) {
+        return res.status(200).json(response);
+      } else {
+        res.status(500).json({ error: "Internal server error" });
+      }
+    }
+  });
+});
+
+router.put("/updateOrderStatus", (req, res) => {
+  const { orderId, newStatus } = req.body;
+  orderClient.UpdateOrderStatus({ orderId, newStatus }, (error, response) => {
+    if (error) {
+      return res.status(500).json({ error: error });
+    } else {
+      if (response) {
+        return res.status(200).json(response);
+      } else {
+        res.status(500).json({ error: "Internal server error" });
+      }
+    }
+  });
+});
+
 module.exports = router;
