@@ -12,6 +12,9 @@ import MenuManagment from "./pages/MenuManagement/MenuManagement";
 import AccountManagment from "./pages/AccountManagement/AccountManagement";
 import CategoryManagment from "./pages/CategoryManagement/CategoryManagement";
 import Landing from "./pages/Landing/Landing";
+import { OrderHistory } from "./pages/OrderHistory/OrderHistory";
+import OrderHistoryView from "./pages/OrderHistoryView/OrderHistoryView";
+import OrderHistoryTrack from "./pages/OrderHistoryTrack/OrderHistoryTrack";
 
 function App() {
   return (
@@ -26,6 +29,20 @@ function App() {
         <Route
           path="/order-now"
           element={<ProtectedRoute component={Order} userRequired />}
+        />
+        <Route
+          path="/account/order-history"
+          element={<ProtectedRoute component={OrderHistory} userRequired />}
+        />
+        <Route
+          path="/account/order-history/view/:orderId"
+          element={<ProtectedRoute component={OrderHistoryView} userRequired />}
+        />
+        <Route
+          path="/account/order-history/track/:orderId"
+          element={
+            <ProtectedRoute component={OrderHistoryTrack} userRequired />
+          }
         />
         <Route
           path="/admin/dashboard"
