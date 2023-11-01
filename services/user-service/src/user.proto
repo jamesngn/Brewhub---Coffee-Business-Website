@@ -3,11 +3,12 @@ syntax = "proto3";
 package userPackage;
 
 service UserService {
-  rpc registerUser(RegisterRequest) returns (RegisterResponse);
+  rpc registerUser(RegisterRequest) returns (SuccessMessageResponse);
   rpc updateCart(UpdateCartRequest) returns (UpdateCartResponse);
   rpc getCartItems(UserIdRequest) returns (GetCartResponse);
   rpc getUserName(UserIdRequest) returns (NameResponse);
   rpc getAllUsers(EmptyRequest) returns (AllUsersResponse);
+  rpc clearCart(UserIdRequest) returns (SuccessMessageResponse);
 }
 
 //Register
@@ -17,7 +18,7 @@ message RegisterRequest {
   string password = 3;
 }
 
-message RegisterResponse {
+message SuccessMessageResponse {
   bool success = 1;
   string message = 2;
 }
