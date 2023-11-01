@@ -214,7 +214,7 @@ async function GetOrderHistory(call, callback) {
         totalAmount: 1,
         paymentStatus: 1,
       }
-    );
+    ).sort({ orderDate: -1 }); // Sort by orderDate in descending order;
 
     if (orders.length == 0) {
       callback({
