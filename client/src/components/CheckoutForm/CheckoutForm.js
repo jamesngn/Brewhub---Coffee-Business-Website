@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import "typeface-old-standard-tt"; // Import the font
 
-const CheckoutForm = ({ cartItems }) => {
+const CheckoutForm = ({ cartItems, handleClearCart }) => {
   const { userId, userRole } = useContext(UserContext);
   const { socket } = useSocket(userId, userRole);
   const [alert, setAlert] = useState({
@@ -86,6 +86,7 @@ const CheckoutForm = ({ cartItems }) => {
             "Thank you for your order! Your purchase has been successfully placed. You will receive a confirmation email shortly. If you have any questions or need further assistance, please don't hesitate to contact us. Enjoy your day!",
         });
         handleSendToServer({ orderId: response.orderId });
+        handleClearCart();
       }
     } catch (error) {
       console.log("Error placing order. Try again!");
