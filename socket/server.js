@@ -35,6 +35,18 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("orderStatusUpdate", (data) => {
+    if (userRole === "admin") {
+      console.log(
+        "Recevied order status update message: " + JSON.stringify(data)
+      );
+      const userSocket = socketMap.get(data.userId);
+      if (userSocket && userSocket.socket) {
+        userSocket.socket.emit("message", data.message);
+      }
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log(`WebSocket disconnected for userId: ${userRole} -  ${userId}`);
     // Remove the socket connection from the map when a client disconnects
