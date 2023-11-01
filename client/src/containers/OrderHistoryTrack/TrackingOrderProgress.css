@@ -1,0 +1,22 @@
+.tracking-progress {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .progress-bar {
+    margin-top: 0.5rem;
+  }
+  
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+  
+  .progress-labels Typography {
+    flex: 1;
+    font-size: 0.8rem;
+    color: #888;
+    font-weight: bold;
+  }
+  
