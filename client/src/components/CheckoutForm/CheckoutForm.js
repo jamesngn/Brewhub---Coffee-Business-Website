@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import useSocket from "../../hooks/useSocket";
 import { UserContext } from "../../contexts/UserContext";
 
-import { placeOrder } from "../../services/orderService";
-
 import {
   Typography,
   Box,
@@ -14,92 +12,12 @@ import {
 } from "@mui/material";
 import "typeface-old-standard-tt"; // Import the font
 
-const CheckoutForm = ({ cartItems, handleClearCart }) => {
-  const { userId, userRole } = useContext(UserContext);
-  const { socket } = useSocket(userId, userRole);
-  const [alert, setAlert] = useState({
-    severity: "",
-    title: "",
-    message: "",
-  });
-  const [orderDetails, setOrderDetails] = useState({
-    userId: userId,
-    orderItems: [],
-    paymentMethod: "Credit Cart",
-    deliveryAddress: {
-      street: "",
-      city: "",
-      state: "",
-      postalCode: "",
-      country: "",
-    },
-    promotionsApplied: [],
-  });
-
-  useEffect(() => {
-    setOrderDetails((prevOrderDetails) => ({
-      ...prevOrderDetails,
-      orderItems:
-        cartItems &&
-        cartItems.map((item) => {
-          return {
-            itemId: item.itemId,
-            itemName: item.itemName,
-            quantity: item.quantity,
-            price: item.price,
-            subtotal: item.price * item.quantity,
-          };
-        }),
-    }));
-  }, [cartItems]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    // Check if the name is a nested property (e.g., 'deliveryAddress.street')
-    if (name.includes(".")) {
-      const [nestedProp, subProp] = name.split(".");
-
-      setOrderDetails({
-        ...orderDetails,
-        [nestedProp]: {
-          ...orderDetails[nestedProp],
-          [subProp]: value,
-        },
-      });
-    } else {
-      setOrderDetails({
-        ...orderDetails,
-        [name]: value,
-      });
-    }
-  };
-
-  const handleOrderSubmit = async () => {
-    try {
-      const response = await placeOrder(orderDetails);
-      if (response) {
-        setAlert({
-          severity: "success",
-          title: "Success",
-          message:
-            "Thank you for your order! Your purchase has been successfully placed. You will receive a confirmation email shortly. If you have any questions or need further assistance, please don't hesitate to contact us. Enjoy your day!",
-        });
-        handleSendToServer({ orderId: response.orderId });
-        handleClearCart();
-      }
-    } catch (error) {
-      console.log("Error placing order. Try again!");
-    }
-  };
-
-  const handleSendToServer = (data) => {
-    // Send a message using the existing socket connection
-    if (socket) {
-      socket.emit("message", data);
-    }
-  };
-
+const CheckoutForm = ({
+  orderDetails,
+  placeOrderMessage,
+  onChangeOrderDetails,
+  onPlaceOrder,
+}) => {
   const customFontStyle = {
     fontFamily: "Old Standard TT, serif", // Apply the font
   };
@@ -133,10 +51,10 @@ const CheckoutForm = ({ cartItems, handleClearCart }) => {
         }}
       ></div>
 
-      {alert.severity !== "" && (
-        <Alert severity={alert.severity}>
-          <AlertTitle>{alert.title}</AlertTitle>
-          {alert.message}
+      {placeOrderMessage.severity !== "" && (
+        <Alert severity={placeOrderMessage.severity}>
+          <AlertTitle>{placeOrderMessage.title}</AlertTitle>
+          {placeOrderMessage.message}
         </Alert>
       )}
 
@@ -161,7 +79,7 @@ const CheckoutForm = ({ cartItems, handleClearCart }) => {
             type="text"
             name="deliveryAddress.street"
             value={orderDetails.deliveryAddress.street}
-            onChange={handleInputChange}
+            onChange={onChangeOrderDetails}
           />
         </Grid>
         <Grid item xs={6}>
@@ -171,7 +89,7 @@ const CheckoutForm = ({ cartItems, handleClearCart }) => {
             type="text"
             name="deliveryAddress.city"
             value={orderDetails.deliveryAddress.city}
-            onChange={handleInputChange}
+            onChange={onChangeOrderDetails}
           />
         </Grid>
         <Grid item xs={6}>
@@ -181,7 +99,7 @@ const CheckoutForm = ({ cartItems, handleClearCart }) => {
             type="text"
             name="deliveryAddress.state"
             value={orderDetails.deliveryAddress.state}
-            onChange={handleInputChange}
+            onChange={onChangeOrderDetails}
           />
         </Grid>
         <Grid item xs={6}>
@@ -191,7 +109,7 @@ const CheckoutForm = ({ cartItems, handleClearCart }) => {
             type="text"
             name="deliveryAddress.postalCode"
             value={orderDetails.deliveryAddress.postalCode}
-            onChange={handleInputChange}
+            onChange={onChangeOrderDetails}
           />
         </Grid>
         <Grid item xs={6}>
@@ -201,7 +119,7 @@ const CheckoutForm = ({ cartItems, handleClearCart }) => {
             type="text"
             name="deliveryAddress.country"
             value={orderDetails.deliveryAddress.country}
-            onChange={handleInputChange}
+            onChange={onChangeOrderDetails}
           />
         </Grid>
       </Grid>
@@ -213,7 +131,7 @@ const CheckoutForm = ({ cartItems, handleClearCart }) => {
             "&:hover": { backgroundColor: "#A0522D" },
           }}
           variant="contained"
-          onClick={handleOrderSubmit}
+          onClick={onPlaceOrder}
         >
           PLACE ORDER
         </Button>

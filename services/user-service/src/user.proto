@@ -9,6 +9,9 @@ service UserService {
   rpc getUserName(UserIdRequest) returns (NameResponse);
   rpc getAllUsers(EmptyRequest) returns (AllUsersResponse);
   rpc clearCart(UserIdRequest) returns (SuccessMessageResponse);
+  rpc addPromoCode(addPromoCodeRequest) returns (addPromoCodeResponse);
+  rpc retrievePromoCodes(UserIdRequest) returns (retrievePromoCodesResponse);
+  rpc removePromoCode(addPromoCodeRequest) returns (SuccessMessageResponse);
 }
 
 //Register
@@ -45,6 +48,8 @@ message CartItem {
   string itemName = 2;
   double price = 3;
   int32 quantity = 4;
+  double discountedValue = 5;
+  
 }
 
 message GetCartResponse {
@@ -68,4 +73,18 @@ message UserResponse {
 }
 message AllUsersResponse {
   repeated UserResponse users = 1;
+}
+
+message addPromoCodeRequest {
+  string userId = 1;
+  string promoCodeId = 2;
+}
+
+message addPromoCodeResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message retrievePromoCodesResponse {
+  repeated string promos = 1;
 }

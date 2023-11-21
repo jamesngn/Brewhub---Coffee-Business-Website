@@ -2,27 +2,28 @@ version: '3'
 services:
   mongodb:
     container_name: mongodb
-    build: 
-      context: ./db
-      dockerfile: Dockerfile
-    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/mongodb:latest
+    image: mongo:4
+    # build: 
+    #   context: ./db
+    #   dockerfile: Dockerfile
+    # image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/mongodb:latest
     ports:
       - '27017:27017'
     networks:
       - my-network
 
-  # admin-service:
-  #   container_name: admin-service-server
-  #   build:
-  #     context: ./services
-  #     dockerfile: admin-service/Dockerfile
-  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/admin-service-server:latest
-  #   ports:
-  #     - '5056:5056'
-  #   depends_on:
-  #     - mongodb
-  #   networks:
-  #     - my-network
+  admin-service:
+    container_name: admin-service-server
+    build:
+      context: ./services
+      dockerfile: admin-service/Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/admin-service-server:latest
+    ports:
+      - '5056:5056'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
 
   auth-service:
     container_name: auth-service-server
@@ -32,6 +33,18 @@ services:
     image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/auth-service-server:latest
     ports:
       - '5054:5054'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
+  menu-service:
+    container_name: menu-service-server
+    build:
+      context: ./services
+      dockerfile: menu-service/Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/menu-service-server:latest
+    ports:
+      - '5051:5051'
     depends_on:
       - mongodb
     networks:
@@ -90,6 +103,18 @@ services:
       context: ./socket
     ports:
       - '8000:8000'
+
+  menu-service-test:
+    container_name: menu_service_test
+    build:
+      context: ./services
+      dockerfile: menu-service/Dockerfile.test
+    depends_on:
+      - menu-service
+      - mongodb
+    networks:
+      - my-network
+  
       
 networks:
   my-network:

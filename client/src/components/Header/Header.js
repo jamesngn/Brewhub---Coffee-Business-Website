@@ -14,8 +14,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import CoffeeMakerIcon from "@mui/icons-material/CoffeeMaker";
 
-const pages = ["Menu", "Order Now", "Coffee Blog", "Promos"];
-const links = ["menu", "order-now", "coffee-blog", "promos"];
+const pages = ["Menu", "Order Now", "Promos", "Coffee Blog"];
+const links = ["menu", "order-now", "promos", "coffee-blog"];
 const settings = ["Order History", "Account", "Logout"];
 
 function ResponsiveAppBar() {

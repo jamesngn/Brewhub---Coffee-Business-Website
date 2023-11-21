@@ -18,7 +18,9 @@ message OrderRequest {
   repeated OrderItem orderItems = 2;
   string paymentMethod = 3;
   DeliveryAddress deliveryAddress = 4;
-  repeated PromotionApplied promotionsApplied = 5;
+  string promoCodeUsed = 5;
+  double discount = 6;
+  double taxAmount = 7;
 }
 message OrderResponse {
   string orderId = 1;
@@ -37,11 +39,13 @@ message OrderDetailsResponse {
   string orderDate = 3;
   repeated OrderItem orderItems = 4;
   double totalAmount = 5;
-  string orderStatus = 6;
-  string paymentStatus = 7;
-  string paymentMethod = 8;
-  DeliveryAddress deliveryAddress = 9;
-  repeated PromotionApplied promotionsApplied = 10;
+  double totalDiscountedAmount = 6;
+  double taxAmount = 7;
+  string orderStatus = 8;
+  string paymentStatus = 9;
+  string paymentMethod = 10;
+  DeliveryAddress deliveryAddress = 11;
+  string promoCodeUsed = 12;
 }
 
 message EmptyRequest {
@@ -100,6 +104,7 @@ message OrderItem {
   int32 quantity = 3;
   double price = 4;
   double subtotal = 5;
+  double discountedValue = 6;
 }
 
 message DeliveryAddress {
@@ -113,11 +118,4 @@ message DeliveryAddress {
   string postalCode = 4;
   // The country.
   string country = 5;
-}
-
-message PromotionApplied {
-  // The promotion code applied to the order.
-  string promoCode = 1;
-  // The discount amount applied to the order.
-  double discountPercentage = 2;
 }

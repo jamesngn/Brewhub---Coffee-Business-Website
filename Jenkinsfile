@@ -37,8 +37,8 @@ pipeline {
         //     steps {
         //         script {
         //             sleep 5
-        //             sh 'docker cp brewhub_db_2 mongodb:/'
-        //             sh 'docker exec mongodb mongorestore --db brewhub_db /brewhub_db_2'
+        //             sh 'docker cp brewhub_db mongodb:/'
+        //             sh 'docker exec mongodb mongorestore --db brewhub_db /brewhub_db'
 
         //             sh 'docker run --name auth-service-test --network brewhub_app_my-network auth-service-test'
         //             sh 'docker run --name order-service-test --network brewhub_app_my-network order-service-test'

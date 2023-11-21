@@ -7,6 +7,7 @@ import { getOrderDetails } from "../../services/orderService";
 
 const OrderHistoryViewItem = (props) => {
   const { orderItem } = props;
+  console.log(orderItem);
   return (
     <div
       style={{
@@ -41,7 +42,7 @@ const OrderHistoryViewItem = (props) => {
         </div>
       </div>
       <div style={{ color: "#4D4D4D", fontWeight: "bold", fontSize: "1.2rem" }}>
-        ${orderItem.subtotal}
+        ${orderItem.price * orderItem.quantity}
       </div>
     </div>
   );
@@ -145,9 +146,7 @@ const OrderHistoryViewCtn = (props) => {
           >
             <Typography sx={{ fontSize: "1.2rem" }}>Sales Tax</Typography>
             <Typography sx={{ fontSize: "1.2rem" }}>
-              $
-              {orderDetails &&
-                ((orderDetails.totalAmount * 6) / 100).toFixed(2)}
+              ${orderDetails && (orderDetails.taxAmount + 0).toFixed(2)}
             </Typography>
           </div>
           <div
@@ -158,8 +157,10 @@ const OrderHistoryViewCtn = (props) => {
               marginTop: "1.2rem",
             }}
           >
-            <Typography sx={{ fontSize: "1.2rem" }}>Discounts</Typography>
-            <Typography sx={{ fontSize: "1.2rem" }}>-$1.00</Typography>
+            <Typography sx={{ fontSize: "1.2rem" }}>Discount</Typography>
+            <Typography sx={{ fontSize: "1.2rem" }}>
+              -${(orderDetails.totalDiscountedAmount + 0).toFixed(2)}
+            </Typography>
           </div>
           <div
             style={{
@@ -180,7 +181,13 @@ const OrderHistoryViewCtn = (props) => {
               Total
             </Typography>
             <Typography sx={{ fontSize: "1.7rem", fontWeight: "bold" }}>
-              ${orderDetails && orderDetails.totalAmount}
+              $
+              {orderDetails &&
+                (
+                  orderDetails.totalAmount +
+                  orderDetails.taxAmount -
+                  orderDetails.totalDiscountedAmount
+                ).toFixed(2)}
             </Typography>
           </div>
         </Box>

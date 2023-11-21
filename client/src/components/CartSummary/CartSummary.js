@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 
-const CartItem = ({ name, quantity, price }) => {
+const CartItem = ({ name, quantity, price, discountedValue }) => {
   const cartSumItemStyle = {
     height: "75px",
     marginTop: "10px",
@@ -26,13 +26,29 @@ const CartItem = ({ name, quantity, price }) => {
       <Box flex={1}></Box>
 
       <Box>
-        <Typography
-          variant={"h6"}
-          fontWeight={"bold"}
-          color={"rgba(62,39,35,0.51)"}
-        >
-          ${(price * quantity).toFixed(2)}
-        </Typography>
+        {discountedValue > 0 ? (
+          <>
+            <Typography
+              variant={"h6"}
+              fontWeight={"bold"}
+              color={"rgba(62,39,35,0.51)"}
+              sx={{ textDecoration: "line-through" }}
+            >
+              ${(price * quantity).toFixed(2)}
+            </Typography>
+            <Typography variant={"h6"} fontWeight={"bold"} color={"#CD5C5C"}>
+              ${(price * quantity - discountedValue).toFixed(2)}
+            </Typography>
+          </>
+        ) : (
+          <Typography
+            variant={"h6"}
+            fontWeight={"bold"}
+            color={"rgba(62,39,35,0.51)"}
+          >
+            ${(price * quantity).toFixed(2)}
+          </Typography>
+        )}
       </Box>
     </Box>
   );
@@ -42,7 +58,6 @@ const CartSummary = ({ cartItems, onClearCart }) => {
   const customFontStyle = {
     fontFamily: "Old Standard TT, serif", // Apply the font
   };
-
   return (
     <Box padding={"23px 40px 0"}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -112,6 +127,7 @@ const CartSummary = ({ cartItems, onClearCart }) => {
               name={item.itemName}
               quantity={item.quantity}
               price={item.price}
+              discountedValue={item.discountedValue}
             />
           ))}
       </Box>

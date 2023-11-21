@@ -69,20 +69,20 @@ server.addService(orderPackage.OrderService.service, {
 async function PlaceOrder(call, callback) {
   try {
     const request = call.request; //get the request from the client
+    console.log(request);
     const newOrder = new Order({
       _id: new ObjectId(),
       userId: new ObjectId(request.userId),
       orderDate: new Date(),
       orderItems: request.orderItems,
-      totalAmount: orderUtils.calculateTotal(
-        request.orderItems,
-        request.promotionsApplied
-      ),
+      totalAmount: orderUtils.calculateTotal(request.orderItems),
+      totalDiscountedAmount: request.discount,
+      taxAmount: request.taxAmount,
       orderStatus: "Pending",
       paymentStatus: "Unpaid",
       paymentMethod: request.paymentMethod,
       deliveryAddress: request.deliveryAddress,
-      promotionsApplied: request.promotionsApplied,
+      promoCodeUsed: request.promoCodeUsed,
     });
     await newOrder.save();
 
@@ -90,6 +90,8 @@ async function PlaceOrder(call, callback) {
       orderId: newOrder._id,
       orderDate: newOrder.orderDate,
       totalAmount: newOrder.totalAmount,
+      totalDiscountedAmount: newOrder.totalDiscountedAmount,
+      taxAmount: newOrder.taxAmount,
       orderStatus: newOrder.orderStatus,
       paymentStatus: newOrder.paymentStatus,
     };
@@ -131,6 +133,8 @@ async function GetOrderDetails(call, callback) {
         orderDate: order.orderDate,
         orderItems: order.orderItems,
         totalAmount: order.totalAmount,
+        totalDiscountedAmount: order.totalDiscountedAmount,
+        taxAmount: order.taxAmount,
         orderStatus: order.orderStatus,
         paymentStatus: order.paymentStatus,
         paymentMethod: order.paymentMethod,
@@ -160,6 +164,8 @@ async function GetAllOrderDetails(call, callback) {
           orderDate: order.orderDate,
           orderItems: order.orderItems,
           totalAmount: order.totalAmount,
+          totalDiscountedAmount: order.totalDiscountedAmount,
+          taxAmount: order.taxAmount,
           orderStatus: order.orderStatus,
           paymentStatus: order.paymentStatus,
           paymentMethod: order.paymentMethod,
@@ -229,6 +235,8 @@ async function GetOrderHistory(call, callback) {
             orderId: order._id.toString(), // Change _id to OrderId
             orderDate: order.orderDate.toString(),
             totalAmount: order.totalAmount,
+            totalDiscountedAmount: order.totalDiscountedAmount,
+            taxAmount: order.taxAmount,
             orderStatus: order.orderStatus,
             paymentStatus: order.paymentStatus,
           };

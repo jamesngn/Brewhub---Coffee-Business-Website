@@ -11,10 +11,12 @@ import Order from "./pages/Order/Order";
 import MenuManagment from "./pages/MenuManagement/MenuManagement";
 import AccountManagment from "./pages/AccountManagement/AccountManagement";
 import CategoryManagment from "./pages/CategoryManagement/CategoryManagement";
+import PromoManagement from "./pages/PromoManagement/PromoManagement";
 import Landing from "./pages/Landing/Landing";
 import { OrderHistory } from "./pages/OrderHistory/OrderHistory";
 import OrderHistoryView from "./pages/OrderHistoryView/OrderHistoryView";
 import OrderHistoryTrack from "./pages/OrderHistoryTrack/OrderHistoryTrack";
+import Promos from "./pages/Promos/Promos";
 
 function App() {
   return (
@@ -31,9 +33,14 @@ function App() {
           element={<ProtectedRoute component={Order} userRequired />}
         />
         <Route
+          path="/promos"
+          element={<ProtectedRoute component={Promos} userRequired />}
+        />
+        <Route
           path="/account/order-history"
           element={<ProtectedRoute component={OrderHistory} userRequired />}
         />
+
         <Route
           path="/account/order-history/view/:orderId"
           element={<ProtectedRoute component={OrderHistoryView} userRequired />}
@@ -44,6 +51,7 @@ function App() {
             <ProtectedRoute component={OrderHistoryTrack} userRequired />
           }
         />
+
         <Route
           path="/admin/dashboard"
           element={<ProtectedRoute component={Dashboard} adminRequired />}
@@ -61,6 +69,10 @@ function App() {
           element={
             <ProtectedRoute component={CategoryManagment} adminRequired />
           }
+        />
+        <Route
+          path="/admin/promo-codes"
+          element={<ProtectedRoute component={PromoManagement} adminRequired />}
         />
         <Route
           path="/admin/account"

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography, Paper } from "@mui/material";
-const OrderSummary = ({ subtotal, discounts, tax }) => {
+const OrderSummary = ({ subtotal, discount, tax }) => {
   const customFontStyle = {
     fontFamily: "Old Standard TT, serif", // Apply the font
   };
@@ -28,7 +28,7 @@ const OrderSummary = ({ subtotal, discounts, tax }) => {
             Discounts
           </Typography>
           <Typography variant="body2" fontWeight={"bold"} color={"#CD5C5C"}>
-            -$2.00
+            -${discount.toFixed(2)}
           </Typography>
         </Box>
         <Box sx={orderSumItemStyle}>
@@ -36,7 +36,7 @@ const OrderSummary = ({ subtotal, discounts, tax }) => {
             Sales Tax
           </Typography>
           <Typography variant="body2" fontWeight={"bold"}>
-            $1.00
+            ${tax.toFixed(2)}
           </Typography>
         </Box>
         <div
@@ -53,7 +53,7 @@ const OrderSummary = ({ subtotal, discounts, tax }) => {
             TOTAL
           </Typography>
           <Typography variant="h5" fontWeight={"bold"}>
-            ${(subtotal + discounts + tax).toFixed(2)}
+            ${(subtotal - discount + tax).toFixed(2)}
           </Typography>
         </Box>
       </Paper>

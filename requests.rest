@@ -1,6 +1,6 @@
 ###
 GET http://localhost:5000/auth/user
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGZkNmU3NTY5ZjI4OGYyZTlkMDZiNjYiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTQzMzIyMTYsImV4cCI6MTY5NDMzNTgxNn0.NQvi2_-88p8w0p8PzJiy_wyNG_CJ_bQVFknDjZKCpOI
+x-auth-token: 
 
 ###
 POST http://localhost:5000/auth/login
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
     "username":"Quang",
-    "email": "user3@example.com",
+    "email": "user@example.com",
     "password":"quang123"
 }
 ###
@@ -30,6 +30,9 @@ Content-Type: application/json
     "email": "user@admin.com",
     "password":"quang123"
 }
+
+###
+GET http://localhost:5000/category/all
 
 
 

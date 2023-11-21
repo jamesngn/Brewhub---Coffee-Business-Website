@@ -36,4 +36,48 @@ const retrieveAllUsers = async () => {
   }
 };
 
-export { registerUser, retrieveUsername, retrieveAllUsers };
+const addPromoCode = async (userId, promoCodeId) => {
+  try {
+    const response = await axios.post(
+      `http://${config.publicIpAddress}:5000/user/add-promo`,
+      { userId, promoCodeId }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error adding promo code: ", error);
+  }
+};
+
+const retrievePromoCodes = async (userId) => {
+  try {
+    const response = await axios.get(
+      `http://${config.publicIpAddress}:5000/user/retrieve-promo-codes`,
+      { params: { userId: userId } }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving promo codes: ", error);
+  }
+};
+
+const removePromoCode = async (userId, promoCodeId) => {
+  console.log(userId + " - " + promoCodeId);
+  try {
+    const response = await axios.delete(
+      `http://${config.publicIpAddress}:5000/user/delete-promo`,
+      { params: { userId, promoCodeId } }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting promo code: ", error);
+  }
+};
+
+export {
+  registerUser,
+  retrieveUsername,
+  retrieveAllUsers,
+  addPromoCode,
+  retrievePromoCodes,
+  removePromoCode,
+};

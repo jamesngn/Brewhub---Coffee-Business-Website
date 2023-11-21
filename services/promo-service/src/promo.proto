@@ -5,46 +5,135 @@ package promoPackage;
 // Define the Promo service
 service PromoService {
   // Define RPC methods for managing promotions
-  rpc CreatePromotion(CreatePromotionRequest) returns (PromotionResponse);
-  rpc GetPromotion(GetPromotionRequest) returns (PromotionResponse);
-  rpc UpdatePromotion(UpdatePromotionRequest) returns (PromotionResponse);
-  rpc DeletePromotion(DeletePromotionRequest) returns (DeleteResponse);
+  rpc CreatePromoCode (CreatePromoCodeRequest) returns (CreatePromoCodeResponse);
+  rpc GetPromoCodes (EmptyRequest) returns (PromoArray);
+  rpc GetPromoCodeById (SingleStringRequest) returns (Promo);
+  rpc GetPromoCodeByCode (SingleStringRequest) returns (PromoArray);
+  rpc UpdatePromoCode (UpdatePromoCodeRequest ) returns (UpdatePromoCodeResponse);
+  rpc ApplyPromoCodeToOrder(ApplyPromoCodeToOrderRequest) returns (SuccessMessageResponse);
+  rpc ApplyPromoCodeToOrderDetails(ApplyPromoCodeToOrderDetailsRequest) returns (ApplyPromoCodeToOrderDetailsResponse);
 }
 
 // Define message types
-message CreatePromotionRequest {
-  string promoCode = 1;
-  double discountPercentage = 2;
-  string expirationDate = 3;
-  string description = 4;
-  bool isActive = 5;
+// Define message types
+message CreatePromoCodeRequest {
+  string code = 1;
+  string discountType = 2;
+  float discountValue = 3;
+  ApplicableTo applicableTo = 4;
+  bool active = 5;
+  int32 maxUses = 6;
+  int32 usesRemaining = 7;
+  int32 usedCountPerUser = 8;
+  string createdBy = 9;
 }
 
-message GetPromotionRequest {
-  string promoCode = 1;
-}
-
-message UpdatePromotionRequest {
-  string promoCode = 1;
-  double discountPercentage = 2;
-  string expirationDate = 3;
-  string description = 4;
-  bool isActive = 5;
-}
-
-message DeletePromotionRequest {
-  string promoCode = 1;
-}
-
-message PromotionResponse {
-  string promoCode = 1;
-  double discountPercentage = 2;
-  string expirationDate = 3;
-  string description = 4;
-  bool isActive = 5;
-}
-
-message DeleteResponse {
+message CreatePromoCodeResponse {
   bool success = 1;
   string message = 2;
+  Promo promoCode = 3;
+}
+
+message EmptyRequest {
+
+}
+
+message ApplicableTo {
+  repeated string specificProducts = 1;
+  repeated string specificCategories = 2;
+  repeated string specificUser = 3;
+  float minOrderAmount = 4;
+  DateRange limitedTimeOffer = 5;
+}
+
+message DateRange {
+  string startDate = 1;
+  string endDate = 2;
+}
+
+message Promo {
+  string code = 1;
+  string discountType = 2;
+  float discountValue = 3;
+  ApplicableTo applicableTo = 4;
+  bool active = 5;
+  int32 maxUses = 6;
+  string createdBy = 7;
+  string createdAt = 8;
+  string updatedAt = 9;
+  string _id = 10;
+  int32 usesRemaining = 11;
+}
+
+// GetPromoCodeById
+message SingleStringRequest {
+  string id = 1;
+}
+
+message PromoArray {
+  repeated Promo promos = 1;
+}
+
+//UpdatePromoCode
+message UpdatePromoCodeRequest {
+  string promoCodeId = 1;
+  Promo updatedDetails = 2;
+}
+message UpdatePromoCodeResponse {
+  bool success = 1;
+  string message = 2;
+  Promo updatedPromoCode = 3;
+}
+
+//ApplyPromoCodeToOrder
+message ApplyPromoCodeToOrderRequest {
+  string promoCode = 1;
+  string orderId = 2;
+}
+message SuccessMessageResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+//ApplyPromoCodeToOrderDetails
+message ApplyPromoCodeToOrderDetailsRequest {
+  string promoCode = 1;
+  string userId = 2;
+  repeated OrderItem orderItems = 3;
+}
+message OrderRequest {
+  string userId = 1;
+  repeated OrderItem orderItems = 2;
+  string paymentMethod = 3;
+  DeliveryAddress deliveryAddress = 4;
+  repeated PromotionApplied promotionsApplied = 5;
+}
+message OrderItem {
+  string itemId = 1;
+  string itemName = 2;
+  int32 quantity = 3;
+  double price = 4;
+  double discountedValue = 5;
+}
+message DeliveryAddress {
+  // The street address.
+  string street = 1;
+  // The city.
+  string city = 2;
+  // The state or province.
+  string state = 3;
+  // The postal code or ZIP code.
+  string postalCode = 4;
+  // The country.
+  string country = 5;
+}
+message PromotionApplied {
+  string promoCode = 1;
+  double discountPercentage = 2;
+}
+message ApplyPromoCodeToOrderDetailsResponse {
+  bool success = 1;
+  string message = 2;
+  repeated OrderItem orderItems = 3;
+  double totalDiscount = 4;
 }

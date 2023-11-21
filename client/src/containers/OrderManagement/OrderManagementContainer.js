@@ -108,6 +108,7 @@ const OrderManagementContainer = ({ userId, userRole }) => {
     async function FetchAllOrders() {
       try {
         const orderDetails = await getAllOrderDetails();
+        console.log(orderDetails);
         setOrderDetailsList(orderDetails);
       } catch (error) {
         console.error(error);
@@ -151,6 +152,8 @@ const OrderManagementContainer = ({ userId, userRole }) => {
       dateTime,
       orderStatus,
       totalPrice,
+      totalDiscountedAmount,
+      taxAmount,
       items,
       deliveryAddress
     ) {
@@ -160,6 +163,8 @@ const OrderManagementContainer = ({ userId, userRole }) => {
         dateTime,
         orderStatus,
         totalPrice,
+        totalDiscountedAmount,
+        taxAmount,
         items,
         deliveryAddress,
       };
@@ -171,12 +176,15 @@ const OrderManagementContainer = ({ userId, userRole }) => {
         const dateTime = formatDate(order.orderDate);
         const orderStatus = order.orderStatus;
         const totalPrice = order.totalAmount;
+        const totalDiscountedAmount = order.totalDiscountedAmount;
+        const taxAmount = order.taxAmount;
         const items = order.orderItems
           ? order.orderItems.map((item) => ({
               name: item.itemName,
               price: item.price,
               quantity: item.quantity,
               subtotal: item.subtotal,
+              discountedValue: item.discountedValue,
             }))
           : [];
         const deliveryAddress = formatAddress(order.deliveryAddress);
@@ -187,6 +195,8 @@ const OrderManagementContainer = ({ userId, userRole }) => {
           dateTime,
           orderStatus,
           totalPrice,
+          totalDiscountedAmount,
+          taxAmount,
           items,
           deliveryAddress
         );

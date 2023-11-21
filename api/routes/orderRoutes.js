@@ -3,41 +3,18 @@ const router = express.Router();
 const { orderClient } = require("../../services/order-service/src/client.js");
 
 router.post("/place", (req, res) => {
-  const {
-    userId,
-    orderItems,
-    paymentMethod,
-    deliveryAddress,
-    promotionsApplied,
-  } = req.body;
-
-  orderClient.PlaceOrder(
-    { userId, orderItems, paymentMethod, deliveryAddress, promotionsApplied },
-    (error, response) => {
-      if (error) {
-        return res.status(500).json({ error: error });
+  console.log(req.body);
+  orderClient.PlaceOrder(req.body, (error, response) => {
+    if (error) {
+      return res.status(500).json({ error: error });
+    } else {
+      if (response) {
+        return res.status(200).json(response);
       } else {
-        if (response) {
-          const {
-            orderId,
-            orderDate,
-            totalAmount,
-            orderStatus,
-            paymentStatus,
-          } = response;
-          return res.status(200).json({
-            orderId,
-            orderDate,
-            totalAmount,
-            orderStatus,
-            paymentStatus,
-          });
-        } else {
-          res.status(500).json({ error: "Internal server error" });
-        }
+        res.status(500).json({ error: "Internal server error" });
       }
     }
-  );
+  });
 });
 
 router.get("/retrieveById", (req, res) => {

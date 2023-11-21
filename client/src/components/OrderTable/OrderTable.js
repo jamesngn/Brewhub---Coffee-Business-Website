@@ -95,7 +95,7 @@ const headCells = [
     id: "totalPrice",
     numeric: true,
     disablePadding: false,
-    label: "Total Price",
+    label: "($) Total Amount (Total - Discount + Tax)",
   },
 ];
 
@@ -339,7 +339,12 @@ const EnhancedTable = (props) => {
               </Select>
             </FormControl>
           </TableCell>
-          <TableCell align="right">{row.totalPrice}</TableCell>
+          <TableCell align="right">
+            {row.totalPrice}{" "}
+            <span style={{ color: "red" }}>- {row.totalDiscountedAmount}</span>{" "}
+            + <span style={{ color: "#8B4513 " }}>{row.taxAmount}</span> ={" "}
+            {row.totalPrice - row.totalDiscountedAmount + row.taxAmount}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
@@ -356,25 +361,31 @@ const EnhancedTable = (props) => {
                       <TableCell>Price</TableCell>
                       <TableCell align="right">Quantity</TableCell>
                       <TableCell align="right">Subtotal ($)</TableCell>
+                      <TableCell align="right">Discount ($)</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.items.map((itemRow, index) => (
-                      <TableRow key={index}>
-                        <TableCell component="th" scope="row">
-                          {index + 1}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {itemRow.name}
-                        </TableCell>
-                        <TableCell>{itemRow.price}</TableCell>
-                        <TableCell align="right">{itemRow.quantity}</TableCell>
-                        <TableCell align="right">
-                          {Math.round(itemRow.quantity * itemRow.price * 100) /
-                            100}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {row.items.length > 0 &&
+                      row.items.map((itemRow, index) => (
+                        <TableRow key={index}>
+                          <TableCell component="th" scope="row">
+                            {index + 1}
+                          </TableCell>
+                          <TableCell component="th" scope="row">
+                            {itemRow.name}
+                          </TableCell>
+                          <TableCell>{itemRow.price}</TableCell>
+                          <TableCell align="right">
+                            {itemRow.quantity}
+                          </TableCell>
+                          <TableCell align="right">
+                            {itemRow.subtotal.toFixed(2)}
+                          </TableCell>
+                          <TableCell align="right">
+                            {itemRow.discountedValue}
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               </Box>

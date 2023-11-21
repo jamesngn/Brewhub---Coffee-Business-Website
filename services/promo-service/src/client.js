@@ -2,10 +2,16 @@
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
 
-//config host, port
+//Load the proto files for different gRPC services
 const path = require("path");
+const rootPath = path.resolve(__dirname);
+const protoPath = path.join(rootPath, "promo.proto");
+const promoPackageDef = protoLoader.loadSync(protoPath, {});
+
+//config host, port
 const config = require(path.join(
   __dirname,
+  "..",
   "..",
   "shared",
   "src",
@@ -14,11 +20,6 @@ const config = require(path.join(
 ));
 const serviceHost = config.grpc.promoServiceHost;
 const servicePort = config.grpc.promoServicePort;
-
-//Load the proto files for different gRPC services
-const rootPath = path.resolve(__dirname);
-const protoPath = path.join(rootPath, "promo.proto");
-const promoPackageDef = protoLoader.loadSync(protoPath, {});
 
 // Load the gRPC objects for different services
 const promoGrpcObject = grpc.loadPackageDefinition(promoPackageDef);

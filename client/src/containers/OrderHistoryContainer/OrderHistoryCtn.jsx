@@ -21,7 +21,9 @@ const OrderHistoryCtn = ({ userId, userRole }) => {
   useEffect(() => {
     async function fetchOrderHistory() {
       const response = await getOrderHistory(userId);
-      setOrderHistoryItem(response);
+      if (response) {
+        setOrderHistoryItem(response);
+      }
     }
     fetchOrderHistory();
   }, []);
@@ -44,9 +46,19 @@ const OrderHistoryCtn = ({ userId, userRole }) => {
       >
         Order history
       </Typography>
-      {orderHistoryItem.map((item, index) => (
-        <OrderHistoryItem key={index} orderDetails={item} />
-      ))}
+      {orderHistoryItem.length > 0 ? (
+        orderHistoryItem.map((item, index) => (
+          <OrderHistoryItem key={index} orderDetails={item} />
+        ))
+      ) : (
+        <Typography mt={2} variant="body1">
+          We regret to inform you that there is currently no available order
+          history for your account. We appreciate your understanding and look
+          forward to serving you in the future. If you have any inquiries or
+          require assistance, please feel free to contact our customer support
+          team. Thank you for choosing our coffee shop!
+        </Typography>
+      )}
       <Snackbar
         open={showSnackbar}
         autoHideDuration={6000}

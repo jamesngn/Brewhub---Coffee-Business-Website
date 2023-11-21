@@ -13,8 +13,10 @@ const userSchema = new mongoose.Schema({
       itemName: { type: String, required: true },
       price: { type: Number, required: true },
       quantity: { type: Number, required: true, default: 1 },
+      discountedValue: { type: Number, required: true, default: 0 },
     },
   ],
+  promos: [{ type: String }],
 });
 
 userSchema.pre("save", async function (next) {

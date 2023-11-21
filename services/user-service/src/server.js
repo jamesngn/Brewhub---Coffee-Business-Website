@@ -60,6 +60,9 @@ server.addService(userPackage.UserService.service, {
   updateCart: updateCart,
   getCartItems: getCartItems,
   clearCart: clearCart,
+  addPromoCode: addPromoCode,
+  retrievePromoCodes: retrievePromoCodes,
+  removePromoCode: removePromoCode,
 });
 
 async function registerUser(call, callback) {
@@ -204,9 +207,9 @@ async function getCartItems(call, callback) {
         itemName: item.itemName,
         price: item.price,
         quantity: item.quantity,
+        discountedValue: item.discountedValue,
       };
     });
-
     callback(null, { items: cartItems });
   } catch (error) {
     console.error("Error fetching cart items:", error);
@@ -236,5 +239,91 @@ async function getUserName(call, callback) {
     });
   }
 }
+
+async function addPromoCode(call, callback) {
+  const { userId, promoCodeId } = call.request;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      callback(null, { success: false, message: "User ID not found" });
+      return;
+    }
+    // Check if the promoCodeId already exists in the user's promos array
+    if (user.promos.includes(promoCodeId)) {
+      callback(null, {
+        success: false,
+        message: "Promo Code already exists for this user",
+      });
+      return;
+    }
+    // Assuming you have a field named 'promos' in your user schema
+    user.promos.push(promoCodeId);
+    await user.save();
+
+    callback(null, { success: true, message: "Promo code added successfully" });
+  } catch (error) {
+    console.error("Error adding promo code:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error adding promo code.",
+    });
+  }
+}
+
+async function retrievePromoCodes(call, callback) {
+  const { userId } = call.request;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      callback({ code: grpc.status.NOT_FOUND, details: "User ID not found." });
+      return;
+    }
+
+    callback(null, { promos: user.promos });
+  } catch (error) {
+    console.error("Error retrieving promo code:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error retrieving promo code.",
+    });
+  }
+}
+
+async function removePromoCode(call, callback) {
+  const { userId, promoCodeId } = call.request;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      callback(null, { success: false, message: "User ID not found" });
+      return;
+    }
+
+    // Check if the promoCodeId exists in the user's promos array
+    const promoIndex = user.promos.indexOf(promoCodeId);
+    if (promoIndex === -1) {
+      callback(null, {
+        success: false,
+        message: "Promo Code not found for this user",
+      });
+      return;
+    }
+
+    // Remove the promo code from the user's promos array
+    user.promos.splice(promoIndex, 1);
+    await user.save();
+
+    callback(null, {
+      success: true,
+      message: "Promo code removed successfully",
+    });
+  } catch (error) {
+    console.error("Error removing promo code:", error);
+    callback({
+      code: grpc.status.INTERNAL,
+      details: "Error removing promo code.",
+    });
+  }
+}
+
 server.start();
 console.log("gRPC server running on port " + servicePort);

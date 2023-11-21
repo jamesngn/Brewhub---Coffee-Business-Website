@@ -85,6 +85,7 @@ async function getMenuItems(call, callback) {
 
 async function getMenuItemsById(call, callback) {
   const { id } = call.request;
+  console.log(id);
   try {
     const menuItem = await MenuItem.findById(id);
     callback(null, menuItem);
