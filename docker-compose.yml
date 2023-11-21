@@ -3,10 +3,10 @@ services:
   mongodb:
     container_name: mongodb
     image: mongo:4
-    # build: 
-    #   context: ./db
-    #   dockerfile: Dockerfile
-    # image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/mongodb:latest
+    build: 
+      context: ./db
+      dockerfile: Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/mongodb:latest
     ports:
       - '27017:27017'
     networks:
@@ -103,17 +103,6 @@ services:
       context: ./socket
     ports:
       - '8000:8000'
-
-  menu-service-test:
-    container_name: menu_service_test
-    build:
-      context: ./services
-      dockerfile: menu-service/Dockerfile.test
-    depends_on:
-      - menu-service
-      - mongodb
-    networks:
-      - my-network
   
       
 networks:
