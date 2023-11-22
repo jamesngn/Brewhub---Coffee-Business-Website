@@ -1,4 +1,11 @@
 # Brewhub - Coffee Business Web Application
+
+## Access Brewhub Website ☕
+
+Visit the [Brewhub Coffee Shop](http://brewhubcoffeeshop-1569226204.ap-southeast-2.elb.amazonaws.com/) to experience the brewing excellence in every cup!
+
+
+
 ## Screenshots
 
 ### Screenshot 1: Landing Page
