@@ -1,80 +1,81 @@
 version: '3'
 services:
-  # mongodb:
-  #   container_name: mongodb
-  #   image: mongo:4
-  #   # build: 
-  #   #   context: ./db
-  #   #   dockerfile: Dockerfile
-  #   # image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/mongodb:latest
-  #   ports:
-  #     - '27017:27017'
-  #   networks:
-  #     - my-network
+  mongodb:
+    container_name: mongodb
+    image: mongo:4
+    # build: 
+    #   context: ./db
+    #   dockerfile: Dockerfile
+    # image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/mongodb:latest
+    ports:
+      - '27017:27017'
+    networks:
+      - my-network
 
-  # admin-service:
-  #   container_name: admin-service-server
-  #   build:
-  #     context: ./services
-  #     dockerfile: admin-service/Dockerfile
-  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/admin-service-server:latest
-  #   ports:
-  #     - '5056:5056'
-  #   depends_on:
-  #     - mongodb
-  #   networks:
-  #     - my-network
+  admin-service:
+    container_name: admin-service-server
+    build:
+      context: ./services
+      dockerfile: admin-service/Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/admin-service-server:latest
+    ports:
+      - '5056:5056'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
 
-  # auth-service:
-  #   container_name: auth-service-server
-  #   build:
-  #     context: ./services
-  #     dockerfile: auth-service/Dockerfile
-  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/auth-service-server:latest
-  #   ports:
-  #     - '5054:5054'
-  #   depends_on:
-  #     - mongodb
-  #   networks:
-  #     - my-network
-  # menu-service:
-  #   container_name: menu-service-server
-  #   build:
-  #     context: ./services
-  #     dockerfile: menu-service/Dockerfile
-  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/menu-service-server:latest
-  #   ports:
-  #     - '5051:5051'
-  #   depends_on:
-  #     - mongodb
-  #   networks:
-  #     - my-network
+  auth-service:
+    container_name: auth-service-server
+    build:
+      context: ./services
+      dockerfile: auth-service/Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/auth-service-server:latest
+    ports:
+      - '5054:5054'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
 
-  # order-service:
-  #   container_name: order-service-server
-  #   build:
-  #     context: ./services
-  #     dockerfile: order-service/Dockerfile
-  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/order-service-server:latest
-  #   ports:
-  #     - '5052:5052'
-  #   depends_on:
-  #     - mongodb
-  #   networks:
-  #     - my-network   
+  menu-service:
+    container_name: menu-service-server
+    build:
+      context: ./services
+      dockerfile: menu-service/Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/menu-service-server:latest
+    ports:
+      - '5051:5051'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
 
-  # user-service:
-  #   container_name: user-service-server
-  #   build:
-  #     context: ./services
-  #     dockerfile: user-service/Dockerfile
-  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/user-service-server:latest
-  #   ports:
-  #     - '5053:5053'
-  #   depends_on:
-  #     - mongodb
-  #   networks:
-  #     - my-network    
+  order-service:
+    container_name: order-service-server
+    build:
+      context: ./services
+      dockerfile: order-service/Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/order-service-server:latest
+    ports:
+      - '5052:5052'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network   
+
+  user-service:
+    container_name: user-service-server
+    build:
+      context: ./services
+      dockerfile: user-service/Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/user-service-server:latest
+    ports:
+      - '5053:5053'
+    depends_on:
+      - mongodb
+    networks:
+      - my-network    
 
   api-service:
     container_name: brewhub_api_client
@@ -83,8 +84,6 @@ services:
     image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/brewhub_api_client:latest
     ports:
       - '5000:5000'
-    depends_on:
-      - auth-service
     networks:
       - my-network
 
@@ -96,13 +95,13 @@ services:
     ports:
       - '3000:3000'
 
-  # socket:
-  #   container_name: socket_server
-  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/socket_server:latest
-  #   build:
-  #     context: ./socket
-  #   ports:
-  #     - '8000:8000'
+  socket:
+    container_name: socket_server
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/socket_server:latest
+    build:
+      context: ./socket
+    ports:
+      - '8000:8000'
   
       
 networks:
