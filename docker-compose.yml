@@ -76,17 +76,17 @@ services:
   #   networks:
   #     - my-network    
 
-  # api-service:
-  #   container_name: brewhub_api_client
-  #   build:
-  #     dockerfile: api/Dockerfile
-  #   image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/brewhub_api_client:latest
-  #   ports:
-  #     - '5000:5000'
-  #   depends_on:
-  #     - auth-service
-  #   networks:
-  #     - my-network
+  api-service:
+    container_name: brewhub_api_client
+    build:
+      dockerfile: api/Dockerfile
+    image: 548137894424.dkr.ecr.ap-southeast-2.amazonaws.com/brewhub_api_client:latest
+    ports:
+      - '5000:5000'
+    depends_on:
+      - auth-service
+    networks:
+      - my-network
 
   react-client:
     container_name: brewhub_react_client
