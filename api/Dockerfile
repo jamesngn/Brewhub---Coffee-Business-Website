@@ -32,6 +32,9 @@ COPY services/order-service/src/client.js ./services/order-service/src/client.js
 COPY services/user-service/src/user.proto ./services/user-service/src/user.proto
 COPY services/user-service/src/client.js ./services/user-service/src/client.js
 
+COPY services/promo-service/src/promo.proto ./services/promo-service/src/promo.proto
+COPY services/promo-service/src/client.js ./services/promo-service/src/client.js
+
 # Expose the port on which your React app will run
 EXPOSE 5000
 
