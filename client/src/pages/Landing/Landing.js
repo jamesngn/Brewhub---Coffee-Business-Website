@@ -26,7 +26,7 @@ const Landing = ({ userId, userRole }) => {
             color={"#8B4513"}
             mb={"1.5rem"}
           >
-            Discover Exceptional Coffee Creations
+            Discover Exceptional Coffee Creations !
           </Typography>
           <Typography variant="h6" color={"rgba(62,39,35,0.5)"} mb={"2rem"}>
             Indulge in our meticulously crafted coffee blends, designed to bring
